@@ -73,5 +73,11 @@ export default {
         })
       }
     }
+  },
+  /*
+  ** Server confiuration
+  */
+  server: {
+    host: '0.0.0.0'
   }
 }
