@@ -6,7 +6,7 @@
         MCBanners
       </h1>
       <h2 class="subtitle">
-        Spicing up showcases for projects has never been easier.
+        Spicing up project showcases has never been easier.
       </h2>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
