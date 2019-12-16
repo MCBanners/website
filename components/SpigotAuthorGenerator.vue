@@ -1,5 +1,5 @@
 <template>
-  <p>I am the author generator</p>
+  <p>There's nothing here yet! Try the resource module.</p>
 </template>
 
 <script>
