@@ -23,11 +23,15 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '~/assets/global.scss'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    '~/plugins/prettycheckbox.client.js'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -42,7 +46,16 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    ['nuxt-fontawesome', {
+      component: 'fa',
+      imports: [
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['fas']
+        }
+      ]
+    }]
   ],
   /*
    ** Axios module configuration
@@ -50,6 +63,16 @@ export default {
    */
   axios: {
     baseURL: 'http://localhost:8082/'
+  },
+  /*
+   ** Bootstrap Vue configuration
+   ** We disable automatic injection so that we
+   ** can inject it in our global SCSS file. This
+   ** allows us to create our own color scheme vars.
+   */
+  bootstrapVue: {
+    bootstrapCSS: false,
+    bootstrapVueCSS: false
   },
   /*
    ** Build configuration

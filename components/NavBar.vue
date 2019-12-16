@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-navbar toggleable="sm" type="light" variant="light">
+    <b-navbar toggleable="sm" variant="light">
       <b-navbar-toggle target="nav-text-collapse"></b-navbar-toggle>
 
-      <b-navbar-brand>MCBanners</b-navbar-brand>
+      <b-navbar-brand class="text-dark">MCBanners</b-navbar-brand>
 
       <b-collapse id="nav-text-collapse" is-nav>
         <b-navbar-nav>
@@ -21,3 +21,9 @@ export default {
   name: 'NavBar'
 }
 </script>
+
+<style lang="scss" scoped>
+.navbar-brand {
+  font-family: 'Carter One', cursive;
+}
+</style>

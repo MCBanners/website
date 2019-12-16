@@ -1,0 +1,17 @@
+// Custom Color Map
+@import '~/assets/colormap.scss';
+
+// Inject Bootstrap
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap-vue/src/index.scss';
+
+// Inject PrettyCheckbox
+@import 'pretty-checkbox/src/pretty-checkbox.scss';
+
+// Global Styles
+@import url('https://fonts.googleapis.com/css?family=Carter+One&display=swap');
+
+body {
+    background-image: url('background.png');
+    background-repeat: repeat;
+}
