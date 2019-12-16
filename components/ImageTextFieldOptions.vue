@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-input-group prepend="X Offset">
+    <b-input-group prepend="X Offset" append="px">
       <b-form-input @change="xUpdate" :value="x" type="number" />
     </b-input-group>
-    <b-input-group prepend="Y Offset">
+    <b-input-group prepend="Y Offset" append="px">
       <b-form-input @change="yUpdate" :value="y" type="number" />
     </b-input-group>
-    <b-input-group prepend="Font Size">
+    <b-input-group prepend="Font Size" append="px">
       <b-form-input @change="fontSizeUpdate" :value="fontSize" type="number" />
     </b-input-group>
     <b-input-group prepend="Bold">
