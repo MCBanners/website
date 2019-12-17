@@ -280,15 +280,15 @@ export default {
     bannerURLParams() {
       let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&res_name_x=${this.res_name.x}
         &res_name_y=${this.res_name.y}&res_name_font_size=${this.res_name.font_size}&res_name_bold=${this.res_name.bold}
-        &res_name_text_align=${this.res_name.text_align}&res_name_font=${this.res_name.font}&aut_name_x=${this.aut_name.x}
+        &res_name_text_align=${this.res_name.text_align}&res_name_font_face=${this.res_name.font}&aut_name_x=${this.aut_name.x}
         &aut_name_y=${this.aut_name.y}&aut_name_font_size=${this.aut_name.font_size}&aut_name_bold=${this.aut_name.bold}
-        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font=${this.aut_name.font}&rev_count_x=${this.rev_count.x}
+        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font_face=${this.aut_name.font}&rev_count_x=${this.rev_count.x}
         &rev_count_y=${this.rev_count.y}&rev_count_font_size=${this.rev_count.font_size}&rev_count_bold=${this.rev_count.bold}
-        &rev_count_text_align=${this.rev_count.text_align}&rev_count_font=${this.rev_count.font}&stars_x=${this.stars.x}
+        &rev_count_text_align=${this.rev_count.text_align}&rev_count_font_face=${this.rev_count.font}&stars_x=${this.stars.x}
         &stars_y=${this.stars.y}&stars_gap=${this.stars.gap}&dl_count_x=${this.dl_count.x}&dl_count_y=${this.dl_count.y}
         &dl_count_font_size=${this.dl_count.font_size}&dl_count_bold=${this.dl_count.bold}&dl_count_text_align=${this.dl_count.text_align}
-        &dl_count_font=${this.dl_count.font}&price_x=${this.price.x}&price_y=${this.price.y}&price_font_size=${this.price.font_size}
-        &price_bold=${this.price.bold}&price_text_align=${this.price.text_align}&price_font=${this.price.font}`
+        &dl_count_font_face=${this.dl_count.font}&price_x=${this.price.x}&price_y=${this.price.y}&price_font_size=${this.price.font_size}
+        &price_bold=${this.price.bold}&price_text_align=${this.price.text_align}&price_font_face=${this.price.font}`
 
       if (this.res_name.display) {
         params += `&res_name_display=${this.res_name.display}`
