@@ -23,15 +23,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: [
-    '~/assets/global.scss'
-  ],
+  css: ['~/assets/global.scss'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/prettycheckbox.client.js'
-  ],
+  plugins: ['~/plugins/prettycheckbox.client.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -47,15 +43,19 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    ['nuxt-fontawesome', {
-      component: 'fa',
-      imports: [
-        {
-          set: '@fortawesome/free-solid-svg-icons',
-          icons: ['fas']
-        }
-      ]
-    }]
+    [
+      'nuxt-fontawesome',
+      {
+        component: 'fa',
+        imports: [
+          {
+            set: '@fortawesome/free-solid-svg-icons',
+            icons: ['fas']
+          }
+        ]
+      }
+    ],
+    'nuxt-seo'
   ],
   /*
    ** Axios module configuration
@@ -100,8 +100,8 @@ export default {
     }
   },
   /*
-  ** Server confiuration
-  */
+   ** Server confiuration
+   */
   server: {
     host: '0.0.0.0'
   }

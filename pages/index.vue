@@ -9,6 +9,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  asyncData(ctx) {
+    ctx.seo({
+      name: 'MCBanners',
+      title: 'Home Page',
+      templateTitle: '%name% - %title%'
+    })
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .title {
   font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,

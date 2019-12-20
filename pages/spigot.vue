@@ -34,6 +34,13 @@ export default {
         ]
       }
     }
+  },
+  asyncData(ctx) {
+    ctx.seo({
+      name: 'MCBanners',
+      title: 'SpigotMC Banners',
+      templateTitle: '%name% - %title%'
+    })
   }
 }
 </script>

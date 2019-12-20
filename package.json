@@ -19,6 +19,7 @@
     "node-sass": "^4.13.0",
     "nuxt": "^2.0.0",
     "nuxt-fontawesome": "^0.4.0",
+    "nuxt-seo": "^1.2.2",
     "pretty-checkbox-vue": "^1.1.9",
     "sass-loader": "^8.0.0"
   },
