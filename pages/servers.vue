@@ -30,7 +30,7 @@ export default {
   asyncData(ctx) {
     ctx.seo({
       name: 'MCBanners',
-      title: 'SpigotMC Banners',
+      title: 'Server Banners',
       templateTitle: '%name% - %title%'
     })
   }
