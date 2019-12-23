@@ -238,7 +238,11 @@ export default {
       this.server.port = undefined
       this.server.invalid = false
       ip = this.tempIP
-      port = this.tempPort
+      if (this.tempPort == null) {
+        port = 25565
+      } else {
+        port = this.tempPort
+      }
       const valid = await this.$store.dispatch('checkValidServer', ip, port)
       if (valid) {
         this.server.ip = ip
