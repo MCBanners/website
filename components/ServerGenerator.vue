@@ -4,10 +4,10 @@
       <b-col cols="12">
         <ControlBox title="Server IP">
           <template #hint>
-            <p>Enter the author ID that you want to generate a banner for.</p>
+            <p>Enter the IP of your server in the "Server IP" box. If you are <b>not</b> using the default port (25565)
+            you can leave the "Server Port" box blank.</p>
             <p v-if="server.invalid" class="text-danger">
-              The author ID you entered does not refer to a valid author at
-              Spigot.
+              The Server IP provided does not seem to exist.
             </p>
           </template>
           <template #controls>
@@ -65,7 +65,7 @@
         <ControlBox title="Server Logo">
           <template #hint>
             <p>
-              Configure how the resource logo will display in the generated
+              Configure how the server logo will display in the generated
               banner.
             </p>
           </template>
@@ -81,7 +81,7 @@
         <ControlBox title="Server Name">
           <template #hint>
             <p>
-              Configure how the resource name will display in the generated
+              Configure how the server name will display in the generated
               banner.
             </p>
           </template>
@@ -101,7 +101,7 @@
         <ControlBox title="Version Name">
           <template #hint>
             <p>
-              Configure how the resource name will display in the generated
+              Configure how the server version will display in the generated
               banner.
             </p>
           </template>
@@ -121,7 +121,7 @@
         <ControlBox title="Player Count">
           <template #hint>
             <p>
-              Configure how the resource name will display in the generated
+              Configure how the player count will display in the generated
               banner.
             </p>
           </template>
