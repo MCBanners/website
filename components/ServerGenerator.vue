@@ -4,8 +4,11 @@
       <b-col cols="12">
         <ControlBox title="Server IP">
           <template #hint>
-            <p>Enter the IP of your server in the "Server IP" box. If you are <b>not</b> using the default port (25565)
-            you can leave the "Server Port" box blank.</p>
+            <p>
+              Enter the IP of your server in the "Server IP" box. If you are
+              <b>not</b> using the default port (25565) you can leave the
+              "Server Port" box blank.
+            </p>
             <p v-if="server.invalid" class="text-danger">
               The Server IP provided does not seem to exist.
             </p>
@@ -84,6 +87,12 @@
               Configure how the server name will display in the generated
               banner.
             </p>
+            <p>
+              <small
+                >* If your servers's name is too long for the image, set a
+                <strong>Text Override</strong>.</small
+              >
+            </p>
           </template>
           <template #controls>
             <ImageTextFieldOptions
@@ -96,6 +105,13 @@
               @update="handleFieldUpdate"
               namespace="serv_name"
             />
+            <b-input-group prepend="Text Override">
+              <b-input
+                v-model="serv_name.display"
+                type="text"
+                placeholder="No Override Set"
+              />
+            </b-input-group>
           </template>
         </ControlBox>
         <ControlBox title="Version Name">
@@ -173,7 +189,8 @@ export default {
         font_size: 18,
         bold: true,
         text_align: 'left',
-        font: 'source_sans_pro'
+        font: 'source_sans_pro',
+        display: undefined
       },
       ver_name: {
         x: 104,
@@ -213,7 +230,7 @@ export default {
       return `${this.$axios.defaults.baseURL}server/${this.server.ip}/${this.server.port}/banner.png`
     },
     bannerURLParams() {
-      const params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&serv_name_x=${this.serv_name.x}
+      let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&serv_name_x=${this.serv_name.x}
         &serv_name_y=${this.serv_name.y}&serv_name_font_size=${this.serv_name.font_size}&serv_name_bold=${this.serv_name.bold}
         &serv_name_text_align=${this.serv_name.text_align}&serv_name_font_face=${this.serv_name.font}&ver_name_x=${this.ver_name.x}
         &ver_name_y=${this.ver_name.y}&ver_name_font_size=${this.ver_name.font_size}&ver_name_bold=${this.ver_name.bold}
@@ -222,6 +239,10 @@ export default {
         &motd_name_text_align=${this.motd_name.text_align}&motd_name_font_face=${this.motd_name.font}&player_count_x=${this.player_count.x}
         &player_count_y=${this.player_count.y}&player_count_font_size=${this.player_count.font_size}&player_count_bold=${this.player_count.bold}
         &player_count_text_align=${this.player_count.text_align}&player_count_font_face=${this.player_count.font}`
+
+      if (this.serv_name.display) {
+        params += `&serv_name_display=${this.serv_name.display}`
+      }
 
       return params.replace(/\s+/g, '')
     },
