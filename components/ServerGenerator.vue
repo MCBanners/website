@@ -166,7 +166,7 @@ import ControlBox from '~/components/ControlBox'
 import ImageTextFieldOptions from '~/components/ImageTextFieldOptions'
 
 export default {
-  name: 'SpigotAuthorGenerator',
+  name: 'ServerGenerator',
   components: { ControlBox, ImageTextFieldOptions },
   mixins: [UtilityMethods],
   data() {
@@ -259,7 +259,7 @@ export default {
       this.server.port = undefined
       this.server.invalid = false
       ip = this.tempIP
-      if (this.tempPort == null) {
+      if (!this.tempPort || isNaN(this.tempPort)) {
         port = 25565
       } else {
         port = this.tempPort
