@@ -2,23 +2,25 @@
   <div>
     <b-row>
       <b-col cols="12">
-        <ControlBox title="Resource ID">
+        <ControlBox title="Author Username">
           <template #hint>
-            <p>Enter the resource ID that you want to generate a banner for.</p>
-            <p v-if="resource.invalid" class="text-danger">
-              The resource ID you entered does not refer to a valid resource at
-              Spigot.
+            <p>
+              Enter the author username that you want to generate a banner for.
+            </p>
+            <p v-if="author.invalid" class="text-danger">
+              The author username you entered does not refer to a valid author
+              on Sponge Ore.
             </p>
           </template>
           <template #controls>
-            <b-input-group prepend="Resource ID">
-              <b-form-input @change="checkValidResource" type="number" />
+            <b-input-group prepend="Author Username">
+              <b-form-input @change="checkValidAuthor" />
             </b-input-group>
           </template>
         </ControlBox>
       </b-col>
     </b-row>
-    <div v-if="resource.id">
+    <div v-if="author.username">
       <b-row>
         <b-col cols="12" class="result_box">
           <b-card bg-variant="secondary" text-variant="dark">
@@ -47,7 +49,7 @@
             <b-select v-model="template" :options="templateOptions" />
           </template>
         </ControlBox>
-        <ControlBox title="Resource Logo">
+        <ControlBox title="Author Logo">
           <template #hint>
             <p>
               Configure how the resource logo will display in the generated
@@ -63,43 +65,10 @@
             </b-input-group>
           </template>
         </ControlBox>
-        <ControlBox title="Resource Name">
-          <template #hint>
-            <p>
-              Configure how the resource name will display in the generated
-              banner.
-            </p>
-            <p>
-              <small
-                >* If your resource's name is too long for the image, set a
-                <strong>Text Override</strong>.</small
-              >
-            </p>
-          </template>
-          <template #controls>
-            <ImageTextFieldOptions
-              :x="res_name.x"
-              :y="res_name.y"
-              :fontSize="res_name.font_size"
-              :bold="res_name.bold"
-              :textAlign="res_name.text_align"
-              :font="res_name.font"
-              @update="handleFieldUpdate"
-              namespace="res_name"
-            />
-            <b-input-group prepend="Text Override">
-              <b-input
-                v-model="res_name.display"
-                type="text"
-                placeholder="No Override Set"
-              />
-            </b-input-group>
-          </template>
-        </ControlBox>
         <ControlBox title="Author Name">
           <template #hint>
             <p>
-              Configure how the author's name will display in the generated
+              Configure how the resource name will display in the generated
               banner.
             </p>
           </template>
@@ -116,40 +85,43 @@
             />
           </template>
         </ControlBox>
-        <ControlBox title="Review Count">
+        <ControlBox title="Resource Count">
           <template #hint>
             <p>
-              Configure how the review count will display in the generated
+              Configure how the resource count will display in the generated
               banner.
             </p>
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="rev_count.x"
-              :y="rev_count.y"
-              :fontSize="rev_count.font_size"
-              :bold="rev_count.bold"
-              :textAlign="rev_count.text_align"
-              :font="rev_count.font"
+              :x="res_count.x"
+              :y="res_count.y"
+              :fontSize="res_count.font_size"
+              :bold="res_count.bold"
+              :textAlign="res_count.text_align"
+              :font="res_count.font"
               @update="handleFieldUpdate"
-              namespace="rev_count"
+              namespace="res_count"
             />
           </template>
         </ControlBox>
-        <ControlBox title="Stars">
+        <ControlBox title="Likes Count">
           <template #hint>
-            <p>Configure how the stars will display in the generated banner.</p>
+            <p>
+              Configure how the like count will display in the generated banner.
+            </p>
           </template>
           <template #controls>
-            <b-input-group prepend="X Offset" append="px">
-              <b-form-input v-model="stars.x" type="number" />
-            </b-input-group>
-            <b-input-group prepend="Y Offset" append="px">
-              <b-form-input v-model="stars.y" type="number" />
-            </b-input-group>
-            <b-input-group prepend="Gap" append="px">
-              <b-form-input v-model="stars.gap" type="number" />
-            </b-input-group>
+            <ImageTextFieldOptions
+              :x="likes_count.x"
+              :y="likes_count.y"
+              :fontSize="likes_count.font_size"
+              :bold="likes_count.bold"
+              :textAlign="likes_count.text_align"
+              :font="likes_count.font"
+              @update="handleFieldUpdate"
+              namespace="likes_count"
+            />
           </template>
         </ControlBox>
         <ControlBox title="Download Count">
@@ -172,26 +144,6 @@
             />
           </template>
         </ControlBox>
-        <ControlBox title="Price">
-          <template #hint>
-            <p>
-              Configure how the price (if the resource is premium) will display
-              in the generated banner.
-            </p>
-          </template>
-          <template #controls>
-            <ImageTextFieldOptions
-              :x="price.x"
-              :y="price.y"
-              :fontSize="price.font_size"
-              :bold="price.bold"
-              :textAlign="price.text_align"
-              :font="price.font"
-              @update="handleFieldUpdate"
-              namespace="price"
-            />
-          </template>
-        </ControlBox>
       </b-card-group>
     </div>
   </div>
@@ -204,13 +156,13 @@ import ControlBox from '~/components/ControlBox'
 import ImageTextFieldOptions from '~/components/ImageTextFieldOptions'
 
 export default {
-  name: 'SpigotResourceGenerator',
+  name: 'SpongeAuthorGenerator',
   components: { ControlBox, ImageTextFieldOptions },
   mixins: [UtilityMethods],
   data() {
     return {
-      resource: {
-        id: undefined,
+      author: {
+        username: undefined,
         invalid: false
       },
       template: 'moonlight_purple',
@@ -218,49 +170,36 @@ export default {
         size: 80,
         x: 12
       },
-      res_name: {
+      aut_name: {
         x: 104,
-        y: 25,
+        y: 22,
         font_size: 18,
         bold: true,
+        text_align: 'left',
+        font: 'source_sans_pro'
+      },
+      res_count: {
+        x: 104,
+        y: 38,
+        font_size: 14,
+        bold: false,
         text_align: 'left',
         font: 'source_sans_pro',
         display: undefined
       },
-      aut_name: {
+      likes_count: {
         x: 104,
-        y: 42,
+        y: 55,
         font_size: 14,
         bold: false,
         text_align: 'left',
         font: 'source_sans_pro'
-      },
-      rev_count: {
-        x: 104,
-        y: 62,
-        font_size: 14,
-        bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
-      },
-      stars: {
-        x: 180,
-        y: 51,
-        gap: 16.0
       },
       dl_count: {
         x: 104,
-        y: 83,
+        y: 72,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
-      },
-      price: {
-        x: 210,
-        y: 83,
-        font_size: 14,
-        bold: true,
         text_align: 'left',
         font: 'source_sans_pro'
       }
@@ -274,25 +213,19 @@ export default {
       return this.makeSelectable(this.templates)
     },
     bannerURLBase() {
-      if (!this.resource) return
-      return `${this.$axios.defaults.baseURL}resource/spigot/${this.resource.id}/banner.png`
+      if (!this.author.username) return
+      return `${this.$axios.defaults.baseURL}author/sponge/${this.author.username}/banner.png`
     },
     bannerURLParams() {
-      let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&res_name_x=${this.res_name.x}
-        &res_name_y=${this.res_name.y}&res_name_font_size=${this.res_name.font_size}&res_name_bold=${this.res_name.bold}
-        &res_name_text_align=${this.res_name.text_align}&res_name_font_face=${this.res_name.font}&aut_name_x=${this.aut_name.x}
+      const params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&aut_name_x=${this.aut_name.x}
         &aut_name_y=${this.aut_name.y}&aut_name_font_size=${this.aut_name.font_size}&aut_name_bold=${this.aut_name.bold}
-        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font_face=${this.aut_name.font}&rev_count_x=${this.rev_count.x}
-        &rev_count_y=${this.rev_count.y}&rev_count_font_size=${this.rev_count.font_size}&rev_count_bold=${this.rev_count.bold}
-        &rev_count_text_align=${this.rev_count.text_align}&rev_count_font_face=${this.rev_count.font}&stars_x=${this.stars.x}
-        &stars_y=${this.stars.y}&stars_gap=${this.stars.gap}&dl_count_x=${this.dl_count.x}&dl_count_y=${this.dl_count.y}
+        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font_face=${this.aut_name.font}&res_count_x=${this.res_count.x}
+        &res_count_y=${this.res_count.y}&res_count_font_size=${this.res_count.font_size}&res_count_bold=${this.res_count.bold}
+        &res_count_text_align=${this.res_count.text_align}&res_count_font_face=${this.res_count.font}&dl_count_x=${this.dl_count.x}&dl_count_y=${this.dl_count.y}
         &dl_count_font_size=${this.dl_count.font_size}&dl_count_bold=${this.dl_count.bold}&dl_count_text_align=${this.dl_count.text_align}
-        &dl_count_font_face=${this.dl_count.font}&price_x=${this.price.x}&price_y=${this.price.y}&price_font_size=${this.price.font_size}
-        &price_bold=${this.price.bold}&price_text_align=${this.price.text_align}&price_font_face=${this.price.font}`
-
-      if (this.res_name.display) {
-        params += `&res_name_display=${this.res_name.display}`
-      }
+        &dl_count_font_face=${this.dl_count.font}&likes_count_x=${this.likes_count.x}
+        &likes_count_y=${this.likes_count.y}&likes_count_font_size=${this.likes_count.font_size}&likes_count_bold=${this.likes_count.bold}
+        &likes_count_text_align=${this.likes_count.text_align}&likes_count_font_face=${this.likes_count.font}`
 
       return params.replace(/\s+/g, '')
     },
@@ -304,17 +237,17 @@ export default {
     handleFieldUpdate(payload) {
       this[payload.namespace][payload.key] = payload.value
     },
-    async checkValidResource(resId) {
-      this.resource.id = undefined
-      this.resource.invalid = false
+    async checkValidAuthor(authUsername) {
+      this.author.username = undefined
+      this.author.invalid = false
       const valid = await this.$store.dispatch(
-        'checkValidSpigotResource',
-        resId
+        'checkValidSpongeAuthor',
+        authUsername
       )
       if (valid) {
-        this.resource.id = resId
+        this.author.username = authUsername
       } else {
-        this.resource.invalid = true
+        this.author.invalid = true
       }
     }
   }
