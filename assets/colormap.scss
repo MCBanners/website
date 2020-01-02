@@ -1,4 +1,4 @@
-$primary: #006e90 !default;
+$primary: #4299e1 !default;
 $secondary: #dde1e3 !default;
 $success: #8ac926 !default;
 $info: #eee82c !default;
@@ -6,6 +6,7 @@ $warning: #ff9505 !default;
 $danger: #ec4e20 !default;
 $light: #edf3f6 !default;
 $dark: #484b50 !default;
+$transparent: transparent !default;
 
 $theme-colors: () !default;
 $theme-colors: map-merge(
@@ -17,7 +18,8 @@ $theme-colors: map-merge(
     'warning': $warning,
     'danger': $danger,
     'light': $light,
-    'dark': $dark
+    'dark': $dark,
+    'transparent': $transparent
   ),
   $theme-colors
 );

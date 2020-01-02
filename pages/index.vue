@@ -1,16 +1,14 @@
 <template>
-  <div class="container">
-    <h1 class="title">
-      MCBanners
-    </h1>
-    <h2 class="subtitle">
-      Spicing up project showcases has never been easier.
-    </h2>
-  </div>
+  <b-container>
+    <Hero />
+  </b-container>
 </template>
 
 <script>
+import Hero from '~/components/Hero'
+
 export default {
+  components: { Hero },
   asyncData(ctx) {
     ctx.seo({
       name: 'MCBanners',
