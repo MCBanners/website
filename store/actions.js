@@ -3,22 +3,36 @@ export default {
     await dispatch('constants/hydrate')
   },
 
-  async checkValidResource({ _ }, resId) {
-    const valid = await this.$axios.get(`resource/spigot/${resId}/isValid`, {})
-    return valid.status === 200 && valid.data.valid
+  checkValidSpigotResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/spigot/${resId}`)
   },
 
-  async checkValidAuthor({ _ }, authId) {
-    const valid = await this.$axios.get(`author/spigot/${authId}/isValid`, {})
-    return valid.status === 200 && valid.data.valid
+  checkValidSpongeResource({ dispatch }, resName) {
+    return dispatch('isValid', `resource/sponge/${resName}`)
   },
 
-  async checkValidServer({ _ }, ip, port = 25565) {
+  checkValidSpigotAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/spigot/${authId}`)
+  },
+
+  checkValidSpongeAuthor({ dispatch }, authUsername) {
+    return dispatch('isValid', `author/sponge/${authUsername}`)
+  },
+
+  checkValidServer({ dispatch }, payload) {
+    const { ip } = payload
+    let { port } = payload
+
     // Redundant checking, just a failsafe
-    if (port == null) {
+    if (!port || port == null) {
       port = 25565
     }
-    const valid = await this.$axios.get(`server/${ip}/${port}/isValid`, {})
+
+    return dispatch('isValid', `server/${ip}/${port}`)
+  },
+
+  async isValid({ _ }, validatable) {
+    const valid = await this.$axios.get(`${validatable}/isValid`, {})
     return valid.status === 200 && valid.data.valid
   }
 }
