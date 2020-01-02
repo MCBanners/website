@@ -239,7 +239,7 @@ export default {
       return this.makeSelectable(this.templates)
     },
     bannerURLBase() {
-      if (!this.author) return
+      if (!this.author.id) return
       return `${this.$axios.defaults.baseURL}author/spigot/${this.author.id}/banner.png`
     },
     bannerURLParams() {
@@ -268,7 +268,7 @@ export default {
     async checkValidAuthor(authId) {
       this.author.id = undefined
       this.author.invalid = false
-      const valid = await this.$store.dispatch('checkValidAuthor', authId)
+      const valid = await this.$store.dispatch('checkValidSpigotAuthor', authId)
       if (valid) {
         this.author.id = authId
       } else {
