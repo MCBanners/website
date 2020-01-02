@@ -41,7 +41,7 @@ export default {
 
   .navbar-nav {
     font-family: 'Open Sans', sans-serif;
-    font-weight: 700;
+    font-weight: 600;
 
     li {
       @media (min-width: 768px) {
