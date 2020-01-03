@@ -1,6 +1,9 @@
+import config from '~/util/config'
+
 export default {
   async nuxtServerInit({ dispatch }) {
     await dispatch('constants/hydrate')
+    await dispatch('user/hydrate')
   },
 
   checkValidSpigotResource({ dispatch }, resId) {
@@ -32,7 +35,10 @@ export default {
   },
 
   async isValid({ _ }, validatable) {
-    const valid = await this.$axios.get(`${validatable}/isValid`, {})
+    const valid = await this.$axios.get(
+      `${config.bannerBaseURL}/${validatable}/isValid`,
+      {}
+    )
     return valid.status === 200 && valid.data.valid
   }
 }

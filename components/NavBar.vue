@@ -21,15 +21,18 @@
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#" target="_blank"
-              ><fa :icon="['fab', 'discord']"
-            /></b-nav-item>
-            <b-nav-item href="#" target="_blank"
-              ><fa :icon="['fab', 'twitter']"
-            /></b-nav-item>
-            <b-nav-item href="https://github.com/MCBanners/" target="_blank"
-              ><fa :icon="['fab', 'github']"
-            /></b-nav-item>
+            <b-nav-item-dropdown :text="authenticated ? username : 'Account'">
+              <div v-if="authenticated">
+                <b-dropdown-item to="/dashboard">Dashboard</b-dropdown-item>
+                <b-dropdown-item @click.prevent="logOut" href="#"
+                  >Log Out</b-dropdown-item
+                >
+              </div>
+              <div v-else>
+                <b-dropdown-item to="/login">Log In</b-dropdown-item>
+                <b-dropdown-item to="/signup">Sign Up</b-dropdown-item>
+              </div>
+            </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
       </b-container>
@@ -38,8 +41,20 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'NavBar'
+  name: 'NavBar',
+  computed: mapState({
+    authenticated: (state) => state.user.authenticated,
+    username: (state) => state.user.username
+  }),
+  methods: {
+    logOut() {
+      this.$store.dispatch('user/revokeSession')
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

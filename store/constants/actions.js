@@ -1,10 +1,14 @@
+import config from '~/util/config'
+
 export default {
   async hydrate({ dispatch }) {
     await dispatch('loadConstantsRequest')
   },
 
   async loadConstantsRequest({ dispatch }) {
-    const constants = await this.$axios.get('svc/constants')
+    const constants = await this.$axios.get(
+      `${config.bannerBaseURL}/svc/constants`
+    )
     if (constants.status === 200) {
       await dispatch('loadConstants', constants.data)
     }

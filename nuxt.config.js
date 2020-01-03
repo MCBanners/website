@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/prettycheckbox.client.js'],
+  plugins: ['~/plugins/prettycheckbox.client.js', '~/plugins/requests.js', '~/plugins/sessions.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -59,15 +59,15 @@ export default {
         ]
       }
     ],
-    'nuxt-seo'
+    'nuxt-seo',
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {
-    baseURL: 'https://banner.mcbanners.com/'
-  },
+  axios: {},
   /*
    ** Bootstrap Vue configuration
    ** We disable automatic injection so that we
