@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <b-container>
     <b-form-group id="module-select">
       <b-input-group prepend="Module">
         <b-form-select v-model="module.selected" :options="module.options" />
       </b-input-group>
     </b-form-group>
 
-    <div class="container">
+    <div class="generator">
       <div v-if="module.selected == 0">
         <SpigotResourceGenerator />
       </div>
@@ -15,7 +15,7 @@
         <SpigotAuthorGenerator />
       </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -44,3 +44,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.generator {
+  margin-bottom: 45px;
+}
+</style>
