@@ -21,8 +21,15 @@
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item href="#"><fa :icon="['fab', 'discord']"/></b-nav-item>
-            <b-nav-item href="#"><fa :icon="['fab', 'twitter']"/></b-nav-item>
+            <b-nav-item href="#" target="_blank"
+              ><fa :icon="['fab', 'discord']"
+            /></b-nav-item>
+            <b-nav-item href="#" target="_blank"
+              ><fa :icon="['fab', 'twitter']"
+            /></b-nav-item>
+            <b-nav-item href="https://github.com/MCBanners/" target="_blank"
+              ><fa :icon="['fab', 'github']"
+            /></b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-container>
