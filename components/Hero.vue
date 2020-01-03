@@ -43,6 +43,8 @@ export default {
   font-family: 'Open Sans', sans-serif;
   text-align: center;
 
+  border-radius: 13px;
+
   .header-container {
     width: 100%;
 

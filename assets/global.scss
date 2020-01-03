@@ -11,7 +11,10 @@
 // Global Styles
 @import url('https://fonts.googleapis.com/css?family=Carter+One&display=swap');
 
-body {
-    background-image: url('background.png');
-    background-repeat: repeat;
+body, .sticky-footer-container {
+    min-height: 100vh;
+}
+
+.flex-fill {
+    flex: 1 1 auto;
 }

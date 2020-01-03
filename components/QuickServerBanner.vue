@@ -23,7 +23,7 @@
       <b-button
         @click="openQuickServerBanner()"
         type="submit"
-        variant="success"
+        variant="primary"
       >
         Create
         <small><fa :icon="['fas', 'external-link-alt']" class="icon"/></small>
