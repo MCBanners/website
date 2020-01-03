@@ -2,7 +2,14 @@
   <div class="d-flex flex-column sticky-footer-container">
     <NavBar />
     <main class="flex-fill">
-      <nuxt />
+      <transition
+        name="page"
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        mode="out-in"
+      >
+        <nuxt />
+      </transition>
     </main>
     <footer>
       <div class="footer text-center">
