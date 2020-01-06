@@ -214,7 +214,7 @@ export default {
     },
     bannerURLBase() {
       if (!this.author.username) return
-      return `${this.$axios.defaults.baseURL}author/sponge/${this.author.username}/banner.png`
+      return `${this.$axios.defaults.baseURL}banner/author/sponge/${this.author.username}/banner.png`
     },
     bannerURLParams() {
       const params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&aut_name_x=${this.aut_name.x}

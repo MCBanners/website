@@ -50,7 +50,7 @@ export default {
         port = 25565
       }
 
-      return `https://banner.mcbanners.com/server/${this.ip}/${port}/banner.png`
+      return `https://api.mcbanners.com/banner/server/${this.ip}/${port}/banner.png`
     }
   },
   methods: {

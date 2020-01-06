@@ -275,7 +275,7 @@ export default {
     },
     bannerURLBase() {
       if (!this.resource) return
-      return `${this.$axios.defaults.baseURL}resource/spigot/${this.resource.id}/banner.png`
+      return `${this.$axios.defaults.baseURL}banner/resource/spigot/${this.resource.id}/banner.png`
     },
     bannerURLParams() {
       let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&res_name_x=${this.res_name.x}

@@ -228,7 +228,7 @@ export default {
     },
     bannerURLBase() {
       if (!this.resource) return
-      return `${this.$axios.defaults.baseURL}resource/sponge/${this.resource.name}/banner.png`
+      return `${this.$axios.defaults.baseURL}banner/resource/sponge/${this.resource.name}/banner.png`
     },
     bannerURLParams() {
       let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&res_name_x=${this.res_name.x}

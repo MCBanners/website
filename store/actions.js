@@ -32,7 +32,7 @@ export default {
   },
 
   async isValid({ _ }, validatable) {
-    const valid = await this.$axios.get(`${validatable}/isValid`, {})
+    const valid = await this.$axios.get(`banner/${validatable}/isValid`, {})
     return valid.status === 200 && valid.data.valid
   }
 }

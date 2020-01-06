@@ -227,7 +227,7 @@ export default {
     },
     bannerURLBase() {
       if (!this.server) return
-      return `${this.$axios.defaults.baseURL}server/${this.server.ip}/${this.server.port}/banner.png`
+      return `${this.$axios.defaults.baseURL}banner/server/${this.server.ip}/${this.server.port}/banner.png`
     },
     bannerURLParams() {
       let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&serv_name_x=${this.serv_name.x}
