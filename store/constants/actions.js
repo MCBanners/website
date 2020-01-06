@@ -4,7 +4,7 @@ export default {
   },
 
   async loadConstantsRequest({ dispatch }) {
-    const constants = await this.$axios.get('svc/constants')
+    const constants = await this.$axios.get('banner/svc/constants')
     if (constants.status === 200) {
       await dispatch('loadConstants', constants.data)
     }
