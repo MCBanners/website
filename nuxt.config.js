@@ -67,7 +67,9 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: "http://localhost:8100/"
+  },
   /*
    ** Bootstrap Vue configuration
    ** We disable automatic injection so that we

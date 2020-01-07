@@ -1,8 +1,6 @@
-import config from '~/util/config'
-
 export default {
   async nuxtServerInit({ dispatch }) {
-    await dispatch('constants/hydrate')
+    await dispatch('svc/hydrate')
     await dispatch('user/hydrate')
   },
 
@@ -35,10 +33,7 @@ export default {
   },
 
   async isValid({ _ }, validatable) {
-    const valid = await this.$axios.get(
-      `${config.bannerBaseURL}/${validatable}/isValid`,
-      {}
-    )
+    const valid = await this.$axios.get(`banner/${validatable}/isValid`, {})
     return valid.status === 200 && valid.data.valid
   }
 }

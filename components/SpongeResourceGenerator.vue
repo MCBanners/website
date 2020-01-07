@@ -31,10 +31,10 @@
               <b-col cols="12" class="text-center">
                 <img :src="bannerURL" />
               </b-col>
-              <b-col cols="8" class="mx-auto mt-3">
-                <b-input-group prepend="URL">
-                  <b-form-input :value="bannerURL" type="text" />
-                </b-input-group>
+              <b-col cols="8" class="mx-auto text-center mt-3">
+                <b-button variant="primary">
+                  I like it, save!
+                </b-button>
               </b-col>
             </b-row>
           </b-card>
@@ -58,10 +58,10 @@
           </template>
           <template #controls>
             <b-input-group prepend="Size" append="sq px">
-              <b-form-input v-model="logo.size" type="number" />
+              <b-form-input v-model.number="logo.size" type="number" />
             </b-input-group>
             <b-input-group prepend="X Offset" append="px">
-              <b-form-input v-model="logo.x" type="number" />
+              <b-form-input v-model.number="logo.x" type="number" />
             </b-input-group>
           </template>
         </ControlBox>
@@ -80,18 +80,18 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="res_name.x"
-              :y="res_name.y"
-              :fontSize="res_name.font_size"
-              :bold="res_name.bold"
-              :textAlign="res_name.text_align"
-              :font="res_name.font"
+              :x="resource_name.x"
+              :y="resource_name.y"
+              :fontSize="resource_name.font_size"
+              :bold="resource_name.bold"
+              :textAlign="resource_name.text_align"
+              :font="resource_name.font"
               @update="handleFieldUpdate"
-              namespace="res_name"
+              namespace="resource_name"
             />
             <b-input-group prepend="Text Override">
               <b-input
-                v-model="res_name.display"
+                v-model="resource_name.display"
                 type="text"
                 placeholder="No Override Set"
               />
@@ -107,14 +107,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="aut_name.x"
-              :y="aut_name.y"
-              :fontSize="aut_name.font_size"
-              :bold="aut_name.bold"
-              :textAlign="aut_name.text_align"
-              :font="aut_name.font"
+              :x="author_name.x"
+              :y="author_name.y"
+              :fontSize="author_name.font_size"
+              :bold="author_name.bold"
+              :textAlign="author_name.text_align"
+              :font="author_name.font"
               @update="handleFieldUpdate"
-              namespace="aut_name"
+              namespace="author_name"
             />
           </template>
         </ControlBox>
@@ -127,14 +127,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="rev_count.x"
-              :y="rev_count.y"
-              :fontSize="rev_count.font_size"
-              :bold="rev_count.bold"
-              :textAlign="rev_count.text_align"
-              :font="rev_count.font"
+              :x="reviews.x"
+              :y="reviews.y"
+              :fontSize="reviews.font_size"
+              :bold="reviews.bold"
+              :textAlign="reviews.text_align"
+              :font="reviews.font"
               @update="handleFieldUpdate"
-              namespace="rev_count"
+              namespace="reviews"
             />
           </template>
         </ControlBox>
@@ -147,14 +147,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="dl_count.x"
-              :y="dl_count.y"
-              :fontSize="dl_count.font_size"
-              :bold="dl_count.bold"
-              :textAlign="dl_count.text_align"
-              :font="dl_count.font"
+              :x="downloads.x"
+              :y="downloads.y"
+              :fontSize="downloads.font_size"
+              :bold="downloads.bold"
+              :textAlign="downloads.text_align"
+              :font="downloads.font"
               @update="handleFieldUpdate"
-              namespace="dl_count"
+              namespace="downloads"
             />
           </template>
         </ControlBox>
@@ -166,89 +166,70 @@
 <script>
 import { mapState } from 'vuex'
 import UtilityMethods from '~/mixins/utility_methods'
+import GeneratorParamMixin from '~/mixins/generator/generator_param_mixin'
 import ControlBox from '~/components/ControlBox'
 import ImageTextFieldOptions from '~/components/ImageTextFieldOptions'
 
 export default {
   name: 'SpongeResourceGenerator',
   components: { ControlBox, ImageTextFieldOptions },
-  mixins: [UtilityMethods],
+  mixins: [UtilityMethods, GeneratorParamMixin],
   data() {
     return {
       resource: {
-        name: undefined,
+        name: '',
         invalid: false
       },
-      template: 'moonlight_purple',
+      template: 'MOONLIGHT_PURPLE',
       logo: {
         size: 80,
         x: 12
       },
-      res_name: {
+      resource_name: {
         x: 104,
         y: 25,
         font_size: 18,
         bold: true,
-        text_align: 'left',
-        font: 'source_sans_pro',
-        display: undefined
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO',
+        display: ''
       },
-      aut_name: {
+      author_name: {
         x: 104,
         y: 42,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       },
-      rev_count: {
+      reviews: {
         x: 104,
         y: 62,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       },
-      dl_count: {
+      downloads: {
         x: 104,
         y: 83,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       }
     }
   },
   computed: {
     ...mapState({
-      templates: (state) => state.constants.templates
+      templates: (state) => state.svc.templates,
+      defaults: (state) => state.svc.defaults.resource
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
-    bannerURLBase() {
-      if (!this.resource) return
-      return `${this.$axios.defaults.baseURL}resource/sponge/${this.resource.name}/banner.png`
-    },
-    bannerURLParams() {
-      let params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&res_name_x=${this.res_name.x}
-        &res_name_y=${this.res_name.y}&res_name_font_size=${this.res_name.font_size}&res_name_bold=${this.res_name.bold}
-        &res_name_text_align=${this.res_name.text_align}&res_name_font_face=${this.res_name.font}&aut_name_x=${this.aut_name.x}
-        &aut_name_y=${this.aut_name.y}&aut_name_font_size=${this.aut_name.font_size}&aut_name_bold=${this.aut_name.bold}
-        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font_face=${this.aut_name.font}&rev_count_x=${this.rev_count.x}
-        &rev_count_y=${this.rev_count.y}&rev_count_font_size=${this.rev_count.font_size}&rev_count_bold=${this.rev_count.bold}
-        &rev_count_text_align=${this.rev_count.text_align}&rev_count_font_face=${this.rev_count.font}&dl_count_x=${this.dl_count.x}&dl_count_y=${this.dl_count.y}
-        &dl_count_font_size=${this.dl_count.font_size}&dl_count_bold=${this.dl_count.bold}&dl_count_text_align=${this.dl_count.text_align}
-        &dl_count_font_face=${this.dl_count.font}`
-
-      if (this.res_name.display) {
-        params += `&res_name_display=${this.res_name.display}`
-      }
-
-      return params.replace(/\s+/g, '')
-    },
-    bannerURL() {
-      return this.bannerURLBase + this.bannerURLParams
+    baseURL() {
+      return `${this.$axios.defaults.baseURL}banner/resource/sponge/${this.resource.name}/banner.png`
     }
   },
   methods: {
@@ -267,6 +248,15 @@ export default {
       } else {
         this.resource.invalid = true
       }
+    },
+    cleanupModifiedParams(copy) {
+      delete copy.resource
+
+      if (!copy.resource_name.display) {
+        copy.resource_name.display = 'UNSET'
+      }
+
+      return copy
     }
   }
 }

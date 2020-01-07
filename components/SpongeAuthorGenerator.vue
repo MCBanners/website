@@ -31,10 +31,10 @@
               <b-col cols="12" class="text-center">
                 <img :src="bannerURL" />
               </b-col>
-              <b-col cols="8" class="mx-auto mt-3">
-                <b-input-group prepend="URL">
-                  <b-form-input :value="bannerURL" type="text" />
-                </b-input-group>
+              <b-col cols="8" class="mx-auto text-center mt-3">
+                <b-button variant="primary">
+                  I like it, save!
+                </b-button>
               </b-col>
             </b-row>
           </b-card>
@@ -58,10 +58,10 @@
           </template>
           <template #controls>
             <b-input-group prepend="Size" append="sq px">
-              <b-form-input v-model="logo.size" type="number" />
+              <b-form-input v-model.number="logo.size" type="number" />
             </b-input-group>
             <b-input-group prepend="X Offset" append="px">
-              <b-form-input v-model="logo.x" type="number" />
+              <b-form-input v-model.number="logo.x" type="number" />
             </b-input-group>
           </template>
         </ControlBox>
@@ -74,14 +74,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="aut_name.x"
-              :y="aut_name.y"
-              :fontSize="aut_name.font_size"
-              :bold="aut_name.bold"
-              :textAlign="aut_name.text_align"
-              :font="aut_name.font"
+              :x="author_name.x"
+              :y="author_name.y"
+              :fontSize="author_name.font_size"
+              :bold="author_name.bold"
+              :textAlign="author_name.text_align"
+              :font="author_name.font"
               @update="handleFieldUpdate"
-              namespace="aut_name"
+              namespace="author_name"
             />
           </template>
         </ControlBox>
@@ -94,14 +94,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="res_count.x"
-              :y="res_count.y"
-              :fontSize="res_count.font_size"
-              :bold="res_count.bold"
-              :textAlign="res_count.text_align"
-              :font="res_count.font"
+              :x="resource_count.x"
+              :y="resource_count.y"
+              :fontSize="resource_count.font_size"
+              :bold="resource_count.bold"
+              :textAlign="resource_count.text_align"
+              :font="resource_count.font"
               @update="handleFieldUpdate"
-              namespace="res_count"
+              namespace="resource_count"
             />
           </template>
         </ControlBox>
@@ -113,14 +113,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="likes_count.x"
-              :y="likes_count.y"
-              :fontSize="likes_count.font_size"
-              :bold="likes_count.bold"
-              :textAlign="likes_count.text_align"
-              :font="likes_count.font"
+              :x="likes.x"
+              :y="likes.y"
+              :fontSize="likes.font_size"
+              :bold="likes.bold"
+              :textAlign="likes.text_align"
+              :font="likes.font"
               @update="handleFieldUpdate"
-              namespace="likes_count"
+              namespace="likes"
             />
           </template>
         </ControlBox>
@@ -133,14 +133,14 @@
           </template>
           <template #controls>
             <ImageTextFieldOptions
-              :x="dl_count.x"
-              :y="dl_count.y"
-              :fontSize="dl_count.font_size"
-              :bold="dl_count.bold"
-              :textAlign="dl_count.text_align"
-              :font="dl_count.font"
+              :x="downloads.x"
+              :y="downloads.y"
+              :fontSize="downloads.font_size"
+              :bold="downloads.bold"
+              :textAlign="downloads.text_align"
+              :font="downloads.font"
               @update="handleFieldUpdate"
-              namespace="dl_count"
+              namespace="downloads"
             />
           </template>
         </ControlBox>
@@ -152,85 +152,70 @@
 <script>
 import { mapState } from 'vuex'
 import UtilityMethods from '~/mixins/utility_methods'
+import GeneratorParamMixin from '~/mixins/generator/generator_param_mixin'
 import ControlBox from '~/components/ControlBox'
 import ImageTextFieldOptions from '~/components/ImageTextFieldOptions'
 
 export default {
   name: 'SpongeAuthorGenerator',
   components: { ControlBox, ImageTextFieldOptions },
-  mixins: [UtilityMethods],
+  mixins: [UtilityMethods, GeneratorParamMixin],
   data() {
     return {
       author: {
-        username: undefined,
+        username: '',
         invalid: false
       },
-      template: 'moonlight_purple',
+      template: 'MOONLIGHT_PURPLE',
       logo: {
         size: 80,
         x: 12
       },
-      aut_name: {
+      author_name: {
         x: 104,
         y: 22,
         font_size: 18,
         bold: true,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       },
-      res_count: {
+      resource_count: {
         x: 104,
         y: 38,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro',
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO',
         display: undefined
       },
-      likes_count: {
+      likes: {
         x: 104,
         y: 55,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       },
-      dl_count: {
+      downloads: {
         x: 104,
         y: 72,
         font_size: 14,
         bold: false,
-        text_align: 'left',
-        font: 'source_sans_pro'
+        text_align: 'LEFT',
+        font: 'SOURCE_SANS_PRO'
       }
     }
   },
   computed: {
     ...mapState({
-      templates: (state) => state.constants.templates
+      templates: (state) => state.svc.templates,
+      defaults: (state) => state.svc.defaults.author
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
-    bannerURLBase() {
-      if (!this.author.username) return
-      return `${this.$axios.defaults.baseURL}author/sponge/${this.author.username}/banner.png`
-    },
-    bannerURLParams() {
-      const params = `?template=${this.template}&logo_size=${this.logo.size}&logo_x=${this.logo.x}&aut_name_x=${this.aut_name.x}
-        &aut_name_y=${this.aut_name.y}&aut_name_font_size=${this.aut_name.font_size}&aut_name_bold=${this.aut_name.bold}
-        &aut_name_text_align=${this.aut_name.text_align}&aut_name_font_face=${this.aut_name.font}&res_count_x=${this.res_count.x}
-        &res_count_y=${this.res_count.y}&res_count_font_size=${this.res_count.font_size}&res_count_bold=${this.res_count.bold}
-        &res_count_text_align=${this.res_count.text_align}&res_count_font_face=${this.res_count.font}&dl_count_x=${this.dl_count.x}&dl_count_y=${this.dl_count.y}
-        &dl_count_font_size=${this.dl_count.font_size}&dl_count_bold=${this.dl_count.bold}&dl_count_text_align=${this.dl_count.text_align}
-        &dl_count_font_face=${this.dl_count.font}&likes_count_x=${this.likes_count.x}
-        &likes_count_y=${this.likes_count.y}&likes_count_font_size=${this.likes_count.font_size}&likes_count_bold=${this.likes_count.bold}
-        &likes_count_text_align=${this.likes_count.text_align}&likes_count_font_face=${this.likes_count.font}`
-
-      return params.replace(/\s+/g, '')
-    },
-    bannerURL() {
-      return this.bannerURLBase + this.bannerURLParams
+    baseURL() {
+      return `${this.$axios.defaults.baseURL}banner/author/sponge/${this.author.username}/banner.png`
     }
   },
   methods: {
@@ -249,6 +234,10 @@ export default {
       } else {
         this.author.invalid = true
       }
+    },
+    cleanupModifiedParams(copy) {
+      delete copy.author
+      return copy
     }
   }
 }

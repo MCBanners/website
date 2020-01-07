@@ -1,5 +1,4 @@
 import qs from 'qs'
-import config from '~/util/config'
 
 export default {
   async hydrate({ dispatch, commit }) {
@@ -33,9 +32,7 @@ export default {
 
   async checkAvailableRequest({ _ }, payload) {
     const available = await this.$handleReqRes(
-      this.$axios.get(
-        `${config.authBaseURL}/resource/available/${payload.type}/${payload.data}`
-      )
+      this.$axios.get(`user/resource/${payload.type}/${payload.data}`)
     )
 
     if (available.status === 200 && available.data) {
@@ -51,16 +48,7 @@ export default {
     if (result.status === 200 && result.data) {
       this.$setSession(result.data.token)
 
-      const self = await dispatch('getSelf')
-      if (self === null) {
-        await dispatch('revokeSession')
-        return {
-          status: 500,
-          message: 'Log in failed (invalid session).'
-        }
-      }
-
-      commit('setUsername', self.username)
+      commit('setUsername', result.data.user.username)
       commit('setAuthenticated')
 
       return {
@@ -76,26 +64,7 @@ export default {
 
   logInRequest({ _ }, payload) {
     return this.$handleReqRes(
-      this.$axios.post(
-        `${config.authBaseURL}/user/login`,
-        qs.stringify(payload)
-      )
-    )
-  },
-
-  async getSelf({ dispatch }) {
-    const self = await dispatch('getSelfRequest')
-
-    if (self.status === 200 && self.data) {
-      return self.data
-    }
-
-    return null
-  },
-
-  getSelfRequest() {
-    return this.$handleReqRes(
-      this.$axios.get(`${config.authBaseURL}/user/me`, this.$addAuthHeader())
+      this.$axios.post(`user/login`, qs.stringify(payload))
     )
   },
 

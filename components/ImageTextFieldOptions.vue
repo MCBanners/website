@@ -73,8 +73,8 @@ export default {
   },
   computed: {
     ...mapState({
-      fonts: (state) => state.constants.fonts,
-      text_alignments: (state) => state.constants.text_alignments
+      fonts: (state) => state.svc.fonts,
+      text_alignments: (state) => state.svc.text_alignments
     }),
     fontOptions() {
       return this.makeSelectable(this.fonts)

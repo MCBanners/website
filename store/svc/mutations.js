@@ -9,5 +9,9 @@ export default {
 
   setTextAlignments(state, textAlignments) {
     state.text_alignments = textAlignments
+  },
+
+  setDefaults(state, payload) {
+    state.defaults = payload
   }
 }
