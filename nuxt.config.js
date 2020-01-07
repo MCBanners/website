@@ -60,8 +60,7 @@ export default {
       }
     ],
     'nuxt-seo',
-    '@nuxtjs/dotenv',
-    'cookie-universal-nuxt'
+    '@nuxtjs/pwa'
   ],
   /*
    ** Axios module configuration
