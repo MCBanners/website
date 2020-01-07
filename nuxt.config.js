@@ -59,7 +59,8 @@ export default {
         ]
       }
     ],
-    'nuxt-seo'
+    'nuxt-seo',
+    '@nuxtjs/pwa'
   ],
   /*
    ** Axios module configuration
