@@ -32,8 +32,28 @@
                 <img :src="bannerURL" />
               </b-col>
               <b-col cols="8" class="mx-auto text-center mt-3">
-                <b-button variant="primary">
-                  I like it, save!
+                <b-input
+                  :value="
+                    Object.keys(modifiedParams).length
+                      ? Object.keys(banner_save.result).length
+                        ? savedBannerURL
+                        : 'Save to see URL'
+                      : bannerURL
+                  "
+                  type="text"
+                />
+                <b-button
+                  v-if="Object.keys(modifiedParams).length"
+                  @click.prevent="saveSpongeAuthorBanner()"
+                  :disabled="banner_save.working"
+                  variant="primary"
+                >
+                  <span v-if="banner_save.working">
+                    Saving banner... <b-spinner size="sm" />
+                  </span>
+                  <span v-else>
+                    Save banner
+                  </span>
                 </b-button>
               </b-col>
             </b-row>
@@ -153,13 +173,14 @@
 import { mapState } from 'vuex'
 import UtilityMethods from '~/mixins/utility_methods'
 import GeneratorParamMixin from '~/mixins/generator/generator_param_mixin'
+import SaveBannerMixin from '~/mixins/generator/save_banner_mixin'
 import ControlBox from '~/components/ControlBox'
 import ImageTextFieldOptions from '~/components/ImageTextFieldOptions'
 
 export default {
   name: 'SpongeAuthorGenerator',
   components: { ControlBox, ImageTextFieldOptions },
-  mixins: [UtilityMethods, GeneratorParamMixin],
+  mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin],
   data() {
     return {
       author: {

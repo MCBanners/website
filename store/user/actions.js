@@ -1,18 +1,12 @@
 import qs from 'qs'
 
 export default {
-  async hydrate({ dispatch, commit }) {
+  hydrate({ dispatch, commit }) {
     if (this.$hasSession()) {
-      const self = await dispatch('getSelf')
-
-      if (self === null) {
-        // Had session, but it expired
-        await dispatch('revokeSession')
-        return
-      }
-
+      const session = this.$getSession()
+      commit('setUsername', session.username)
+      commit('setEmail', session.email)
       commit('setAuthenticated')
-      commit('setUsername', self.username)
     }
   },
 
@@ -46,9 +40,16 @@ export default {
     const result = await dispatch('logInRequest', payload)
 
     if (result.status === 200 && result.data) {
-      this.$setSession(result.data.token)
+      const session = {
+        token: result.data.token,
+        username: result.data.user.username,
+        email: result.data.user.email
+      }
 
-      commit('setUsername', result.data.user.username)
+      this.$setSession(session)
+
+      commit('setUsername', session.username)
+      commit('setEmail', session.email)
       commit('setAuthenticated')
 
       return {

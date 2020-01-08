@@ -1,22 +1,22 @@
 export default ({ app }, inject) => {
   inject('getSession', () => {
-    const token = app.$cookies.get('token')
-    if (!token) return {}
-    else return { token }
+    const session = app.$cookies.get('session')
+    if (!session) return {}
+    else return session
   })
 
   inject('hasSession', () => {
-    return !!app.$getSession().token
+    return Object.keys(app.$getSession()).length
   })
 
-  inject('setSession', (token) => {
-    app.$cookies.set('token', token, {
+  inject('setSession', (session) => {
+    app.$cookies.set('session', session, {
       domain: process.env.AUTH_COOKIE_DOMAIN
     })
   })
 
-  inject('killSession', (token) => {
-    app.$cookies.remove('token', {
+  inject('killSession', (session) => {
+    app.$cookies.remove('session', {
       domain: process.env.AUTH_COOKIE_DOMAIN
     })
   })

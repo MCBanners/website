@@ -7,8 +7,13 @@ export default {
     state.username = username
   },
 
+  setEmail(state, email) {
+    state.email = email
+  },
+
   reset(state) {
     state.authenticated = false
-    state.username = null
+    state.username = ''
+    state.email = ''
   }
 }

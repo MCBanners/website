@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/prettycheckbox.client.js', '~/plugins/requests.js', '~/plugins/sessions.js'],
+  plugins: ['~/plugins/requests.js', '~/plugins/sessions.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -59,6 +59,7 @@ export default {
         ]
       }
     ],
+    'cookie-universal-nuxt',
     'nuxt-seo',
     '@nuxtjs/pwa'
   ],

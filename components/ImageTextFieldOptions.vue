@@ -100,7 +100,7 @@ export default {
       this.emitUpdate('text_align', textAlign)
     },
     fontUpdate(font) {
-      this.emitUpdate('font', font)
+      this.emitUpdate('font_face', font)
     },
     emitUpdate(key, value) {
       this.$emit('update', {
