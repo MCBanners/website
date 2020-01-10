@@ -169,8 +169,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO',
-        display: undefined
+        font_face: 'SOURCE_SANS_PRO'
       },
       likes: {
         x: 104,

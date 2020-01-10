@@ -277,6 +277,11 @@ export default {
     },
     cleanupModifiedParams(copy) {
       delete copy.resource
+
+      if (!copy.resource_name.display) {
+        copy.resource_name.display = ''
+      }
+
       return copy
     },
     updateResourceDetails(payload) {

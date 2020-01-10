@@ -231,7 +231,7 @@ export default {
       delete copy.server
 
       if (!copy.server_name.display) {
-        copy.server_name.display = 'UNSET'
+        copy.server_name.display = ''
       }
 
       return copy
