@@ -69,6 +69,20 @@ export default {
     )
   },
 
+  async signUp({ dispatch }, payload) {
+    const result = await dispatch('signUpRequest', payload)
+    return {
+      status: result.status,
+      message: 'No message.'
+    }
+  },
+
+  signUpRequest({ _ }, payload) {
+    return this.$handleReqRes(
+      this.$axios.post('user/signup', qs.stringify(payload))
+    )
+  },
+
   revokeSession({ commit }) {
     this.$killSession()
     commit('reset')

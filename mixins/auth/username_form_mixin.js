@@ -20,6 +20,12 @@ export default {
     usernameOk() {
       if (!this.username) return null
       return !this.usernameTooShort && !this.usernameTooLong
+    },
+    usernameOkAndAvailable() {
+      return this.usernameOk && this.usernameAvailable
+    },
+    usernameOkButNotAvailable() {
+      return this.usernameOk && !this.usernameAvailable
     }
   },
   methods: {

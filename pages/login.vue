@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import LogInForm from '~/components/LogInForm'
+import LogInForm from '~/components/flow/LogInForm'
 
 export default {
   middleware: 'unauthenticated',

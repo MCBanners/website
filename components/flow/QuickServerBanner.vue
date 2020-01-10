@@ -26,7 +26,6 @@
         variant="primary"
       >
         Create
-        <small><fa :icon="['fas', 'external-link-alt']" class="icon"/></small>
       </b-button>
     </b-form>
   </div>
@@ -41,8 +40,8 @@ export default {
       port: ''
     }
   },
-  computed: {
-    url() {
+  methods: {
+    openQuickServerBanner() {
       if (!this.ip) return undefined
 
       let port = this.port
@@ -50,15 +49,7 @@ export default {
         port = 25565
       }
 
-      return `https://api.mcbanners.com/banner/server/${this.ip}/${port}/banner.png`
-    }
-  },
-  methods: {
-    openQuickServerBanner() {
-      const url = this.url
-      if (url) {
-        window.open(url, '_blank')
-      }
+      this.$router.push(`servers?ip=${this.ip}&port=${port}`)
     }
   }
 }

@@ -39,7 +39,7 @@ import { mapState } from 'vuex'
 import UtilityMethods from '~/mixins/utility_methods'
 
 export default {
-  name: 'ImageTextFieldOptions',
+  name: 'BannerTextFieldOptions',
   mixins: [UtilityMethods],
   props: {
     namespace: {

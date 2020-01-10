@@ -4,10 +4,10 @@
       <h6 class="mb-0 text-center">{{ title }}</h6>
     </template>
     <b-row>
-      <b-col cols="12" md="4">
+      <b-col :md="hintMdCols" cols="12">
         <slot name="hint"></slot>
       </b-col>
-      <b-col cols="12" md="8">
+      <b-col :md="controlsMdCols" cols="12">
         <slot name="controls"></slot>
       </b-col>
     </b-row>
@@ -21,6 +21,14 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    hintMdCols: {
+      type: String,
+      default: '4'
+    },
+    controlsMdCols: {
+      type: String,
+      default: '8'
     }
   }
 }

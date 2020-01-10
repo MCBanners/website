@@ -5,12 +5,14 @@ export default {
     }
   },
   computed: {
-    passwordTooShort() {
-      return this.password.length < 8
+    passwordRequirementsNotMet() {
+      return !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(
+        this.password
+      )
     },
     passwordOk() {
       if (!this.password) return null
-      return !this.passwordTooShort
+      return !this.passwordRequirementsNotMet
     }
   }
 }

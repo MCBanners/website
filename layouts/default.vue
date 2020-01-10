@@ -10,6 +10,11 @@
       >
         <nuxt />
       </transition>
+      <notifications
+        :animation="animation"
+        group="global"
+        animation-type="velocity"
+      />
     </main>
     <footer>
       <div class="footer text-center">
@@ -36,10 +41,27 @@
 </template>
 
 <script>
-import NavBar from '~/components/NavBar'
+import NavBar from '~/components/structure/NavBar'
 
 export default {
-  components: { NavBar }
+  components: { NavBar },
+  data() {
+    return {
+      animation: {
+        enter(element) {
+          const height = element.clientHeight
+          return {
+            height: [height, 0],
+            opacity: [1, 0]
+          }
+        },
+        leave: {
+          height: 0,
+          opacity: 0
+        }
+      }
+    }
+  }
 }
 </script>
 

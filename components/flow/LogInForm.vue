@@ -3,15 +3,18 @@
     <p v-if="error" class="error">
       {{ error }}
     </p>
+    <p v-if="cameFromSignUp" class="success">
+      Thanks for signing up. Now you can log in and start saving banners.
+    </p>
     <b-input-group>
       <b-input
         v-model="username"
-        :state="usernameOk && !usernameAvailable"
+        :state="usernameOkButNotAvailable"
         @change="checkUsernameAvailable()"
         placeholder="Username"
         required
       />
-      <b-form-invalid-feedback :state="usernameOk || usernameAvailable">
+      <b-form-invalid-feedback :state="usernameOkButNotAvailable">
         <p v-if="usernameTooShort">
           Your username must be longer than 4 characters.
         </p>
@@ -33,8 +36,9 @@
         placeholder="Password"
       />
       <b-form-invalid-feedback :state="passwordOk">
-        <p v-if="passwordTooShort">
-          Your password must be at least 8 characters long.
+        <p v-if="passwordRequirementsNotMet">
+          Your password must be at at least 8 characters long, and have at least
+          1 upper- and lower-case letter, 1 number, and 1 special character.
         </p>
       </b-form-invalid-feedback>
     </b-input-group>
@@ -65,6 +69,12 @@ export default {
       error: ''
     }
   },
+  computed: {
+    cameFromSignUp() {
+      const param = this.$route.query.r
+      return param && param === 's'
+    }
+  },
   methods: {
     async logIn() {
       this.error = ''
@@ -90,7 +100,11 @@ export default {
 <style lang="scss" scoped>
 .log-in-form {
   .error {
-    color: red;
+    color: #ec4e20;
+  }
+
+  .success {
+    color: #4299e1;
   }
 
   input {

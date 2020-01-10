@@ -80,12 +80,10 @@ export default {
     font-weight: 600;
 
     &.nudge-it-to-the-center {
-      @media (min-width: 768px) {
-        margin-right: -140px;
-      }
+      margin-right: -165px;
 
       @media (min-width: 992px) {
-        margin-right: -70px;
+        margin-right: -140px;
       }
     }
 

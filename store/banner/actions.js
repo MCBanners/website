@@ -33,5 +33,17 @@ export default {
       `banner/manage_saved/find/all`,
       this.$addAuthHeader()
     )
+  },
+
+  async deleteBanner({ dispatch }, bannerId) {
+    const deleteBanner = await dispatch('deleteBannerRequest', bannerId)
+    return deleteBanner.status === 200
+  },
+
+  deleteBannerRequest({ _ }, bannerId) {
+    return this.$axios.delete(
+      `banner/manage_saved/delete/${bannerId}`,
+      this.$addAuthHeader()
+    )
   }
 }

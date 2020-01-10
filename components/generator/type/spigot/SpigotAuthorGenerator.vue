@@ -1,0 +1,288 @@
+<template>
+  <div>
+    <form-wizard
+      @on-loading="setLoading"
+      @on-complete="handleComplete"
+      title="Banner Creator"
+      subtitle="Create a Spigot Author Banner"
+      shape="tab"
+      color="#4299e1"
+      error-color="#ec4e20"
+    >
+      <tab-content :before-change="checkValidAuthor" title="Author Details">
+        <GeneratorPreCheck
+          :loading="loading"
+          :error-message="author.error"
+          loading-message="One sec...we're just checking that author."
+        >
+          <AuthorGeneratorStepOne @update="updateAuthorDetails" type="spigot" />
+        </GeneratorPreCheck>
+      </tab-content>
+      <tab-content title="Configure Banner">
+        <b-card no-body>
+          <b-tabs pills card vertical>
+            <GeneratorPreview :bannerURL="bannerURL" />
+            <b-tab title="Background">
+              <BannerSelectControlBox
+                :default="template"
+                :options="templateOptions"
+                @update="(newTemplate) => (template = newTemplate)"
+                title="Background"
+                hint="Choose the background for your banner."
+              />
+            </b-tab>
+            <b-tab title="Author Logo">
+              <ControlBox title="Author Logo">
+                <template #hint>
+                  <p>
+                    Configure how the resource logo will display in the
+                    generated banner.
+                  </p>
+                </template>
+                <template #controls>
+                  <b-input-group prepend="Size" append="sq px">
+                    <b-form-input v-model.number="logo.size" type="number" />
+                  </b-input-group>
+                  <b-input-group prepend="X Offset" append="px">
+                    <b-form-input v-model.number="logo.x" type="number" />
+                  </b-input-group>
+                </template>
+              </ControlBox>
+            </b-tab>
+            <b-tab title="Author Name">
+              <BannerTextFieldControlBox
+                :target="author_name"
+                @update="handleFieldUpdate"
+                title="Author Name"
+                namespace="author_name"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the author name will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Resource Count">
+              <BannerTextFieldControlBox
+                :target="resource_count"
+                @update="handleFieldUpdate"
+                title="Resource Count"
+                namespace="resource_count"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the resource count will display in the
+                    generated banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Likes Count">
+              <BannerTextFieldControlBox
+                :target="likes"
+                @update="handleFieldUpdate"
+                title="Likes Count"
+                namespace="likes"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the likes count will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Review Count">
+              <BannerTextFieldControlBox
+                :target="reviews"
+                @update="handleFieldUpdate"
+                title="Review Count"
+                namespace="reviews"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the review count will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Download Count">
+              <BannerTextFieldControlBox
+                :target="downloads"
+                @update="handleFieldUpdate"
+                title="Download Count"
+                namespace="downloads"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the download count will display in the
+                    generated banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </tab-content>
+    </form-wizard>
+
+    <CopyURLModal :bannerURL="savedBannerURL" />
+  </div>
+</template>
+
+<script>
+import { mapState } from 'vuex'
+import UtilityMethods from '~/mixins/utility_methods'
+import GeneratorParamMixin from '~/mixins/generator/generator_param_mixin'
+import SaveBannerMixin from '~/mixins/generator/save_banner_mixin'
+import LoadingMixin from '~/mixins/loading_mixin'
+import GeneratorPreCheck from '~/components/generator/GeneratorPreCheck'
+import GeneratorPreview from '~/components/generator/GeneratorPreview'
+import ControlBox from '~/components/generator/control/ControlBox'
+import BannerSelectControlBox from '~/components/generator/control/BannerSelectControlBox'
+import BannerTextFieldControlBox from '~/components/generator/control/BannerTextFieldControlBox'
+import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/AuthorGeneratorStepOne'
+import CopyURLModal from '~/components/flow/CopyURLModal'
+
+export default {
+  name: 'SpigotAuthorGenerator',
+  components: {
+    GeneratorPreCheck,
+    GeneratorPreview,
+    ControlBox,
+    BannerSelectControlBox,
+    BannerTextFieldControlBox,
+    AuthorGeneratorStepOne,
+    CopyURLModal
+  },
+  mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
+  data() {
+    return {
+      author: {
+        id: undefined,
+        error: ''
+      },
+      template: 'MOONLIGHT_PURPLE',
+      logo: {
+        size: 80,
+        x: 12
+      },
+      author_name: {
+        x: 104,
+        y: 22,
+        font_size: 18,
+        bold: true,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO'
+      },
+      resource_count: {
+        x: 104,
+        y: 38,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO'
+      },
+      likes: {
+        x: 104,
+        y: 55,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO'
+      },
+      downloads: {
+        x: 104,
+        y: 72,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO'
+      },
+      reviews: {
+        x: 104,
+        y: 89,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO'
+      }
+    }
+  },
+  computed: {
+    ...mapState({
+      templates: (state) => state.svc.templates,
+      defaults: (state) => state.svc.defaults.author
+    }),
+    templateOptions() {
+      return this.makeSelectable(this.templates)
+    },
+    baseURL() {
+      return this.generateBannerUrl('author-spigot', {
+        id: this.author.id
+      })
+    }
+  },
+  methods: {
+    handleFieldUpdate(payload) {
+      this[payload.namespace][payload.key] = payload.value
+    },
+    cleanupModifiedParams(copy) {
+      delete copy.author
+      return copy
+    },
+    updateAuthorDetails(payload) {
+      this.author.id = payload.subject
+    },
+    checkValidAuthor() {
+      return new Promise(async (resolve, reject) => {
+        this.author.error = ''
+        const { id } = this.author
+
+        if (!id) {
+          this.author.error = 'Please enter a Spigot Author ID.'
+          return resolve(false)
+        }
+
+        const valid = await this.$store.dispatch('checkValidSpigotAuthor', id)
+
+        if (valid) {
+          return resolve(true)
+        } else {
+          this.author.error =
+            "That doesn't seem to a valid Spigot Author ID. Please double check it."
+          return resolve(false)
+        }
+      })
+    },
+    async handleComplete() {
+      this.loading = true
+
+      if (Object.keys(this.modifiedParams).length) {
+        await this.saveSpigotAuthorBanner()
+      }
+
+      this.loading = false
+
+      this.$bvModal.show('copy-url-modal')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.card-columns {
+  column-count: 1;
+
+  @media (min-width: 768px) {
+    column-count: 2;
+  }
+}
+
+.input-group {
+  margin-bottom: 2px;
+}
+</style>

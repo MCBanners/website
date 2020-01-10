@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import QuickServerBanner from '~/components/QuickServerBanner'
+import QuickServerBanner from '~/components/flow/QuickServerBanner'
 
 export default {
   name: 'Hero',

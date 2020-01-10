@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/requests.js', '~/plugins/sessions.js'],
+  plugins: ['~/plugins/vue-form-wizard.js', '~/plugins/vue-notification.client.js', '~/plugins/vue-clipboard.js', '~/plugins/requests.js', '~/plugins/sessions.js'],
   /*
    ** Nuxt.js dev-modules
    */

@@ -1,57 +1,70 @@
 <template>
   <b-container>
-    <h1>Welcome, {{ username }}.</h1>
-    <div v-if="!numSavedBanners">
-      <h3>You have no saved banners.</h3>
+    <h1>Hey, {{ username }},</h1>
+    <div v-if="!numSavedBanners" class="text-center">
+      <h3>you have no saved banners.</h3>
       <p>
         While logged in, visit a generator and modify a banner to your liking.
+      </p>
+      <p>
         Once finished, press save. Your banner will appear here after that!
       </p>
     </div>
     <div v-else>
-      <h3>You have {{ numSavedBanners }} saved banners.</h3>
+      <h3>you have {{ numSavedBanners }} saved banners.</h3>
+      <b-row>
+        <b-col
+          v-for="(savedBanner, idx) in savedBanners"
+          :key="idx"
+          cols="4"
+          class="mx-auto"
+        >
+          <b-card
+            :img-src="getShortUrl(savedBanner.mnemonic)"
+            :img-alt="'Banner: ' + savedBanner.mnemonic"
+            img-top
+          >
+            <div class="text-center">
+              <h5>Mnemonic</h5>
+              <p>
+                <strong
+                  ><a
+                    :href="getShortUrl(savedBanner.mnemonic)"
+                    target="_blank"
+                    >{{ savedBanner.mnemonic }}</a
+                  >
+                  <small
+                    ><fa
+                      :icon="['fas', 'external-link-alt']"
+                      class="icon"/></small
+                ></strong>
+              </p>
 
-      <b-card-group columns>
-        <b-card v-for="(savedBanner, idx) in savedBanners" :key="idx">
-          <template #header> Banner ID: {{ savedBanner.id }} </template>
-          <h4>
-            Mnemonic:
-            <a
-              :href="
-                'http://localhost:8100/banner/saved/' + savedBanner.mnemonic
-              "
-              target="_blank"
-              >{{ savedBanner.mnemonic }}</a
-            >
-          </h4>
-          <h4>Type: {{ savedBanner.bannerType }}</h4>
-          <div v-if="savedBanner.bannerType === 'MINECRAFT_SERVER'">
-            <h4>Server Host: {{ savedBanner.settings._server_host }}</h4>
-            <h4>Server Port: {{ savedBanner.settings._server_port }}</h4>
-          </div>
-          <div
-            v-else-if="
-              savedBanner.bannerType === 'SPIGOT_AUTHOR' ||
-                savedBanner.bannerType === 'SPONGE_AUTHOR'
-            "
-          >
-            <h4>Author ID: {{ savedBanner.settings._author_id }}</h4>
-          </div>
-          <div
-            v-else-if="
-              savedBanner.bannerType === 'SPIGOT_RESOURCE' ||
-                savedBanner.bannerType === 'SPONGE_RESOURCE'
-            "
-          >
-            <h4>Resource ID: {{ savedBanner.settings._resource_id }}</h4>
-          </div>
-        </b-card>
-      </b-card-group>
+              <h5>Banner Type</h5>
+              <p>
+                <strong> {{ savedBanner.bannerType }}</strong>
+              </p>
+            </div>
+            <template #footer>
+              <b-nav align="right" small>
+                <!-- Later -->
+                <!-- <b-nav-item @click.prevent="editBanner"
+                ><fa :icon="['fas', 'edit']"
+              /></b-nav-item> -->
+                <b-nav-item @click.prevent="deleteBanner(savedBanner.id)"
+                  ><fa :icon="['fas', 'trash']"
+                /></b-nav-item>
+              </b-nav>
+            </template>
+          </b-card>
+        </b-col>
+      </b-row>
     </div>
   </b-container>
 </template>
 
 <script>
+import _ from 'lodash'
 import { mapState } from 'vuex'
 
 export default {
@@ -69,6 +82,55 @@ export default {
     if (savedBanners) {
       return { savedBanners }
     }
+  },
+  methods: {
+    getShortUrl(mnemonic) {
+      return `${this.$axios.defaults.baseURL}banner/saved/${mnemonic}`
+    },
+    editBanner() {
+      // eslint-disable-next-line no-console
+      console.log('Not Yet Implemented')
+    },
+    async deleteBanner(id) {
+      const confirmation = await this.$bvModal
+        .msgBoxConfirm(
+          'Do you really want to delete this banner? You can always make another one later.'
+        )
+        .catch(() => false)
+      if (confirmation) {
+        const success = await this.$store.dispatch('banner/deleteBanner', id)
+        if (success) {
+          this.savedBanners = _.filter(
+            this.savedBanners,
+            (banner) => banner.id !== id
+          )
+        }
+      }
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+h1,
+h3 {
+  font-family: 'Fredoka One';
+  text-align: center;
+}
+
+h1 {
+  margin-top: 30px;
+}
+
+h3 {
+  margin-bottom: 45px;
+}
+
+p {
+  font-family: 'Open Sans';
+}
+
+.card {
+  margin-bottom: 10px;
+}
+</style>
