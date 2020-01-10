@@ -26,3 +26,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@media (max-width: 1280px) {
+  img {
+    width: 100%;
+  }
+}
+</style>

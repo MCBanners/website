@@ -2,9 +2,8 @@
   <b-row>
     <b-col cols="12">
       <p>
-        Enter the IP of your server in the "Server IP" box. If you are
-        <b>not</b> using the default port (25565) you can leave the "Server
-        Port" box blank.
+        Enter the IP of your server in the "Server IP" box. If you are using the
+        default port (25565) you can leave the "Server Port" box blank.
       </p>
     </b-col>
     <b-col cols="12">
