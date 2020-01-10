@@ -22,7 +22,7 @@
         >
           <b-card
             :img-src="getShortUrl(savedBanner.mnemonic)"
-            :img-alt="'Banner: ' + savedBanner.mnemonic"
+            :img-alt="'Banner: ' + savedBanner.mnemonic + '.png'"
             img-top
           >
             <div class="text-center">
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     getShortUrl(mnemonic) {
-      return `${this.$axios.defaults.baseURL}banner/saved/${mnemonic}`
+      return `${this.$axios.defaults.baseURL}banner/saved/${mnemonic}.png`
     },
     editBanner() {
       // eslint-disable-next-line no-console
