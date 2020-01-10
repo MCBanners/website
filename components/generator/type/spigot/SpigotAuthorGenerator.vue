@@ -260,13 +260,8 @@ export default {
     },
     async handleComplete() {
       this.loading = true
-
-      if (Object.keys(this.modifiedParams).length) {
-        await this.saveSpigotAuthorBanner()
-      }
-
+      await this.saveSpigotAuthorBanner()
       this.loading = false
-
       this.$bvModal.show('copy-url-modal')
     }
   }

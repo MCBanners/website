@@ -241,13 +241,8 @@ export default {
     },
     async handleComplete() {
       this.loading = true
-
-      if (Object.keys(this.modifiedParams).length) {
-        await this.saveSpongeAuthorBanner()
-      }
-
+      await this.saveSpongeAuthorBanner()
       this.loading = false
-
       this.$bvModal.show('copy-url-modal')
     }
   }

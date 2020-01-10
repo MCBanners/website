@@ -305,13 +305,8 @@ export default {
     },
     async handleComplete() {
       this.loading = true
-
-      if (Object.keys(this.modifiedParams).length) {
-        await this.saveSpigotResourceBanner()
-      }
-
+      await this.saveSpigotResourceBanner()
       this.loading = false
-
       this.$bvModal.show('copy-url-modal')
     }
   }
