@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/prettycheckbox.client.js'],
+  plugins: ['~/plugins/vue-form-wizard.js', '~/plugins/vue-notification.client.js', '~/plugins/vue-clipboard.js', '~/plugins/requests.js', '~/plugins/sessions.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -59,6 +59,7 @@ export default {
         ]
       }
     ],
+    'cookie-universal-nuxt',
     'nuxt-seo',
     '@nuxtjs/pwa'
   ],
@@ -67,7 +68,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'https://api.mcbanners.com/'
+    baseURL: "https://api.mcbanners.com/"
   },
   /*
    ** Bootstrap Vue configuration

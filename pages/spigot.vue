@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import SpigotResourceGenerator from '~/components/SpigotResourceGenerator'
-import SpigotAuthorGenerator from '~/components/SpigotAuthorGenerator'
+import SpigotResourceGenerator from '~/components/generator/type/spigot/SpigotResourceGenerator'
+import SpigotAuthorGenerator from '~/components/generator/type/spigot/SpigotAuthorGenerator'
 
 export default {
   components: { SpigotResourceGenerator, SpigotAuthorGenerator },

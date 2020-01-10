@@ -1,30 +1,14 @@
 <template>
   <b-container>
-    <b-form-group id="module-select">
-      <b-input-group prepend="Module">
-        <b-form-select v-model="module.selected" :options="module.options" />
-      </b-input-group>
-    </b-form-group>
-
-    <div v-if="module.selected == 0" class="generator">
-      <ServerGenerator />
-    </div>
+    <ServerGenerator />
   </b-container>
 </template>
 
 <script>
-import ServerGenerator from '~/components/ServerGenerator'
+import ServerGenerator from '~/components/generator/type/server/ServerGenerator'
 
 export default {
   components: { ServerGenerator },
-  data() {
-    return {
-      module: {
-        selected: 0,
-        options: [{ value: 0, text: 'Server Banner' }]
-      }
-    }
-  },
   asyncData(ctx) {
     ctx.seo({
       name: 'MCBanners',

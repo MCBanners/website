@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import SpongeResourceGenerator from '~/components/SpongeResourceGenerator'
-import SpongeAuthorGenerator from '~/components/SpongeAuthorGenerator'
+import SpongeResourceGenerator from '~/components/generator/type/sponge/SpongeResourceGenerator'
+import SpongeAuthorGenerator from '~/components/generator/type/sponge/SpongeAuthorGenerator'
 
 export default {
   components: { SpongeResourceGenerator, SpongeAuthorGenerator },

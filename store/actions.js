@@ -1,6 +1,7 @@
 export default {
   async nuxtServerInit({ dispatch }) {
-    await dispatch('constants/hydrate')
+    await dispatch('svc/hydrate')
+    dispatch('user/hydrate')
   },
 
   checkValidSpigotResource({ dispatch }, resId) {
@@ -32,7 +33,9 @@ export default {
   },
 
   async isValid({ _ }, validatable) {
-    const valid = await this.$axios.get(`banner/${validatable}/isValid`, {})
+    const valid = await this.$axios
+      .get(`banner/${validatable}/isValid`, {})
+      .catch(() => false)
     return valid.status === 200 && valid.data.valid
   }
 }
