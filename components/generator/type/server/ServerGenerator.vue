@@ -272,13 +272,8 @@ export default {
     },
     async handleComplete() {
       this.loading = true
-
-      if (Object.keys(this.modifiedParams).length) {
-        await this.saveServerBanner()
-      }
-
+      await this.saveServerBanner()
       this.loading = false
-
       this.$bvModal.show('copy-url-modal')
     }
   }

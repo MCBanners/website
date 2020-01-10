@@ -7,8 +7,9 @@
         While logged in, visit a generator and modify a banner to your liking.
       </p>
       <p>
-        Once finished, press save. Your banner will appear here after that!
+        Once finished, press Finish and you will be given your very own URL!
       </p>
+      <p>After that, any banners you make while logged in while appear right here.</p>
     </div>
     <div v-else>
       <h3>you have {{ numSavedBanners }} saved banners.</h3>

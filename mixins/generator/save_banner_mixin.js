@@ -10,11 +10,7 @@ export default {
   },
   computed: {
     savedBannerURL() {
-      if (!Object.keys(this.banner_save.result).length) {
-        return this.baseURL
-      }
-
-      return `${this.$axios.defaults.baseURL}banner/saved/${this.banner_save.result.mnemonic}`
+      return `${this.$axios.defaults.baseURL}banner/saved/${this.banner_save.result.mnemonic}.png`
     }
   },
   methods: {
