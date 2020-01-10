@@ -68,7 +68,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "http://localhost:8100/"
+    baseURL: "https://api.mcbanners.com/"
   },
   /*
    ** Bootstrap Vue configuration
