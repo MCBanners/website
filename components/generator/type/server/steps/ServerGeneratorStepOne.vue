@@ -61,15 +61,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.input-group {
-  > .input-group-prepend {
-    flex: 0 0 20%;
-  }
-
-  .input-group-text {
-    width: 100%;
-  }
-}
-</style>

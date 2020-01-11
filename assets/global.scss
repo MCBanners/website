@@ -51,3 +51,13 @@ body, .sticky-footer-container {
     }
   }
 }
+
+.input-group {
+  > .input-group-prepend {
+    flex: 0 0 20%;
+  }
+
+  .input-group-text {
+    width: 100%;
+  }
+}

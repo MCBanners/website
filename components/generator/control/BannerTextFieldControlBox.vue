@@ -8,6 +8,7 @@
       </slot>
     </template>
     <template #controls>
+      <slot name="ext_top_controls"></slot>
       <BannerTextFieldOptions
         :x="target.x"
         :y="target.y"
@@ -18,7 +19,7 @@
         @update="handleFieldUpdate"
         :namespace="namespace"
       />
-      <slot name="ext_controls"></slot>
+      <slot name="ext_bot_controls"></slot>
     </template>
   </ControlBox>
 </template>
