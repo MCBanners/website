@@ -71,8 +71,7 @@
                     >
                   </p>
                 </template>
-
-                <template #ext_controls>
+                <template #ext_bot_controls>
                   <b-input-group prepend="Text Override">
                     <b-input
                       v-model="resource_name.display"

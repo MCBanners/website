@@ -69,6 +69,7 @@ export default {
    */
   axios: {
     baseURL: "https://api.mcbanners.com/"
+    //baseURL: "http://localhost:8100/"
   },
   /*
    ** Bootstrap Vue configuration

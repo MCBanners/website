@@ -68,8 +68,7 @@
                     >
                   </p>
                 </template>
-
-                <template #ext_controls>
+                <template #ext_bot_controls>
                   <b-input-group prepend="Text Override">
                     <b-input
                       v-model="server_name.display"
@@ -107,6 +106,22 @@
                     Configure how the server MOTD will display in the generated
                     banner.
                   </p>
+                </template>
+                <template #ext_top_controls>
+                  <b-input-group prepend="Show?">
+                    <b-select
+                      v-model="motd.enable"
+                      :options="[
+                        { value: true, text: 'Yes' },
+                        { value: false, text: 'No' }
+                      ]"
+                    />
+                  </b-input-group>
+                </template>
+                <template #ext_bot_controls>
+                  <b-input-group prepend="Max Characters">
+                    <b-input v-model.number="motd.max_chars" type="number" />
+                  </b-input-group>
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
@@ -190,6 +205,8 @@ export default {
         y: 38
       },
       motd: {
+        enable: true,
+        max_chars: 9999,
         bold: false,
         font_face: 'SOURCE_SANS_PRO',
         font_size: 14,
