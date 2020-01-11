@@ -52,8 +52,7 @@
       />
       <b-form-invalid-feedback :state="passwordsOk">
         <p v-if="passwordRequirementsNotMet">
-          Your password must be at at least 8 characters long, and have at least
-          1 upper- and lower-case letter, 1 number, and 1 special character.
+          Your password must be at least 8 characters long.
         </p>
       </b-form-invalid-feedback>
     </b-input-group>
