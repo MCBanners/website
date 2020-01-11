@@ -6,9 +6,7 @@ export default {
   },
   computed: {
     passwordRequirementsNotMet() {
-      return !/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(
-        this.password
-      )
+      return this.password.length !== 8
     },
     passwordOk() {
       if (!this.password) return null
