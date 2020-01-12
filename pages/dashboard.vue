@@ -20,7 +20,9 @@
         <b-col
           v-for="(savedBanner, idx) in savedBanners"
           :key="idx"
-          cols="4"
+          cols="12"
+          md="6"
+          lg="4"
           class="mx-auto"
         >
           <b-card
