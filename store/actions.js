@@ -1,7 +1,7 @@
 export default {
   async nuxtServerInit({ dispatch }) {
     await dispatch('svc/hydrate')
-    dispatch('user/hydrate')
+    await dispatch('user/hydrate')
   },
 
   checkValidSpigotResource({ dispatch }, resId) {
