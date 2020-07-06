@@ -1,12 +1,28 @@
 import qs from 'qs'
 
 export default {
-  hydrate({ dispatch, commit }) {
+  async hydrate({ dispatch, commit }) {
     if (this.$hasSession()) {
       const session = this.$getSession()
-      commit('setUsername', session.username)
-      commit('setEmail', session.email)
-      commit('setAuthenticated')
+      const valid = await dispatch('checkSessionValid', session)
+      if (valid) {
+        commit('setUsername', session.username)
+        commit('setEmail', session.email)
+        commit('setAuthenticated')
+      } else {
+        // eslint-disable-next-line
+        console.log('session existed, but server declared it invalid; killing.')
+        dispatch('revokeSession')
+      }
+    }
+  },
+
+  async checkSessionValid({ _ }, payload) {
+    try {
+      await this.$axios.get(`validate`, this.$addAuthHeader())
+      return true
+    } catch {
+      return false
     }
   },
 
