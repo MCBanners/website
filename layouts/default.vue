@@ -20,7 +20,9 @@
       <div class="footer text-center">
         <div class="footer-content">
           <div class="social-links">
-            <a href="https://discord.gg/PHpuzZS" target="_blank"><fa :icon="['fab', 'discord']"/></a>
+            <a href="https://discord.gg/PHpuzZS" target="_blank"
+              ><fa :icon="['fab', 'discord']"
+            /></a>
             <a href="#" target="_blank"><fa :icon="['fab', 'twitter']"/></a>
             <a href="https://github.com/MCBanners/" target="_blank">
               <fa :icon="['fab', 'github']" />
