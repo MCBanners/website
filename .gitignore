@@ -9,7 +9,6 @@ yarn-error.log*
 
 
 # Extra stuff
-yarn.lock
 process.json
 
 # Runtime data
