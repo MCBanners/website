@@ -25,7 +25,7 @@
     "deep-object-diff": "^1.1.0",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.14.1",
     "nuxt-fontawesome": "^0.4.0",
     "nuxt-seo": "^1.2.2",
     "qs": "^6.9.1",
