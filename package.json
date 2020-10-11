@@ -27,7 +27,7 @@
     "node-sass": "^4.13.0",
     "nuxt": "^2.14.4",
     "nuxt-fontawesome": "^0.4.0",
-    "nuxt-seo": "^1.2.2",
+    "nuxt-seo": "^1.4.2",
     "qs": "^6.9.1",
     "sass-loader": "^8.0.0",
     "velocity-animate": "^1.5.2",
