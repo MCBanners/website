@@ -1,7 +1,7 @@
 export default {
   data() {
     return {
-      password: ''
+      password: '',
     }
   },
   computed: {
@@ -11,6 +11,6 @@ export default {
     passwordOk() {
       if (!this.password) return null
       return !this.passwordRequirementsNotMet
-    }
-  }
+    },
+  },
 }

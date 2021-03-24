@@ -23,7 +23,7 @@
             <a href="https://discord.gg/PHpuzZS" target="_blank"
               ><fa :icon="['fab', 'discord']"
             /></a>
-            <a href="#" target="_blank"><fa :icon="['fab', 'twitter']"/></a>
+            <a href="#" target="_blank"><fa :icon="['fab', 'twitter']" /></a>
             <a href="https://github.com/MCBanners/" target="_blank">
               <fa :icon="['fab', 'github']" />
             </a>
@@ -54,16 +54,16 @@ export default {
           const height = element.clientHeight
           return {
             height: [height, 0],
-            opacity: [1, 0]
+            opacity: [1, 0],
           }
         },
         leave: {
           height: 0,
-          opacity: 0
-        }
-      }
+          opacity: 0,
+        },
+      },
     }
-  }
+  },
 }
 </script>
 

@@ -1,13 +1,13 @@
 <template>
   <div>
     <form-wizard
-      @on-loading="setLoading"
-      @on-complete="handleComplete"
       title="Banner Creator"
       subtitle="Create a Spigot Resource Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
+      @on-loading="setLoading"
+      @on-complete="handleComplete"
     >
       <tab-content :before-change="checkValidResource" title="Resource Details">
         <GeneratorPreCheck
@@ -16,22 +16,22 @@
           loading-message="One sec...we're just checking that resource."
         >
           <ResourceGeneratorStepOne
-            @update="updateResourceDetails"
             type="spigot"
+            @update="updateResourceDetails"
           />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
         <b-card no-body>
           <b-tabs pills card vertical>
-            <GeneratorPreview :bannerURL="bannerURL" />
+            <GeneratorPreview :banner-u-r-l="bannerURL" />
             <b-tab title="Background">
               <BannerSelectControlBox
                 :default="template"
                 :options="templateOptions"
-                @update="(newTemplate) => (template = newTemplate)"
                 title="Background"
                 hint="Choose the background for your banner."
+                @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
             <b-tab title="Resource Logo">
@@ -55,9 +55,9 @@
             <b-tab title="Resource Name">
               <BannerTextFieldControlBox
                 :target="resource_name"
-                @update="handleFieldUpdate"
                 title="Resource Name"
                 namespace="resource_name"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -85,9 +85,9 @@
             <b-tab title="Author Name">
               <BannerTextFieldControlBox
                 :target="author_name"
-                @update="handleFieldUpdate"
                 title="Author Name"
                 namespace="author_name"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -100,9 +100,9 @@
             <b-tab title="Review Count">
               <BannerTextFieldControlBox
                 :target="reviews"
-                @update="handleFieldUpdate"
                 title="Review Count"
                 namespace="reviews"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -136,9 +136,9 @@
             <b-tab title="Download Count">
               <BannerTextFieldControlBox
                 :target="downloads"
-                @update="handleFieldUpdate"
                 title="Download Count"
                 namespace="downloads"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -151,9 +151,9 @@
             <b-tab title="Price">
               <BannerTextFieldControlBox
                 :target="price"
-                @update="handleFieldUpdate"
                 title="Price"
                 namespace="price"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -168,7 +168,7 @@
       </tab-content>
     </form-wizard>
 
-    <CopyURLModal :bannerURL="savedBannerURL" />
+    <CopyURLModal :banner-u-r-l="savedBannerURL" />
   </div>
 </template>
 
@@ -195,19 +195,19 @@ export default {
     BannerSelectControlBox,
     BannerTextFieldControlBox,
     ResourceGeneratorStepOne,
-    CopyURLModal
+    CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
       resource: {
         id: undefined,
-        error: ''
+        error: '',
       },
       template: 'MOONLIGHT_PURPLE',
       logo: {
         size: 80,
-        x: 12
+        x: 12,
       },
       resource_name: {
         x: 104,
@@ -216,7 +216,7 @@ export default {
         bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
-        display: ''
+        display: '',
       },
       author_name: {
         x: 104,
@@ -224,7 +224,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       reviews: {
         x: 104,
@@ -232,12 +232,12 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       stars: {
         x: 180,
         y: 51,
-        gap: 16.0
+        gap: 16.0,
       },
       downloads: {
         x: 104,
@@ -245,7 +245,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       price: {
         x: 210,
@@ -253,23 +253,23 @@ export default {
         font_size: 14,
         bold: true,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
-      }
+        font_face: 'SOURCE_SANS_PRO',
+      },
     }
   },
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.resource
+      defaults: (state) => state.svc.defaults.resource,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
       return this.generateBannerUrl('resource-spigot', {
-        id: this.resource.id
+        id: this.resource.id,
       })
-    }
+    },
   },
   methods: {
     handleFieldUpdate(payload) {
@@ -288,7 +288,7 @@ export default {
       this.resource.id = payload.subject
     },
     checkValidResource() {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.resource.error = ''
         const { id } = this.resource
 
@@ -297,7 +297,7 @@ export default {
           return resolve(false)
         }
 
-        const valid = await this.$store.dispatch('checkValidSpigotResource', id)
+        const valid = this.$store.dispatch('checkValidSpigotResource', id)
 
         if (valid) {
           return resolve(true)
@@ -313,8 +313,8 @@ export default {
       await this.saveSpigotResourceBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
-    }
-  }
+    },
+  },
 }
 </script>
 

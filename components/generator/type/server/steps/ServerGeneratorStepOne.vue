@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       tempIP: undefined,
-      tempPort: undefined
+      tempPort: undefined,
     }
   },
   mounted() {
@@ -57,7 +57,7 @@ export default {
   methods: {
     update(payload) {
       this.$emit('update', payload)
-    }
-  }
+    },
+  },
 }
 </script>

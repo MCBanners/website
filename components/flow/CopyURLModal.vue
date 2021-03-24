@@ -29,8 +29,8 @@ export default {
   props: {
     bannerURL: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     copySuccess() {
@@ -39,10 +39,10 @@ export default {
         type: 'success',
         title: 'Banner Saved',
         text:
-          "Your banner has been saved and its new URL was copied for you. If you're signed in, it will also be available in your dashboard."
+          "Your banner has been saved and its new URL was copied for you. If you're signed in, it will also be available in your dashboard.",
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

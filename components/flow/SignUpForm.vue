@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="signUp()" class="sign-up-form">
+  <b-form class="sign-up-form" @submit.prevent="signUp()">
     <p v-if="error" class="error">
       {{ error }}
     </p>
@@ -7,9 +7,9 @@
       <b-input
         v-model="username"
         :state="usernameOkAndAvailable"
-        @change="checkUsernameAvailable()"
         placeholder="Username"
         required
+        @change="checkUsernameAvailable()"
       />
       <b-form-invalid-feedback :state="usernameOkAndAvailable">
         <p v-if="usernameTooShort">
@@ -29,9 +29,9 @@
       <b-input
         v-model="email"
         :state="emailOk && emailAvailable"
-        @change="checkEmailAvailable"
         placeholder="Email"
         required
+        @change="checkEmailAvailable"
       />
       <b-form-invalid-feedback :state="emailOk || emailAvailable === false">
         <p v-if="emailFormatWrong">
@@ -95,7 +95,7 @@ export default {
   data() {
     return {
       signingUp: false,
-      error: ''
+      error: '',
     }
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
       const result = await this.$store.dispatch('user/signUp', {
         username: this.username,
         email: this.email,
-        password: this.password
+        password: this.password,
       })
 
       if (result.status !== 200) {
@@ -116,8 +116,8 @@ export default {
       }
 
       this.signingUp = false
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -5,6 +5,6 @@ export default () => ({
   defaults: {
     resource: {},
     author: {},
-    server: {}
-  }
+    server: {},
+  },
 })

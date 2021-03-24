@@ -9,13 +9,13 @@ import Hero from '~/components/structure/Hero'
 
 export default {
   components: { Hero },
-  asyncData(ctx) {
-    ctx.seo({
+  head() {
+    return this.$seo({
       name: 'MCBanners',
       title: 'Home Page',
-      templateTitle: '%name% - %title%'
+      templateTitle: '%name% - %title%',
     })
-  }
+  },
 }
 </script>
 

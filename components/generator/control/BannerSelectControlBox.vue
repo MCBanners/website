@@ -18,30 +18,30 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     hint: {
       type: String,
-      required: true
+      required: true,
     },
     default: {
       type: String,
-      required: true
+      required: true,
     },
     options: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      selected: this.default
+      selected: this.default,
     }
   },
   watch: {
     selected(next, prev) {
       this.$emit('update', next)
-    }
-  }
+    },
+  },
 }
 </script>

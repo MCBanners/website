@@ -24,7 +24,7 @@
             <b-nav-item-dropdown :text="authenticated ? username : 'Account'">
               <div v-if="authenticated">
                 <b-dropdown-item to="/dashboard">Dashboard</b-dropdown-item>
-                <b-dropdown-item @click.prevent="logOut" href="#"
+                <b-dropdown-item href="#" @click.prevent="logOut"
                   >Log Out</b-dropdown-item
                 >
               </div>
@@ -47,14 +47,14 @@ export default {
   name: 'NavBar',
   computed: mapState({
     authenticated: (state) => state.user.authenticated,
-    username: (state) => state.user.username
+    username: (state) => state.user.username,
   }),
   methods: {
     logOut() {
       this.$store.dispatch('user/revokeSession')
       this.$router.push('/login')
-    }
-  }
+    },
+  },
 }
 </script>
 

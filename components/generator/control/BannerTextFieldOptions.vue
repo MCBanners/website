@@ -1,34 +1,34 @@
 <template>
   <div>
     <b-input-group prepend="X Offset" append="px">
-      <b-form-input @change="xUpdate" :value="x" type="number" />
+      <b-form-input :value="x" type="number" @change="xUpdate" />
     </b-input-group>
     <b-input-group prepend="Y Offset" append="px">
-      <b-form-input @change="yUpdate" :value="y" type="number" />
+      <b-form-input :value="y" type="number" @change="yUpdate" />
     </b-input-group>
     <b-input-group prepend="Font Size" append="px">
-      <b-form-input @change="fontSizeUpdate" :value="fontSize" type="number" />
+      <b-form-input :value="fontSize" type="number" @change="fontSizeUpdate" />
     </b-input-group>
     <b-input-group prepend="Bold">
       <b-select
-        @change="boldUpdate"
         :value="bold"
         :options="[
           { value: true, text: 'Yes' },
-          { value: false, text: 'No' }
+          { value: false, text: 'No' },
         ]"
+        @change="boldUpdate"
       />
     </b-input-group>
     <b-input-group prepend="Text Alignment">
       <b-select
-        @change="textAlignUpdate"
         :value="textAlign"
         :options="textAlignmentOptions"
+        @change="textAlignUpdate"
       >
       </b-select>
     </b-input-group>
     <b-input-group prepend="Font">
-      <b-select @change="fontUpdate" :value="font" :options="fontOptions">
+      <b-select :value="font" :options="fontOptions" @change="fontUpdate">
       </b-select>
     </b-input-group>
   </div>
@@ -44,44 +44,44 @@ export default {
   props: {
     namespace: {
       type: String,
-      required: true
+      required: true,
     },
     x: {
       type: Number,
-      required: true
+      required: true,
     },
     y: {
       type: Number,
-      required: true
+      required: true,
     },
     fontSize: {
       type: Number,
-      required: true
+      required: true,
     },
     bold: {
       type: Boolean,
-      required: true
+      required: true,
     },
     textAlign: {
       type: String,
-      required: true
+      required: true,
     },
     font: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapState({
       fonts: (state) => state.svc.fonts,
-      text_alignments: (state) => state.svc.text_alignments
+      text_alignments: (state) => state.svc.text_alignments,
     }),
     fontOptions() {
       return this.makeSelectable(this.fonts)
     },
     textAlignmentOptions() {
       return this.makeSelectable(this.text_alignments)
-    }
+    },
   },
   methods: {
     xUpdate(x) {
@@ -106,9 +106,9 @@ export default {
       this.$emit('update', {
         namespace: this.namespace,
         key,
-        value
+        value,
       })
-    }
-  }
+    },
+  },
 }
 </script>

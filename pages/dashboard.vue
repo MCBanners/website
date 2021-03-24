@@ -42,7 +42,7 @@
                   <small
                     ><fa
                       :icon="['fas', 'external-link-alt']"
-                      class="icon"/></small
+                      class="icon" /></small
                 ></strong>
               </p>
 
@@ -75,19 +75,19 @@ import { mapState } from 'vuex'
 
 export default {
   middleware: 'authenticated',
-  computed: {
-    ...mapState({
-      username: (state) => state.user.username
-    }),
-    numSavedBanners() {
-      return Object.keys(this.savedBanners).length
-    }
-  },
   async asyncData({ store }) {
     const savedBanners = await store.dispatch('banner/getAllSavedBanners')
     if (savedBanners) {
       return { savedBanners }
     }
+  },
+  computed: {
+    ...mapState({
+      username: (state) => state.user.username,
+    }),
+    numSavedBanners() {
+      return Object.keys(this.savedBanners).length
+    },
   },
   methods: {
     getShortUrl(mnemonic) {
@@ -112,8 +112,8 @@ export default {
           )
         }
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

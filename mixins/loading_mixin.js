@@ -1,12 +1,12 @@
 export default {
   data() {
     return {
-      loading: false
+      loading: false,
     }
   },
   methods: {
     setLoading(value) {
       this.loading = value
-    }
-  }
+    },
+  },
 }

@@ -9,9 +9,9 @@
     <b-col cols="12">
       <b-input-group :prepend="'Resource ' + subjectName">
         <b-form-input
-          @change="$emit('update', { subject })"
           v-model="subject"
           :type="subjectName === 'spigot' ? 'number' : 'text'"
+          @change="$emit('update', { subject })"
         />
       </b-input-group>
     </b-col>
@@ -24,12 +24,12 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      subject: undefined
+      subject: undefined,
     }
   },
   computed: {
@@ -41,7 +41,7 @@ export default {
       } else {
         return 'unknown'
       }
-    }
-  }
+    },
+  },
 }
 </script>

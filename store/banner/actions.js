@@ -45,5 +45,5 @@ export default {
       `banner/manage_saved/delete/${bannerId}`,
       this.$addAuthHeader()
     )
-  }
+  },
 }

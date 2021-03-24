@@ -20,17 +20,17 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     hintMdCols: {
       type: String,
-      default: '4'
+      default: '4',
     },
     controlsMdCols: {
       type: String,
-      default: '8'
-    }
-  }
+      default: '8',
+    },
+  },
 }
 </script>
 

@@ -26,5 +26,5 @@ export default {
 
   loadDefaults({ commit }, payload) {
     commit('setDefaults', payload)
-  }
+  },
 }

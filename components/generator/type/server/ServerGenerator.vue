@@ -1,13 +1,13 @@
 <template>
   <div>
     <form-wizard
-      @on-loading="setLoading"
-      @on-complete="handleComplete"
       title="Banner Creator"
       subtitle="Create a Minecraft Server Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
+      @on-loading="setLoading"
+      @on-complete="handleComplete"
     >
       <tab-content :before-change="checkValidServer" title="Server Details">
         <GeneratorPreCheck
@@ -21,14 +21,14 @@
       <tab-content title="Configure Banner">
         <b-card no-body>
           <b-tabs pills card vertical>
-            <GeneratorPreview :bannerURL="bannerURL" />
+            <GeneratorPreview :banner-u-r-l="bannerURL" />
             <b-tab title="Background">
               <BannerSelectControlBox
                 :default="template"
                 :options="templateOptions"
-                @update="(newTemplate) => (template = newTemplate)"
                 title="Background"
                 hint="Choose the background for your banner."
+                @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
             <b-tab title="Server Logo">
@@ -52,9 +52,9 @@
             <b-tab title="Server Name">
               <BannerTextFieldControlBox
                 :target="server_name"
-                @update="handleFieldUpdate"
                 title="Server Name"
                 namespace="server_name"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -82,9 +82,9 @@
             <b-tab title="Version">
               <BannerTextFieldControlBox
                 :target="version"
-                @update="handleFieldUpdate"
                 title="Version"
                 namespace="version"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -97,9 +97,9 @@
             <b-tab title="MOTD">
               <BannerTextFieldControlBox
                 :target="motd"
-                @update="handleFieldUpdate"
                 title="MOTD"
                 namespace="motd"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -113,7 +113,7 @@
                       v-model="motd.enable"
                       :options="[
                         { value: true, text: 'Yes' },
-                        { value: false, text: 'No' }
+                        { value: false, text: 'No' },
                       ]"
                     />
                   </b-input-group>
@@ -128,9 +128,9 @@
             <b-tab title="Player Count">
               <BannerTextFieldControlBox
                 :target="players"
-                @update="handleFieldUpdate"
                 title="Player Count"
                 namespace="players"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -145,7 +145,7 @@
       </tab-content>
     </form-wizard>
 
-    <CopyURLModal :bannerURL="savedBannerURL" />
+    <CopyURLModal :banner-u-r-l="savedBannerURL" />
   </div>
 </template>
 
@@ -172,7 +172,7 @@ export default {
     GeneratorPreview,
     BannerSelectControlBox,
     BannerTextFieldControlBox,
-    CopyURLModal
+    CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
@@ -180,12 +180,12 @@ export default {
       server: {
         ip: undefined,
         port: 25565,
-        error: ''
+        error: '',
       },
       template: 'MOONLIGHT_PURPLE',
       logo: {
         x: 12,
-        size: 80
+        size: 80,
       },
       server_name: {
         bold: true,
@@ -194,7 +194,7 @@ export default {
         font_size: 18,
         text_align: 'LEFT',
         x: 104,
-        y: 22
+        y: 22,
       },
       version: {
         bold: false,
@@ -202,7 +202,7 @@ export default {
         font_size: 14,
         text_align: 'LEFT',
         x: 104,
-        y: 38
+        y: 38,
       },
       motd: {
         enable: true,
@@ -212,7 +212,7 @@ export default {
         font_size: 14,
         text_align: 'LEFT',
         x: 104,
-        y: 55
+        y: 55,
       },
       players: {
         bold: false,
@@ -220,14 +220,14 @@ export default {
         font_size: 14,
         text_align: 'LEFT',
         x: 104,
-        y: 85
-      }
+        y: 85,
+      },
     }
   },
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.server
+      defaults: (state) => state.svc.defaults.server,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
@@ -235,9 +235,9 @@ export default {
     baseURL() {
       return this.generateBannerUrl('server', {
         ip: this.server.ip,
-        port: this.server.port
+        port: this.server.port,
       })
-    }
+    },
   },
   methods: {
     handleFieldUpdate(payload) {
@@ -263,7 +263,7 @@ export default {
       }
     },
     checkValidServer() {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.server.error = ''
         const { ip, port } = this.server
 
@@ -273,9 +273,9 @@ export default {
           return resolve(false)
         }
 
-        const valid = await this.$store.dispatch('checkValidServer', {
+        const valid = this.$store.dispatch('checkValidServer', {
           ip,
-          port
+          port,
         })
 
         if (valid) {
@@ -292,8 +292,8 @@ export default {
       await this.saveServerBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
-    }
-  }
+    },
+  },
 }
 </script>
 

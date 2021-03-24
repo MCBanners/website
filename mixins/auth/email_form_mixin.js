@@ -3,8 +3,8 @@ export default {
     return {
       email: '',
       checks: {
-        emailAvailable: null
-      }
+        emailAvailable: null,
+      },
     }
   },
   computed: {
@@ -20,7 +20,7 @@ export default {
     emailOk() {
       if (!this.email) return null
       return !this.emailFormatWrong
-    }
+    },
   },
   methods: {
     clearEmailAvailability() {
@@ -37,6 +37,6 @@ export default {
         'user/checkEmailAvailable',
         { email: this.email }
       )
-    }
-  }
+    },
+  },
 }

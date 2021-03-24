@@ -13,9 +13,9 @@ export default {
   props: {
     bannerURL: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

@@ -1,5 +1,5 @@
 export default {
-  mode: 'universal',
+  target: 'server',
   /*
    ** Headers of the page
    */
@@ -11,15 +11,17 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Customize the progress-bar color
    */
   loading: { color: '#fff' },
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
   /*
    ** Global CSS
    */
@@ -27,13 +29,19 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-form-wizard.js', '~/plugins/vue-notification.client.js', '~/plugins/vue-clipboard.js', '~/plugins/requests.js', '~/plugins/sessions.js'],
+  plugins: [
+    '~/plugins/vue-form-wizard.js',
+    '~/plugins/vue-notification.client.js',
+    '~/plugins/vue-clipboard.js',
+    '~/plugins/requests.js',
+    '~/plugins/sessions.js',
+  ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
   ],
   /*
    ** Nuxt.js modules
@@ -50,26 +58,26 @@ export default {
         imports: [
           {
             set: '@fortawesome/free-solid-svg-icons',
-            icons: ['fas']
+            icons: ['fas'],
           },
           {
             set: '@fortawesome/free-brands-svg-icons',
-            icons: ['fab']
-          }
-        ]
-      }
+            icons: ['fab'],
+          },
+        ],
+      },
     ],
     'cookie-universal-nuxt',
     'nuxt-seo',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "https://api.mcbanners.com/"
-    //baseURL: "http://localhost:8100/"
+    // baseURL: "https://api.mcbanners.com/"
+    baseURL: 'http://localhost:8100/',
   },
   /*
    ** Bootstrap Vue configuration
@@ -79,7 +87,7 @@ export default {
    */
   bootstrapVue: {
     bootstrapCSS: false,
-    bootstrapVueCSS: false
+    bootstrapVueCSS: false,
   },
   /*
    ** Build configuration
@@ -100,16 +108,16 @@ export default {
           loader: 'eslint-loader',
           exclude: /(node_modules)/,
           options: {
-            fix: true
-          }
+            fix: true,
+          },
         })
       }
-    }
+    },
   },
   /*
    ** Server confiuration
    */
   server: {
-    host: '0.0.0.0'
-  }
+    host: '0.0.0.0',
+  },
 }

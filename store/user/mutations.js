@@ -15,5 +15,5 @@ export default {
     state.authenticated = false
     state.username = ''
     state.email = ''
-  }
+  },
 }

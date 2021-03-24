@@ -3,7 +3,7 @@
     <div v-if="loading" class="text-center">
       <b-spinner
         type="grow"
-        style="width: 6rem; height: 6rem;"
+        style="width: 6rem; height: 6rem"
         variant="primary"
       />
       <p>{{ loadingMessage }}</p>
@@ -23,16 +23,16 @@ export default {
   props: {
     loading: {
       type: Boolean,
-      required: true
+      required: true,
     },
     loadingMessage: {
       type: String,
-      required: true
+      required: true,
     },
     errorMessage: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

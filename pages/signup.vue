@@ -21,15 +21,15 @@
 import SignUpForm from '~/components/flow/SignUpForm'
 
 export default {
-  middleware: 'unauthenticated',
   components: { SignUpForm },
-  asyncData(ctx) {
-    ctx.seo({
+  middleware: 'unauthenticated',
+  head() {
+    return this.$seo({
       name: 'MCBanners',
       title: 'Sign Up',
-      templateTitle: '%name% - %title%'
+      templateTitle: '%name% - %title%',
     })
-  }
+  },
 }
 </script>
 

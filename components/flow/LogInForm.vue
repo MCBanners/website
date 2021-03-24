@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit.prevent="logIn()" class="log-in-form">
+  <b-form class="log-in-form" @submit.prevent="logIn()">
     <p v-if="error" class="error">
       {{ error }}
     </p>
@@ -10,9 +10,9 @@
       <b-input
         v-model="username"
         :state="usernameOkButNotAvailable"
-        @change="checkUsernameAvailable()"
         placeholder="Username"
         required
+        @change="checkUsernameAvailable()"
       />
       <b-form-invalid-feedback :state="usernameOkButNotAvailable">
         <p v-if="usernameTooShort">
@@ -60,14 +60,14 @@ export default {
   data() {
     return {
       loggingIn: false,
-      error: ''
+      error: '',
     }
   },
   computed: {
     cameFromSignUp() {
       const param = this.$route.query.r
       return param && param === 's'
-    }
+    },
   },
   methods: {
     async logIn() {
@@ -76,7 +76,7 @@ export default {
 
       const result = await this.$store.dispatch('user/logIn', {
         username: this.username,
-        password: this.password
+        password: this.password,
       })
 
       if (result.status !== 200) {
@@ -86,8 +86,8 @@ export default {
       }
 
       this.loggingIn = false
-    }
-  }
+    },
+  },
 }
 </script>
 

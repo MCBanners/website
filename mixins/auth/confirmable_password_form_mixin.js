@@ -4,7 +4,7 @@ export default {
   mixins: [PasswordFormMixin],
   data() {
     return {
-      passwordConfirm: ''
+      passwordConfirm: '',
     }
   },
   computed: {
@@ -13,6 +13,6 @@ export default {
     },
     passwordsOk() {
       return this.passwordOk && !this.passwordsDoNotMatch
-    }
-  }
+    },
+  },
 }

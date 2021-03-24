@@ -1,13 +1,13 @@
 <template>
   <div>
     <form-wizard
-      @on-loading="setLoading"
-      @on-complete="handleComplete"
       title="Banner Creator"
       subtitle="Create a Spigot Author Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
+      @on-loading="setLoading"
+      @on-complete="handleComplete"
     >
       <tab-content :before-change="checkValidAuthor" title="Author Details">
         <GeneratorPreCheck
@@ -15,20 +15,20 @@
           :error-message="author.error"
           loading-message="One sec...we're just checking that author."
         >
-          <AuthorGeneratorStepOne @update="updateAuthorDetails" type="spigot" />
+          <AuthorGeneratorStepOne type="spigot" @update="updateAuthorDetails" />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
         <b-card no-body>
           <b-tabs pills card vertical>
-            <GeneratorPreview :bannerURL="bannerURL" />
+            <GeneratorPreview :banner-u-r-l="bannerURL" />
             <b-tab title="Background">
               <BannerSelectControlBox
                 :default="template"
                 :options="templateOptions"
-                @update="(newTemplate) => (template = newTemplate)"
                 title="Background"
                 hint="Choose the background for your banner."
+                @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
             <b-tab title="Author Logo">
@@ -52,9 +52,9 @@
             <b-tab title="Author Name">
               <BannerTextFieldControlBox
                 :target="author_name"
-                @update="handleFieldUpdate"
                 title="Author Name"
                 namespace="author_name"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -67,9 +67,9 @@
             <b-tab title="Resource Count">
               <BannerTextFieldControlBox
                 :target="resource_count"
-                @update="handleFieldUpdate"
                 title="Resource Count"
                 namespace="resource_count"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -82,9 +82,9 @@
             <b-tab title="Likes Count">
               <BannerTextFieldControlBox
                 :target="likes"
-                @update="handleFieldUpdate"
                 title="Likes Count"
                 namespace="likes"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -97,9 +97,9 @@
             <b-tab title="Review Count">
               <BannerTextFieldControlBox
                 :target="reviews"
-                @update="handleFieldUpdate"
                 title="Review Count"
                 namespace="reviews"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -112,9 +112,9 @@
             <b-tab title="Download Count">
               <BannerTextFieldControlBox
                 :target="downloads"
-                @update="handleFieldUpdate"
                 title="Download Count"
                 namespace="downloads"
+                @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
@@ -129,7 +129,7 @@
       </tab-content>
     </form-wizard>
 
-    <CopyURLModal :bannerURL="savedBannerURL" />
+    <CopyURLModal :banner-u-r-l="savedBannerURL" />
   </div>
 </template>
 
@@ -156,19 +156,19 @@ export default {
     BannerSelectControlBox,
     BannerTextFieldControlBox,
     AuthorGeneratorStepOne,
-    CopyURLModal
+    CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
       author: {
         id: undefined,
-        error: ''
+        error: '',
       },
       template: 'MOONLIGHT_PURPLE',
       logo: {
         size: 80,
-        x: 12
+        x: 12,
       },
       author_name: {
         x: 104,
@@ -176,7 +176,7 @@ export default {
         font_size: 18,
         bold: true,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       resource_count: {
         x: 104,
@@ -184,7 +184,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       likes: {
         x: 104,
@@ -192,7 +192,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       downloads: {
         x: 104,
@@ -200,7 +200,7 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
+        font_face: 'SOURCE_SANS_PRO',
       },
       reviews: {
         x: 104,
@@ -208,23 +208,23 @@ export default {
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO'
-      }
+        font_face: 'SOURCE_SANS_PRO',
+      },
     }
   },
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.author
+      defaults: (state) => state.svc.defaults.author,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
       return this.generateBannerUrl('author-spigot', {
-        id: this.author.id
+        id: this.author.id,
       })
-    }
+    },
   },
   methods: {
     handleFieldUpdate(payload) {
@@ -238,7 +238,7 @@ export default {
       this.author.id = payload.subject
     },
     checkValidAuthor() {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         this.author.error = ''
         const { id } = this.author
 
@@ -247,7 +247,7 @@ export default {
           return resolve(false)
         }
 
-        const valid = await this.$store.dispatch('checkValidSpigotAuthor', id)
+        const valid = this.$store.dispatch('checkValidSpigotAuthor', id)
 
         if (valid) {
           return resolve(true)
@@ -263,8 +263,8 @@ export default {
       await this.saveSpigotAuthorBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
-    }
-  }
+    },
+  },
 }
 </script>
 

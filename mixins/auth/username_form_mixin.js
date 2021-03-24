@@ -3,8 +3,8 @@ export default {
     return {
       username: '',
       checks: {
-        usernameAvailable: null
-      }
+        usernameAvailable: null,
+      },
     }
   },
   computed: {
@@ -26,7 +26,7 @@ export default {
     },
     usernameOkButNotAvailable() {
       return this.usernameOk && !this.usernameAvailable
-    }
+    },
   },
   methods: {
     clearUsernameAvailability() {
@@ -43,6 +43,6 @@ export default {
         'user/checkUsernameAvailable',
         { username: this.username }
       )
-    }
-  }
+    },
+  },
 }

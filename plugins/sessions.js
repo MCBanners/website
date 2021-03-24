@@ -11,13 +11,13 @@ export default ({ app }, inject) => {
 
   inject('setSession', (session) => {
     app.$cookies.set('session', session, {
-      domain: process.env.AUTH_COOKIE_DOMAIN
+      domain: process.env.AUTH_COOKIE_DOMAIN,
     })
   })
 
   inject('killSession', (session) => {
     app.$cookies.remove('session', {
-      domain: process.env.AUTH_COOKIE_DOMAIN
+      domain: process.env.AUTH_COOKIE_DOMAIN,
     })
   })
 }

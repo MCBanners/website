@@ -13,5 +13,5 @@ export default {
 
   setDefaults(state, payload) {
     state.defaults = payload
-  }
+  },
 }

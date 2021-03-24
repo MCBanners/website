@@ -37,5 +37,5 @@ export default {
       .get(`banner/${validatable}/isValid`, {})
       .catch(() => false)
     return valid.status === 200 && valid.data.valid
-  }
+  },
 }

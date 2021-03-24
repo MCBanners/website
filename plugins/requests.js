@@ -12,7 +12,7 @@ export default ({ app }, inject) => {
         } else {
           return {
             status: 503,
-            data: resp.message
+            data: resp.message,
           }
         }
       })
@@ -23,8 +23,8 @@ export default ({ app }, inject) => {
 
     const headers = {
       headers: {
-        Authorization: ''
-      }
+        Authorization: '',
+      },
     }
 
     if (!_.isEmpty(session)) {

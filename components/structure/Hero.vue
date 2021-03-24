@@ -5,9 +5,7 @@
         <b-row>
           <b-col cols="12" lg="10" class="mx-auto">
             <div class="header-container">
-              <h1 class="header">
-                Welcome to MCBanners.com!
-              </h1>
+              <h1 class="header">Welcome to MCBanners.com!</h1>
             </div>
             <div class="lead-container mx-auto">
               <p class="lead">
@@ -34,7 +32,7 @@ import QuickServerBanner from '~/components/flow/QuickServerBanner'
 
 export default {
   name: 'Hero',
-  components: { QuickServerBanner }
+  components: { QuickServerBanner },
 }
 </script>
 

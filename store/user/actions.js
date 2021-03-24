@@ -29,14 +29,14 @@ export default {
   checkUsernameAvailable({ dispatch }, payload) {
     return dispatch('checkAvailableRequest', {
       type: 'username',
-      data: payload.username
+      data: payload.username,
     })
   },
 
   checkEmailAvailable({ dispatch }, payload) {
     return dispatch('checkAvailableRequest', {
       type: 'email',
-      data: payload.email
+      data: payload.email,
     })
   },
 
@@ -59,7 +59,7 @@ export default {
       const session = {
         token: result.data.token,
         username: result.data.user.username,
-        email: result.data.user.email
+        email: result.data.user.email,
       }
 
       this.$setSession(session)
@@ -69,12 +69,12 @@ export default {
       commit('setAuthenticated')
 
       return {
-        status: 200
+        status: 200,
       }
     } else if (result.status === 403) {
       return {
         status: 403,
-        message: 'Invalid username or password.'
+        message: 'Invalid username or password.',
       }
     }
   },
@@ -89,7 +89,7 @@ export default {
     const result = await dispatch('signUpRequest', payload)
     return {
       status: result.status,
-      message: 'No message.'
+      message: 'No message.',
     }
   },
 
@@ -102,5 +102,5 @@ export default {
   revokeSession({ commit }) {
     this.$killSession()
     commit('reset')
-  }
+  },
 }

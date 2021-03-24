@@ -3,7 +3,7 @@ export default {
     makeSelectable(obj) {
       return Object.keys(obj).map((key) => ({
         value: key,
-        text: obj[key]
+        text: obj[key],
       }))
     },
     generateBannerUrl(module, options) {
@@ -27,6 +27,6 @@ export default {
       }
 
       return url + '/banner.png'
-    }
-  }
+    },
+  },
 }

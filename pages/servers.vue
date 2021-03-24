@@ -9,13 +9,13 @@ import ServerGenerator from '~/components/generator/type/server/ServerGenerator'
 
 export default {
   components: { ServerGenerator },
-  asyncData(ctx) {
-    ctx.seo({
+  head() {
+    return this.$seo({
       name: 'MCBanners',
       title: 'Server Banners',
-      templateTitle: '%name% - %title%'
+      templateTitle: '%name% - %title%',
     })
-  }
+  },
 }
 </script>
 

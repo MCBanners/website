@@ -20,15 +20,15 @@
 import LogInForm from '~/components/flow/LogInForm'
 
 export default {
-  middleware: 'unauthenticated',
   components: { LogInForm },
-  asyncData(ctx) {
-    ctx.seo({
+  middleware: 'unauthenticated',
+  head() {
+    return this.$seo({
       name: 'MCBanners',
       title: 'Log In',
-      templateTitle: '%name% - %title%'
+      templateTitle: '%name% - %title%',
     })
-  }
+  },
 }
 </script>
 

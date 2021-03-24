@@ -45,6 +45,6 @@ export default {
       const base = this.baseURL
       if (!this.queryParams) return base
       return base + this.queryParams
-    }
-  }
+    },
+  },
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form @submit.prevent inline class="quick-server-banner">
+    <b-form inline class="quick-server-banner" @submit.prevent>
       <b-input-group>
         <b-input-group-prepend>
           <b-input-group-text>
@@ -21,9 +21,9 @@
         <b-input v-model="port" placeholder="Port (25565)" />
       </b-input-group>
       <b-button
-        @click="openQuickServerBanner()"
         type="submit"
         variant="primary"
+        @click="openQuickServerBanner()"
       >
         Create
       </b-button>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       ip: '',
-      port: ''
+      port: '',
     }
   },
   methods: {
@@ -50,8 +50,8 @@ export default {
       }
 
       this.$router.push(`servers?ip=${this.ip}&port=${port}`)
-    }
-  }
+    },
+  },
 }
 </script>
 

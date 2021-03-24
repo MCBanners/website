@@ -4,14 +4,14 @@ export default {
       banner_save: {
         error: '',
         working: false,
-        result: {}
-      }
+        result: {},
+      },
     }
   },
   computed: {
     savedBannerURL() {
       return `${this.$axios.defaults.baseURL}banner/saved/${this.banner_save.result.mnemonic}.png`
-    }
+    },
   },
   methods: {
     async saveBanner(type, extraData, recompiledParams) {
@@ -23,8 +23,8 @@ export default {
         type,
         body: {
           ...extraData,
-          ...recompiledParams
-        }
+          ...recompiledParams,
+        },
       })
 
       if (!result) {
@@ -39,7 +39,7 @@ export default {
         'MINECRAFT_SERVER',
         {
           _server_host: this.server.ip,
-          _server_port: this.server.port
+          _server_port: this.server.port,
         },
         this.recompiledParams
       )
@@ -48,7 +48,7 @@ export default {
       await this.saveBanner(
         'SPIGOT_AUTHOR',
         {
-          _author_id: this.author.id
+          _author_id: this.author.id,
         },
         this.recompiledParams
       )
@@ -57,7 +57,7 @@ export default {
       await this.saveBanner(
         'SPONGE_AUTHOR',
         {
-          _author_id: this.author.username
+          _author_id: this.author.username,
         },
         this.recompiledParams
       )
@@ -66,7 +66,7 @@ export default {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
         {
-          _resource_id: this.resource.id
+          _resource_id: this.resource.id,
         },
         this.recompiledParams
       )
@@ -75,10 +75,10 @@ export default {
       await this.saveBanner(
         'SPONGE_RESOURCE',
         {
-          _resource_id: this.resource.name
+          _resource_id: this.resource.name,
         },
         this.recompiledParams
       )
-    }
-  }
+    },
+  },
 }

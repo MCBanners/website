@@ -12,12 +12,12 @@
       <BannerTextFieldOptions
         :x="target.x"
         :y="target.y"
-        :fontSize="target.font_size"
+        :font-size="target.font_size"
         :bold="target.bold"
-        :textAlign="target.text_align"
+        :text-align="target.text_align"
         :font="target.font_face"
-        @update="handleFieldUpdate"
         :namespace="namespace"
+        @update="handleFieldUpdate"
       />
       <slot name="ext_bot_controls"></slot>
     </template>
@@ -34,25 +34,25 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     hint: {
       type: String,
-      default: 'No hint provided'
+      default: 'No hint provided',
     },
     target: {
       type: Object,
-      required: true
+      required: true,
     },
     namespace: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     handleFieldUpdate(updated) {
       this.$emit('update', updated)
-    }
-  }
+    },
+  },
 }
 </script>

@@ -29,18 +29,18 @@ export default {
         selected: 0,
         options: [
           { value: 0, text: 'Resource Banner' },
-          { value: 1, text: 'Author Banner' }
-        ]
-      }
+          { value: 1, text: 'Author Banner' },
+        ],
+      },
     }
   },
-  asyncData(ctx) {
-    ctx.seo({
+  head() {
+    return this.$seo({
       name: 'MCBanners',
       title: 'SpongePowered Banners',
-      templateTitle: '%name% - %title%'
+      templateTitle: '%name% - %title%',
     })
-  }
+  },
 }
 </script>
 
