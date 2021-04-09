@@ -41,7 +41,12 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    [
+      '@nuxtjs/eslint-module',
+      {
+        fix: true,
+      },
+    ],
   ],
   /*
    ** Nuxt.js modules
@@ -93,24 +98,10 @@ export default {
    ** Build configuration
    */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
-    extend(config, ctx) {
-      if (ctx.isDev) {
-        config.devtool = ctx.isClient ? 'eval-source-map' : 'inline-source-map'
-      }
-
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-          options: {
-            fix: true,
-          },
-        })
+    // Extend the webpack config
+    extend(config, { isClient, isDev }) {
+      if (isDev) {
+        config.devtool = isClient ? 'eval-source-map' : 'inline-source-map'
       }
     },
   },
