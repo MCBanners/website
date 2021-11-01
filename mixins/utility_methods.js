@@ -24,6 +24,10 @@ export default {
         case 'resource-spigot':
           url += `spigot/${options.id}`
           break
+        case 'author-curseforge':
+        case 'resource-curseforge':
+          url += `curseforge/${options.id}`
+          break
       }
 
       return url + '/banner.png'

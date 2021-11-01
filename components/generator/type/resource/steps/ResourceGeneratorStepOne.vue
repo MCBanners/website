@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     subjectName() {
-      if (this.type === 'spigot') {
+      if (this.type === 'spigot' || this.type === 'curseforge') {
         return 'ID'
       } else if (this.type === 'sponge') {
         return 'Name'

@@ -18,6 +18,7 @@
           <b-navbar-nav class="ml-auto nudge-it-to-the-center main-links">
             <b-nav-item to="/spigot">Spigot</b-nav-item>
             <b-nav-item to="/sponge">Sponge</b-nav-item>
+            <b-nav-item to="/curseforge">CurseForge</b-nav-item>
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">

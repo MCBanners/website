@@ -12,12 +12,20 @@ export default {
     return dispatch('isValid', `resource/sponge/${resName}`)
   },
 
+  checkValidCurseForgeResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/curseforge/${resId}`)
+  },
+
   checkValidSpigotAuthor({ dispatch }, authId) {
     return dispatch('isValid', `author/spigot/${authId}`)
   },
 
   checkValidSpongeAuthor({ dispatch }, authUsername) {
     return dispatch('isValid', `author/sponge/${authUsername}`)
+  },
+
+  checkValidCurseForgeAuthor({ dispatch }, authUsername) {
+    return dispatch('isValid', `author/curseforge/${authUsername}`)
   },
 
   checkValidServer({ dispatch }, payload) {
