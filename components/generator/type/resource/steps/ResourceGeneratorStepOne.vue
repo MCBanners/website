@@ -10,7 +10,7 @@
       <b-input-group :prepend="'Resource ' + subjectName">
         <b-form-input
           v-model="subject"
-          :type="subjectName === 'spigot' ? 'number' : 'text'"
+          :type="subjectName === 'sponge' ? 'text' : 'number'"
           @change="$emit('update', { subject })"
         />
       </b-input-group>
@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     subjectName() {
-      if (this.type === 'spigot') {
+      if (this.type === 'spigot' || this.type === 'curseforge') {
         return 'ID'
       } else if (this.type === 'sponge') {
         return 'Name'

@@ -238,26 +238,24 @@ export default {
     updateResourceDetails(payload) {
       this.resource.name = payload.subject
     },
-    checkValidResource() {
-      return new Promise((resolve, reject) => {
-        this.resource.error = ''
-        const { name } = this.resource
+    async checkValidResource() {
+      this.resource.error = ''
+      const { name } = this.resource
 
-        if (!name) {
-          this.resource.error = 'Please enter a Sponge Resource Name.'
-          return resolve(false)
-        }
+      if (!name) {
+        this.resource.error = 'Please enter a Sponge Resource Name.'
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidSpongeResource', name)
+      const valid = await this.$store.dispatch('checkValidSpongeResource', name)
 
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.resource.error =
-            "That doesn't seem to a valid Sponge Resource Name. Please double check it."
-          return resolve(false)
-        }
-      })
+      if (valid.state) {
+        return true
+      } else {
+        this.resource.error =
+          "That doesn't seem to a valid Sponge Resource Name. Please double check it."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

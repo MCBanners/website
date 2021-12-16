@@ -2,7 +2,7 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a Spigot Author Banner"
+      subtitle="Create a CurseForge Author Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
@@ -15,7 +15,10 @@
           :error-message="author.error"
           loading-message="One sec...we're just checking that author."
         >
-          <AuthorGeneratorStepOne type="spigot" @update="updateAuthorDetails" />
+          <AuthorGeneratorStepOne
+            type="curseforge"
+            @update="updateAuthorDetails"
+          />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
@@ -148,7 +151,7 @@ import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/Aut
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'SpigotAuthorGenerator',
+  name: 'CurseForgeAuthorGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
@@ -162,7 +165,7 @@ export default {
   data() {
     return {
       author: {
-        id: undefined,
+        username: undefined,
         error: '',
       },
       template: 'MOONLIGHT_PURPLE',
@@ -221,8 +224,8 @@ export default {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('author-spigot', {
-        id: this.author.id,
+      return this.generateBannerUrl('author-curseforge', {
+        id: this.author.username,
       })
     },
   },
@@ -235,30 +238,33 @@ export default {
       return copy
     },
     updateAuthorDetails(payload) {
-      this.author.id = payload.subject
+      this.author.username = payload.subject
     },
     async checkValidAuthor() {
       this.author.error = ''
-      const { id } = this.author
+      const { username } = this.author
 
-      if (!id) {
-        this.author.error = 'Please enter a Spigot Author ID.'
+      if (!username) {
+        this.author.error = 'Please enter a CurseForge Author Name.'
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidSpigotAuthor', id)
+      const valid = await this.$store.dispatch(
+        'checkValidCurseForgeAuthor',
+        username
+      )
 
       if (valid.state) {
         return true
       } else {
         this.author.error =
-          "That doesn't seem to a valid Spigot Author ID. Please double check it."
+          "That doesn't seem to a valid CurseForge Author Name. Please double check it. This can also happen if none of that Author's Resources have ever been requested before. If the Author is valid, please try loading a Resource banner by that Author and then trying again."
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveSpigotAuthorBanner()
+      await this.saveCurseForgeAuthorBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },

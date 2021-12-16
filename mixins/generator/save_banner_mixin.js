@@ -62,6 +62,15 @@ export default {
         this.recompiledParams
       )
     },
+    async saveCurseForgeAuthorBanner() {
+      await this.saveBanner(
+        'CURSEFORGE_AUTHOR',
+        {
+          _author_id: this.author.username,
+        },
+        this.recompiledParams
+      )
+    },
     async saveSpigotResourceBanner() {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
@@ -76,6 +85,15 @@ export default {
         'SPONGE_RESOURCE',
         {
           _resource_id: this.resource.name,
+        },
+        this.recompiledParams
+      )
+    },
+    async saveCurseForgeResourceBanner() {
+      await this.saveBanner(
+        'CURSEFORGE_RESOURCE',
+        {
+          _resource_id: this.resource.id,
         },
         this.recompiledParams
       )

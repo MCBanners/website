@@ -287,26 +287,24 @@ export default {
     updateResourceDetails(payload) {
       this.resource.id = payload.subject
     },
-    checkValidResource() {
-      return new Promise((resolve, reject) => {
-        this.resource.error = ''
-        const { id } = this.resource
+    async checkValidResource() {
+      this.resource.error = ''
+      const { id } = this.resource
 
-        if (!id) {
-          this.resource.error = 'Please enter a Spigot Resource ID.'
-          return resolve(false)
-        }
+      if (!id) {
+        this.resource.error = 'Please enter a Spigot Resource ID.'
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidSpigotResource', id)
+      const valid = await this.$store.dispatch('checkValidSpigotResource', id)
 
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.resource.error =
-            "That doesn't seem to a valid Spigot Resource ID. Please double check it."
-          return resolve(false)
-        }
-      })
+      if (valid.state) {
+        return true
+      } else {
+        this.resource.error =
+          "That doesn't seem to a valid Spigot Resource ID. Please double check it."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

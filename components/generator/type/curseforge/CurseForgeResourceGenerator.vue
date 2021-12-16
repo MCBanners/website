@@ -2,20 +2,23 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a Spigot Author Banner"
+      subtitle="Create a CurseForge Resource Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
       @on-loading="setLoading"
       @on-complete="handleComplete"
     >
-      <tab-content :before-change="checkValidAuthor" title="Author Details">
+      <tab-content :before-change="checkValidResource" title="Resource Details">
         <GeneratorPreCheck
           :loading="loading"
-          :error-message="author.error"
-          loading-message="One sec...we're just checking that author."
+          :error-message="resource.error"
+          loading-message="One sec...we're just checking that resource."
         >
-          <AuthorGeneratorStepOne type="spigot" @update="updateAuthorDetails" />
+          <ResourceGeneratorStepOne
+            type="curseforge"
+            @update="updateResourceDetails"
+          />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
@@ -31,8 +34,8 @@
                 @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
-            <b-tab title="Author Logo">
-              <ControlBox title="Author Logo">
+            <b-tab title="Resource Logo">
+              <ControlBox title="Resource Logo">
                 <template #hint>
                   <p>
                     Configure how the resource logo will display in the
@@ -49,6 +52,36 @@
                 </template>
               </ControlBox>
             </b-tab>
+            <b-tab title="Resource Name">
+              <BannerTextFieldControlBox
+                :target="resource_name"
+                title="Resource Name"
+                namespace="resource_name"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the resource name will display in the
+                    generated banner.
+                  </p>
+                  <p>
+                    <small
+                      >* If your resource's name is too long for the image, set
+                      a <strong>Text Override</strong>.</small
+                    >
+                  </p>
+                </template>
+                <template #ext_bot_controls>
+                  <b-input-group prepend="Text Override">
+                    <b-input
+                      v-model="resource_name.display"
+                      type="text"
+                      placeholder="No Override Set"
+                    />
+                  </b-input-group>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
             <b-tab title="Author Name">
               <BannerTextFieldControlBox
                 :target="author_name"
@@ -64,46 +97,16 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Resource Count">
+            <b-tab title="Updated Time">
               <BannerTextFieldControlBox
-                :target="resource_count"
-                title="Resource Count"
-                namespace="resource_count"
+                :target="updated"
+                title="Updated Time"
+                namespace="updated"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the resource count will display in the
-                    generated banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Likes Count">
-              <BannerTextFieldControlBox
-                :target="likes"
-                title="Likes Count"
-                namespace="likes"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the likes count will display in the generated
-                    banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Review Count">
-              <BannerTextFieldControlBox
-                :target="reviews"
-                title="Review Count"
-                namespace="reviews"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the review count will display in the generated
+                    Configure how the updated time will display in the generated
                     banner.
                   </p>
                 </template>
@@ -144,24 +147,24 @@ import GeneratorPreview from '~/components/generator/GeneratorPreview'
 import ControlBox from '~/components/generator/control/ControlBox'
 import BannerSelectControlBox from '~/components/generator/control/BannerSelectControlBox'
 import BannerTextFieldControlBox from '~/components/generator/control/BannerTextFieldControlBox'
-import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/AuthorGeneratorStepOne'
+import ResourceGeneratorStepOne from '~/components/generator/type/resource/steps/ResourceGeneratorStepOne'
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'SpigotAuthorGenerator',
+  name: 'CurseForgeResourceGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
     ControlBox,
     BannerSelectControlBox,
     BannerTextFieldControlBox,
-    AuthorGeneratorStepOne,
+    ResourceGeneratorStepOne,
     CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
-      author: {
+      resource: {
         id: undefined,
         error: '',
       },
@@ -170,25 +173,26 @@ export default {
         size: 80,
         x: 12,
       },
-      author_name: {
+      resource_name: {
         x: 104,
-        y: 22,
+        y: 25,
         font_size: 18,
         bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
+        display: '',
       },
-      resource_count: {
+      author_name: {
         x: 104,
-        y: 38,
+        y: 42,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      likes: {
+      updated: {
         x: 104,
-        y: 55,
+        y: 62,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
@@ -196,15 +200,7 @@ export default {
       },
       downloads: {
         x: 104,
-        y: 72,
-        font_size: 14,
-        bold: false,
-        text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO',
-      },
-      reviews: {
-        x: 104,
-        y: 89,
+        y: 83,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
@@ -215,14 +211,14 @@ export default {
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.author,
+      defaults: (state) => state.svc.defaults.resource,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('author-spigot', {
-        id: this.author.id,
+      return this.generateBannerUrl('resource-curseforge', {
+        id: this.resource.id,
       })
     },
   },
@@ -231,34 +227,46 @@ export default {
       this[payload.namespace][payload.key] = payload.value
     },
     cleanupModifiedParams(copy) {
-      delete copy.author
+      delete copy.resource
+
+      if (!copy.resource_name.display) {
+        copy.resource_name.display = ''
+      }
+
       return copy
     },
-    updateAuthorDetails(payload) {
-      this.author.id = payload.subject
+    updateResourceDetails(payload) {
+      this.resource.id = payload.subject
     },
-    async checkValidAuthor() {
-      this.author.error = ''
-      const { id } = this.author
+    async checkValidResource() {
+      this.resource.error = ''
+      const { id } = this.resource
 
       if (!id) {
-        this.author.error = 'Please enter a Spigot Author ID.'
+        this.resource.error = 'Please enter a CurseForge Resource ID.'
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidSpigotAuthor', id)
+      const valid = await this.$store.dispatch(
+        'checkValidCurseForgeResource',
+        id
+      )
 
       if (valid.state) {
         return true
       } else {
-        this.author.error =
-          "That doesn't seem to a valid Spigot Author ID. Please double check it."
+        if (valid.resp.status === 202) {
+          this.resource.error = valid.resp.message
+        } else {
+          this.resource.error =
+            "That doesn't seem to a valid CurseForge Resource ID. Please double check it."
+        }
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveSpigotAuthorBanner()
+      await this.saveCurseForgeResourceBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },
@@ -277,5 +285,13 @@ export default {
 
 .input-group {
   margin-bottom: 2px;
+}
+
+.result_box {
+  margin-bottom: 10px;
+
+  .col-12 {
+    margin-bottom: 5px;
+  }
 }
 </style>
