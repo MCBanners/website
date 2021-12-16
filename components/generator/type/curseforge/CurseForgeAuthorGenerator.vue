@@ -240,29 +240,27 @@ export default {
     updateAuthorDetails(payload) {
       this.author.username = payload.subject
     },
-    checkValidAuthor() {
-      return new Promise((resolve, reject) => {
-        this.author.error = ''
-        const { username } = this.author
+    async checkValidAuthor() {
+      this.author.error = ''
+      const { username } = this.author
 
-        if (!username) {
-          this.author.error = 'Please enter a CurseForge Author Name.'
-          return resolve(false)
-        }
+      if (!username) {
+        this.author.error = 'Please enter a CurseForge Author Name.'
+        return false
+      }
 
-        const valid = this.$store.dispatch(
-          'checkValidCurseForgeAuthor',
-          username
-        )
+      const valid = await this.$store.dispatch(
+        'checkValidCurseForgeAuthor',
+        username
+      )
 
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.author.error =
-            "That doesn't seem to a valid CurseForge Author Name. Please double check it."
-          return resolve(false)
-        }
-      })
+      if (valid.state) {
+        return true
+      } else {
+        this.author.error =
+          "That doesn't seem to a valid CurseForge Author Name. Please double check it. This can also happen if none of that Author's Resources have ever been requested before. If the Author is valid, please try loading a Resource banner by that Author and then trying again."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

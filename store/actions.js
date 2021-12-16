@@ -44,6 +44,7 @@ export default {
     const valid = await this.$axios
       .get(`banner/${validatable}/isValid`, {})
       .catch(() => false)
-    return valid.status === 200 && valid.data.valid
+    const state = valid.status === 200 && valid.data.valid
+    return { state, resp: valid.data }
   },
 }

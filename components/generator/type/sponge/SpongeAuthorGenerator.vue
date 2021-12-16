@@ -214,26 +214,27 @@ export default {
     updateAuthorDetails(payload) {
       this.author.username = payload.subject
     },
-    checkValidAuthor() {
-      return new Promise((resolve, reject) => {
-        this.author.error = ''
-        const { username } = this.author
+    async checkValidAuthor() {
+      this.author.error = ''
+      const { username } = this.author
 
-        if (!username) {
-          this.author.error = 'Please enter a Sponge Author Username.'
-          return resolve(false)
-        }
+      if (!username) {
+        this.author.error = 'Please enter a Sponge Author Username.'
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidSpongeAuthor', username)
+      const valid = await this.$store.dispatch(
+        'checkValidSpongeAuthor',
+        username
+      )
 
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.author.error =
-            "That doesn't seem to a valid Sponge Author Username. Please double check it."
-          return resolve(false)
-        }
-      })
+      if (valid.state) {
+        return true
+      } else {
+        this.author.error =
+          "That doesn't seem to a valid Sponge Author Username. Please double check it."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

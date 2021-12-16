@@ -238,26 +238,31 @@ export default {
     updateResourceDetails(payload) {
       this.resource.id = payload.subject
     },
-    checkValidResource() {
-      return new Promise((resolve, reject) => {
-        this.resource.error = ''
-        const { id } = this.resource
+    async checkValidResource() {
+      this.resource.error = ''
+      const { id } = this.resource
 
-        if (!id) {
-          this.resource.error = 'Please enter a CurseForge Resource ID.'
-          return resolve(false)
-        }
+      if (!id) {
+        this.resource.error = 'Please enter a CurseForge Resource ID.'
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidCurseForgeResource', id)
+      const valid = await this.$store.dispatch(
+        'checkValidCurseForgeResource',
+        id
+      )
 
-        if (valid) {
-          return resolve(true)
+      if (valid.state) {
+        return true
+      } else {
+        if (valid.resp.status === 202) {
+          this.resource.error = valid.resp.message
         } else {
           this.resource.error =
             "That doesn't seem to a valid CurseForge Resource ID. Please double check it."
-          return resolve(false)
         }
-      })
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

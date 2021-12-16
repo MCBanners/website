@@ -262,30 +262,28 @@ export default {
         this.server.port = payload.tempPort
       }
     },
-    checkValidServer() {
-      return new Promise((resolve, reject) => {
-        this.server.error = ''
-        const { ip, port } = this.server
+    async checkValidServer() {
+      this.server.error = ''
+      const { ip, port } = this.server
 
-        if (!ip) {
-          this.server.error =
-            "Please enter an IP address and port. You can leave the port empty if you're using 25565."
-          return resolve(false)
-        }
+      if (!ip) {
+        this.server.error =
+          "Please enter an IP address and port. You can leave the port empty if you're using 25565."
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidServer', {
-          ip,
-          port,
-        })
-
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.server.error =
-            "That doesn't seem to a valid server IP. Please double check it."
-          return resolve(false)
-        }
+      const valid = await this.$store.dispatch('checkValidServer', {
+        ip,
+        port,
       })
+
+      if (valid.state) {
+        return true
+      } else {
+        this.server.error =
+          "That doesn't seem to a valid server IP. Please double check it."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true

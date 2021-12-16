@@ -237,26 +237,24 @@ export default {
     updateAuthorDetails(payload) {
       this.author.id = payload.subject
     },
-    checkValidAuthor() {
-      return new Promise((resolve, reject) => {
-        this.author.error = ''
-        const { id } = this.author
+    async checkValidAuthor() {
+      this.author.error = ''
+      const { id } = this.author
 
-        if (!id) {
-          this.author.error = 'Please enter a Spigot Author ID.'
-          return resolve(false)
-        }
+      if (!id) {
+        this.author.error = 'Please enter a Spigot Author ID.'
+        return false
+      }
 
-        const valid = this.$store.dispatch('checkValidSpigotAuthor', id)
+      const valid = await this.$store.dispatch('checkValidSpigotAuthor', id)
 
-        if (valid) {
-          return resolve(true)
-        } else {
-          this.author.error =
-            "That doesn't seem to a valid Spigot Author ID. Please double check it."
-          return resolve(false)
-        }
-      })
+      if (valid.state) {
+        return true
+      } else {
+        this.author.error =
+          "That doesn't seem to a valid Spigot Author ID. Please double check it."
+        return false
+      }
     },
     async handleComplete() {
       this.loading = true
