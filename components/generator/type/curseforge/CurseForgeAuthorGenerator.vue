@@ -165,7 +165,7 @@ export default {
   data() {
     return {
       author: {
-        id: undefined,
+        username: undefined,
         error: '',
       },
       template: 'MOONLIGHT_PURPLE',
@@ -225,7 +225,7 @@ export default {
     },
     baseURL() {
       return this.generateBannerUrl('author-curseforge', {
-        id: this.author.id,
+        id: this.author.username,
       })
     },
   },
@@ -238,25 +238,28 @@ export default {
       return copy
     },
     updateAuthorDetails(payload) {
-      this.author.id = payload.subject
+      this.author.username = payload.subject
     },
     checkValidAuthor() {
       return new Promise((resolve, reject) => {
         this.author.error = ''
-        const { id } = this.author
+        const { username } = this.author
 
-        if (!id) {
-          this.author.error = 'Please enter a CurseForge Author ID or Name.'
+        if (!username) {
+          this.author.error = 'Please enter a CurseForge Author Name.'
           return resolve(false)
         }
 
-        const valid = this.$store.dispatch('checkValidCurseForgeAuthor', id)
+        const valid = this.$store.dispatch(
+          'checkValidCurseForgeAuthor',
+          username
+        )
 
         if (valid) {
           return resolve(true)
         } else {
           this.author.error =
-            "That doesn't seem to a valid CurseForge Author ID or Name. Please double check it."
+            "That doesn't seem to a valid CurseForge Author Name. Please double check it."
           return resolve(false)
         }
       })

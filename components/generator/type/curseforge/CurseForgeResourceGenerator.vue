@@ -97,41 +97,20 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Review Count">
+            <b-tab title="Updated Time">
               <BannerTextFieldControlBox
-                :target="reviews"
-                title="Review Count"
-                namespace="reviews"
+                :target="updated"
+                title="Updated Time"
+                namespace="updated"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the review count will display in the generated
+                    Configure how the updated time will display in the generated
                     banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Stars">
-              <ControlBox title="Stars">
-                <template #hint>
-                  <p>
-                    Configure how the stars will display in the generated
-                    banner.
-                  </p>
-                </template>
-                <template #controls>
-                  <b-input-group prepend="X Offset" append="px">
-                    <b-form-input v-model.number="stars.x" type="number" />
-                  </b-input-group>
-                  <b-input-group prepend="Y Offset" append="px">
-                    <b-form-input v-model.number="stars.y" type="number" />
-                  </b-input-group>
-                  <b-input-group prepend="Gap" append="px">
-                    <b-form-input v-model.number="stars.gap" type="number" />
-                  </b-input-group>
-                </template>
-              </ControlBox>
             </b-tab>
             <b-tab title="Download Count">
               <BannerTextFieldControlBox
@@ -144,21 +123,6 @@
                   <p>
                     Configure how the download count will display in the
                     generated banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Price">
-              <BannerTextFieldControlBox
-                :target="price"
-                title="Price"
-                namespace="price"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the price (if the resource is premium) will
-                    display in the generated banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
@@ -226,7 +190,7 @@ export default {
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      reviews: {
+      updated: {
         x: 104,
         y: 62,
         font_size: 14,
@@ -234,24 +198,11 @@ export default {
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      stars: {
-        x: 180,
-        y: 51,
-        gap: 16.0,
-      },
       downloads: {
         x: 104,
         y: 83,
         font_size: 14,
         bold: false,
-        text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO',
-      },
-      price: {
-        x: 210,
-        y: 83,
-        font_size: 14,
-        bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },

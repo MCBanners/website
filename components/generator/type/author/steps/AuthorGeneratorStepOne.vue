@@ -36,7 +36,7 @@ export default {
     subjectName() {
       if (this.type === 'spigot') {
         return 'ID'
-      } else if (this.type === 'sponge') {
+      } else if (this.type === 'sponge' || this.type === 'curseforge') {
         return 'Username'
       } else {
         return 'unknown'
