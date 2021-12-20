@@ -45,5 +45,8 @@
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.0.1",
     "prettier": "^2.2.1"
+  },
+  "volta": {
+    "node": "14.18.2"
   }
 }
