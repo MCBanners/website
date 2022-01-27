@@ -19,7 +19,7 @@ export default {
 
   async checkSessionValid({ _ }, payload) {
     try {
-      await this.$axios.get(`validate`, this.$addAuthHeader())
+      await this.$axios.get(`user/session/validate`, this.$addAuthHeader())
       return true
     } catch {
       return false
