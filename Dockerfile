@@ -1,6 +1,6 @@
 # Prepare environment
 FROM alpine:3.13
-RUN apk add yarn
+RUN apk add yarn git
 
 # Download source code
 RUN git clone https://github.com/MCBanners/website.git /app
