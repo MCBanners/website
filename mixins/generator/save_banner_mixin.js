@@ -98,5 +98,14 @@ export default {
         this.recompiledParams
       )
     },
-  },
+    async saveModrinthBanner() {
+      await this.saveBanner(
+        'MODRINTH_RESOURCE',
+        {
+          _resource_id: this.resource.id,
+        },
+        this.recompiledParams
+      )
+    },
+  }
 }

@@ -28,6 +28,10 @@ export default {
     return dispatch('isValid', `author/curseforge/${authUsername}`)
   },
 
+  checkValidModrinthResource({ dispatch }, resName) {
+    return dispatch('isValid', `resource/modrinth/${resName}`)
+  },
+
   checkValidServer({ dispatch }, payload) {
     const { ip } = payload
     let { port } = payload
