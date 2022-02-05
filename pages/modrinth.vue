@@ -25,7 +25,6 @@ export default {
         selected: 0,
         options: [
           { value: 0, text: 'Resource Banner' },
-          { value: 1, text: 'Author Banner' },
         ],
       },
     }
