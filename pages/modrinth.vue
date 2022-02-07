@@ -10,21 +10,27 @@
       <div v-if="module.selected == 0">
         <ModrinthResourceGenerator />
       </div>
+
+      <div v-else>
+        <ModrinthAuthorGenerator />
+      </div>
     </div>
   </b-container>
 </template>
 
 <script>
 import ModrinthResourceGenerator from "~/components/generator/type/modrinth/ModrinthResourceGenerator";
+import ModrinthAuthorGenerator from "~/components/generator/type/modrinth/ModrinthAuthorGenerator";
 
 export default {
-  components: {ModrinthResourceGenerator },
+  components: {ModrinthResourceGenerator, ModrinthAuthorGenerator },
   data() {
     return {
       module: {
         selected: 0,
         options: [
           { value: 0, text: 'Resource Banner' },
+          { value: 1, text: 'Author Banner' },
         ],
       },
     }

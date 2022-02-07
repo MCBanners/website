@@ -2,22 +2,22 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a Modrinth Resource Banner"
+      subtitle="Create a Modrinth Author Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
       @on-loading="setLoading"
       @on-complete="handleComplete"
     >
-      <tab-content :before-change="checkValidResource" title="Resource Details">
+      <tab-content :before-change="checkValidAuthor" title="Author Details">
         <GeneratorPreCheck
           :loading="loading"
-          :error-message="resource.error"
-          loading-message="One sec...we're just checking that resource."
+          :error-message="author.error"
+          loading-message="One sec...we're just checking that author."
         >
-          <ResourceGeneratorStepOne
-            type="modrinth"
-            @update="updateResourceDetails"
+          <AuthorGeneratorStepOne
+            type="curseforge"
+            @update="updateAuthorDetails"
           />
         </GeneratorPreCheck>
       </tab-content>
@@ -34,8 +34,8 @@
                 @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
-            <b-tab title="Resource Logo">
-              <ControlBox title="Resource Logo">
+            <b-tab title="Author Logo">
+              <ControlBox title="Author Logo">
                 <template #hint>
                   <p>
                     Configure how the resource logo will display in the
@@ -52,36 +52,6 @@
                 </template>
               </ControlBox>
             </b-tab>
-            <b-tab title="Resource Name">
-              <BannerTextFieldControlBox
-                :target="resource_name"
-                title="Resource Name"
-                namespace="resource_name"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the resource name will display in the
-                    generated banner.
-                  </p>
-                  <p>
-                    <small
-                    >* If your resource's name is too long for the image, set
-                      a <strong>Text Override</strong>.</small
-                    >
-                  </p>
-                </template>
-                <template #ext_bot_controls>
-                  <b-input-group prepend="Text Override">
-                    <b-input
-                      v-model="resource_name.display"
-                      type="text"
-                      placeholder="No Override Set"
-                    />
-                  </b-input-group>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
             <b-tab title="Author Name">
               <BannerTextFieldControlBox
                 :target="author_name"
@@ -97,16 +67,46 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Updated Time">
+            <b-tab title="Resource Count">
               <BannerTextFieldControlBox
-                :target="updated"
-                title="Updated Time"
-                namespace="updated"
+                :target="resource_count"
+                title="Resource Count"
+                namespace="resource_count"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the updated time will display in the generated
+                    Configure how the resource count will display in the
+                    generated banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Followers Count">
+              <BannerTextFieldControlBox
+                :target="likes"
+                title="Likes Count"
+                namespace="likes"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the followers count will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Review Count">
+              <BannerTextFieldControlBox
+                :target="reviews"
+                title="Review Count"
+                namespace="reviews"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the review count will display in the generated
                     banner.
                   </p>
                 </template>
@@ -147,25 +147,25 @@ import GeneratorPreview from '~/components/generator/GeneratorPreview'
 import ControlBox from '~/components/generator/control/ControlBox'
 import BannerSelectControlBox from '~/components/generator/control/BannerSelectControlBox'
 import BannerTextFieldControlBox from '~/components/generator/control/BannerTextFieldControlBox'
-import ResourceGeneratorStepOne from '~/components/generator/type/resource/steps/ResourceGeneratorStepOne'
+import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/AuthorGeneratorStepOne'
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'ModrinthResourceGenerator',
+  name: 'ModrinthAuthorGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
     ControlBox,
     BannerSelectControlBox,
     BannerTextFieldControlBox,
-    ResourceGeneratorStepOne,
+    AuthorGeneratorStepOne,
     CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
-      resource: {
-        name: undefined,
+      author: {
+        username: undefined,
         error: '',
       },
       template: 'MOONLIGHT_PURPLE',
@@ -173,26 +173,25 @@ export default {
         size: 80,
         x: 12,
       },
-      resource_name: {
+      author_name: {
         x: 104,
-        y: 25,
+        y: 22,
         font_size: 18,
         bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
-        display: '',
       },
-      author_name: {
+      resource_count: {
         x: 104,
-        y: 42,
+        y: 38,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      updated: {
+      likes: {
         x: 104,
-        y: 62,
+        y: 55,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
@@ -200,7 +199,15 @@ export default {
       },
       downloads: {
         x: 104,
-        y: 83,
+        y: 72,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO',
+      },
+      reviews: {
+        x: 104,
+        y: 89,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
@@ -211,14 +218,14 @@ export default {
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.resource,
+      defaults: (state) => state.svc.defaults.author,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('resource-modrinth', {
-        id: this.resource.name,
+      return this.generateBannerUrl('author-modrinth', {
+        id: this.author.username,
       })
     },
   },
@@ -227,43 +234,37 @@ export default {
       this[payload.namespace][payload.key] = payload.value
     },
     cleanupModifiedParams(copy) {
-      delete copy.resource
-
-      if (!copy.resource_name.display) {
-        copy.resource_name.display = ''
-      }
-
+      delete copy.author
       return copy
     },
-    updateResourceDetails(payload) {
-      this.resource.name = payload.subject
+    updateAuthorDetails(payload) {
+      this.author.username = payload.subject
     },
-    async checkValidResource() {
-      this.resource.error = ''
-      const { name } = this.resource
+    async checkValidAuthor() {
+      this.author.error = ''
+      const { username } = this.author
 
-      if (!name) {
-        this.resource.error = 'Please enter a Modrinth Resource ID.'
+      if (!username) {
+        this.author.error = 'Please enter a Modrinth Author Name.'
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidModrinthResource', name)
+      const valid = await this.$store.dispatch(
+        'checkValidModrinthAuthor',
+        username
+      )
 
       if (valid.state) {
         return true
       } else {
-        if (valid.resp.status === 202) {
-          this.resource.error = valid.resp.message
-        } else {
-          this.resource.error =
-            "That doesn't seem to a valid Modrinth Resource ID. Please double check it."
-        }
+        this.author.error =
+          "That doesn't seem to a valid Modrinth Author Name. Please double check it. T"
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveModrinthResourceBanner()
+      await this.saveModrinthAuthorBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },
@@ -283,13 +284,4 @@ export default {
 .input-group {
   margin-bottom: 2px;
 }
-
-.result_box {
-  margin-bottom: 10px;
-
-  .col-12 {
-    margin-bottom: 5px;
-  }
-}
 </style>
-
