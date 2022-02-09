@@ -27,8 +27,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install frontend deps
+      - name: Install
         run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
-      - name: Build frontend
+      - name: Build
         run: yarn build
