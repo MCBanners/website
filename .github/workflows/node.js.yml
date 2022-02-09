@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Set up Node
         uses: actions/setup-node@v2
         with:
@@ -24,8 +27,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install frontend deps
+      - name: Install
         run: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
 
-      - name: Build frontend
+      - name: Build
         run: yarn build
