@@ -35,11 +35,9 @@ export default {
       },
     }
   },
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'CurseForge Banners',
-      templateTitle: '%name% - %title%',
     })
   },
 }

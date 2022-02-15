@@ -9,11 +9,9 @@ import Hero from '~/components/structure/Hero'
 
 export default {
   components: { Hero },
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'Home Page',
-      templateTitle: '%name% - %title%',
     })
   },
 }
