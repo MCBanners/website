@@ -34,11 +34,9 @@ export default {
       },
     }
   },
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'SpongePowered Banners',
-      templateTitle: '%name% - %title%',
     })
   },
 }

@@ -22,11 +22,9 @@ import LogInForm from '~/components/flow/LogInForm'
 export default {
   components: { LogInForm },
   middleware: 'unauthenticated',
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'Log In',
-      templateTitle: '%name% - %title%',
     })
   },
 }

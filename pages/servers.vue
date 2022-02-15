@@ -9,11 +9,9 @@ import ServerGenerator from '~/components/generator/type/server/ServerGenerator'
 
 export default {
   components: { ServerGenerator },
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'Server Banners',
-      templateTitle: '%name% - %title%',
     })
   },
 }

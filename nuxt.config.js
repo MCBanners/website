@@ -84,6 +84,23 @@ export default {
     baseURL: "https://api.mcbanners.com/"
     //baseURL: 'http://localhost:8100/'
   },
+  seo: {
+    baseUrl: 'https://mcbanners.com/',
+    name: 'MCBanners',
+    templateTitle: '%name% - %title%',
+    description: 'We turn backend statistics into beautiful front-end images that can be displayed on forums and more.',
+    canonical: 'auto',
+    keywords: ['minecraft', 'banners', 'mcbanners', 'spigot', 'curseforge', 'spongepowered'],
+    author: 'Glare & Simple',
+    openGraph: {
+      type: 'website'
+    },
+    twitter: {
+      card: 'summary',
+      site: '@MCBanners',
+      author: '@MCBanners'
+    }
+  },
   /*
    ** Bootstrap Vue configuration
    ** We disable automatic injection so that we

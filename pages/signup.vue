@@ -23,11 +23,9 @@ import SignUpForm from '~/components/flow/SignUpForm'
 export default {
   components: { SignUpForm },
   middleware: 'unauthenticated',
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
+  head({ $seo }) {
+    return $seo({
       title: 'Sign Up',
-      templateTitle: '%name% - %title%',
     })
   },
 }
