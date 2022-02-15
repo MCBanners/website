@@ -75,7 +75,13 @@ export default {
     'cookie-universal-nuxt',
     'nuxt-seo',
     '@nuxtjs/pwa',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap'
   ],
+  sitemap: {
+    hostname: 'https://mcbanners.com'
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
