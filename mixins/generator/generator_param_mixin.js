@@ -1,10 +1,10 @@
-import _ from 'lodash'
+import clone from 'lodash.clone'
 import { updatedDiff } from 'deep-object-diff'
 
 export default {
   computed: {
     modifiedParams() {
-      let copy = _.clone(this._data)
+      let copy = clone(this._data)
       copy = this.cleanupModifiedParams(copy)
       return updatedDiff(this.defaults, copy)
     },
