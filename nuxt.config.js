@@ -63,11 +63,11 @@ export default {
         imports: [
           {
             set: '@fortawesome/free-solid-svg-icons',
-            icons: ['fas'],
+            icons: ['faServer', 'faExternalLinkAlt', 'faTrash'],
           },
           {
             set: '@fortawesome/free-brands-svg-icons',
-            icons: ['fab'],
+            icons: ['faGithub', 'faTwitter', 'faDiscord'],
           },
         ],
       },
