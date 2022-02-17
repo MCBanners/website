@@ -10,7 +10,7 @@
       <b-input-group :prepend="'Resource ' + subjectName">
         <b-form-input
           v-model="subject"
-          :type="subjectName === 'sponge' ? 'text' : 'number'"
+          :type="this.type === 'sponge' ? 'text' : 'number'"
           @change="$emit('update', { subject })"
         />
       </b-input-group>
