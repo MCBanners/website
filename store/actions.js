@@ -1,5 +1,5 @@
 export default {
-  async nuxtServerInit({ dispatch }) {
+  async nuxtClientInit({ dispatch }) {
     await dispatch('svc/hydrate')
     await dispatch('user/hydrate')
   },
