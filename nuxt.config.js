@@ -76,7 +76,8 @@ export default {
     'nuxt-seo',
     '@nuxtjs/pwa',
     '@nuxtjs/robots',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    'nuxt-client-init-module',
   ],
   sitemap: {
     hostname: 'https://mcbanners.com'
