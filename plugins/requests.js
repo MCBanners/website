@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import isEmpty from 'lodash.isempty'
 
 export default ({ app }, inject) => {
   inject('handleReqRes', (req) => {
@@ -27,7 +27,7 @@ export default ({ app }, inject) => {
       },
     }
 
-    if (!_.isEmpty(session)) {
+    if (!isEmpty(session)) {
       headers.headers.Authorization = `Bearer ${session.token}`
     }
 

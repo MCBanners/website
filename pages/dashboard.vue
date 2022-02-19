@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import filter from 'lodash.filter'
 import { mapState } from 'vuex'
 
 export default {
@@ -106,7 +106,7 @@ export default {
       if (confirmation) {
         const success = await this.$store.dispatch('banner/deleteBanner', id)
         if (success) {
-          this.savedBanners = _.filter(
+          this.savedBanners = filter(
             this.savedBanners,
             (banner) => banner.id !== id
           )
