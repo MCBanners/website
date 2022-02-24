@@ -71,6 +71,15 @@ export default {
         this.recompiledParams
       )
     },
+    async saveModrinthAuthorBanner() {
+      await this.saveBanner(
+        'MODRINTH_AUTHOR',
+        {
+          _author_id: this.author.username,
+        },
+        this.recompiledParams
+      )
+    },
     async saveSpigotResourceBanner() {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
@@ -98,5 +107,14 @@ export default {
         this.recompiledParams
       )
     },
-  },
+    async saveModrinthResourceBanner() {
+      await this.saveBanner(
+        'MODRINTH_RESOURCE',
+        {
+          _resource_id: this.resource.name,
+        },
+        this.recompiledParams
+      )
+    },
+  }
 }

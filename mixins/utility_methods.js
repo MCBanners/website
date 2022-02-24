@@ -28,6 +28,10 @@ export default {
         case 'resource-curseforge':
           url += `curseforge/${options.id}`
           break
+        case 'author-modrinth':
+        case 'resource-modrinth':
+          url += `modrinth/${options.id}`
+          break
       }
 
       return url + '/banner.png'

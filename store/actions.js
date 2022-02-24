@@ -16,6 +16,10 @@ export default {
     return dispatch('isValid', `resource/curseforge/${resId}`)
   },
 
+  checkValidModrinthResource({ dispatch }, resName) {
+    return dispatch('isValid', `resource/modrinth/${resName}`)
+  },
+
   checkValidSpigotAuthor({ dispatch }, authId) {
     return dispatch('isValid', `author/spigot/${authId}`)
   },
@@ -26,6 +30,10 @@ export default {
 
   checkValidCurseForgeAuthor({ dispatch }, authUsername) {
     return dispatch('isValid', `author/curseforge/${authUsername}`)
+  },
+
+  checkValidModrinthAuthor({ dispatch }, authUsername) {
+    return dispatch('isValid', `author/modrinth/${authUsername}`)
   },
 
   checkValidServer({ dispatch }, payload) {
