@@ -97,21 +97,6 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Review Count">
-              <BannerTextFieldControlBox
-                :target="reviews"
-                title="Review Count"
-                namespace="reviews"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the review count will display in the generated
-                    banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
             <b-tab title="Download Count">
               <BannerTextFieldControlBox
                 :target="downloads"
