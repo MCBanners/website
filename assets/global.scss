@@ -14,37 +14,43 @@
 // Global Styles
 @import url('https://fonts.googleapis.com/css?family=Carter+One&display=swap');
 
-body, .sticky-footer-container {
-    min-height: 100vh;
+:root {
+  --color__black: #201d1f;
+  --color__green: #1ead8b;
+}
+
+body,
+.sticky-footer-container {
+  min-height: 100vh;
 }
 
 .flex-fill {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .vue-notification-group {
-    margin: 25px 25px 0 0;
+  margin: 25px 25px 0 0;
 
-.vue-notification {
+  .vue-notification {
     padding: 10px;
     margin: 0 5px 5px;
-  
+
     font-size: 12px;
-  
+
     color: #ffffff;
     background: #44a4fc;
     border-left: 5px solid #187fe7;
-  
+
     &.warn {
       background: #ffb648;
       border-left-color: #f48a06;
     }
-  
+
     &.error {
       background: #e54d42;
       border-left-color: #b82e24;
     }
-  
+
     &.success {
       background: #68cd86;
       border-left-color: #42a85f;
