@@ -1,36 +1,3 @@
-<template>
-  <div>
-    <b-form inline class="quick-server-banner" @submit.prevent>
-      <b-input-group>
-        <b-input-group-prepend>
-          <b-input-group-text>
-            <fa :icon="['fas', 'server']" />
-          </b-input-group-text>
-        </b-input-group-prepend>
-
-        <b-input v-model="ip" placeholder="Server IP" required />
-      </b-input-group>
-
-      <b-input-group>
-        <b-input-group-prepend>
-          <b-input-group-text>
-            <fa :icon="['fas', 'server']" />
-          </b-input-group-text>
-        </b-input-group-prepend>
-
-        <b-input v-model="port" placeholder="Port (25565)" />
-      </b-input-group>
-      <b-button
-        type="submit"
-        variant="primary"
-        @click="openQuickServerBanner()"
-      >
-        Create
-      </b-button>
-    </b-form>
-  </div>
-</template>
-
 <script>
 export default {
   name: 'QuickServerBanner',
@@ -55,56 +22,67 @@ export default {
 }
 </script>
 
+<template>
+  <div>
+    <form class="quick-server-banner" @submit.prevent>
+      <input v-model="ip" type="text" placeholder="Server IP" required />
+      <input v-model="port" type="text" placeholder="Port (25565)" />
+      <button type="submit" variant="primary" @click="openQuickServerBanner()">
+        Create
+      </button>
+    </form>
+  </div>
+</template>
+
 <style lang="scss" scoped>
-.quick-server-banner {
-  * {
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
+div {
+  background: #fff;
+  border-radius: 50px;
+  padding: 50px;
+  position: relative;
+  max-width: 660px;
+  margin: -90px auto;
+
+  @media (max-width: 767px) {
+    padding: 40px 30px;
+    border-radius: 30px;
   }
+}
 
-  .input-group-text {
-    border: none;
-    background: #eee;
-    border-right: 3px solid #ddd;
+form {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 10px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: 5px;
   }
+}
 
-  .input-group {
-    margin: 0 auto 10px auto;
-    width: 100%;
+input,
+button {
+  border: none;
+  border-radius: 6px;
+  outline: 0;
+  width: 100%;
+}
 
-    input {
-      border: none;
-      background: #eee;
+input {
+  background: #eaf2f2;
+  padding: 10px 20px;
+  font-size: 16px;
+}
 
-      &:focus {
-        box-shadow: none;
-      }
-    }
+button {
+  background: linear-gradient(260.85deg, #19987a 11.02%, #21ba96 82.4%);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 0;
+  transition: transform 0.2s ease-in-out;
 
-    @media (min-width: 992px) {
-      margin: 0 10px 0 0;
-      width: auto;
-
-      input {
-        display: inline;
-      }
-    }
-  }
-
-  button {
-    font-weight: 700;
-    display: block;
-    width: 100%;
-
-    .icon {
-      margin-left: 8px;
-      margin-bottom: 1px;
-    }
-
-    @media (min-width: 992px) {
-      display: inline-block;
-      width: auto;
-    }
+  &:hover {
+    transform: scale(1.05);
   }
 }
 </style>
