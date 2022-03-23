@@ -19,6 +19,11 @@
   --color__green: #1ead8b;
 }
 
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
 body,
 .sticky-footer-container {
   min-height: 100vh;
