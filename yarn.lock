@@ -6683,10 +6683,10 @@ nuxt-fontawesome@^0.4.0:
     "@fortawesome/fontawesome-svg-core" "^1.2.12"
     "@fortawesome/vue-fontawesome" "^0.1.4"
 
-nuxt-seo@^1.2.2:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/nuxt-seo/-/nuxt-seo-1.6.0.tgz#9d03e48e90f354300444fadb325299fea0068f0a"
-  integrity sha512-J1RgFsSpVpc9NK72LD6u2kkfJED1ajubLgx0LZu7zGVatrBFkTz9xaPG66yr6WoKdi2aSdMgWhnPTvF9PjV2vg==
+nuxt-seo@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/nuxt-seo/-/nuxt-seo-1.6.1.tgz#08e9365390d5eae5065bfbf88f272a104c88eb5d"
+  integrity sha512-GROnW5ntmmmmeOUCdYsmCEHJ+Wo0Sil+5ma4N5UVreXUTNNw9zZ9lJ6jO0/cDU24oo7nUvDAUNxzIqCjKKJoYQ==
   dependencies:
     debug "^4.2.0"
 
