@@ -80,6 +80,15 @@ export default {
         this.recompiledParams
       )
     },
+    async saveMCMarketAuthorBanner() {
+      await this.saveBanner(
+        'MCMARKET_AUTHOR',
+        {
+          _author_id: this.author.id,
+        },
+        this.recompiledParams
+      )
+    },
     async saveSpigotResourceBanner() {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
@@ -112,6 +121,15 @@ export default {
         'MODRINTH_RESOURCE',
         {
           _resource_id: this.resource.name,
+        },
+        this.recompiledParams
+      )
+    },
+    async saveMCMarketResourceBanner() {
+      await this.saveBanner(
+        'MCMARKET_RESOURCE',
+        {
+          _resource_id: this.resource.id,
         },
         this.recompiledParams
       )

@@ -32,6 +32,10 @@ export default {
         case 'resource-modrinth':
           url += `modrinth/${options.id}`
           break
+        case 'author-mcmarket':
+        case 'resource-mcmarket':
+          url += `mcmarket/${options.id}`
+          break
       }
 
       return url + '/banner.png'

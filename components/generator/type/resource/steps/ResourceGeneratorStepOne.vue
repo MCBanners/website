@@ -34,14 +34,22 @@ export default {
   },
   computed: {
     formType() {
-      if (this.type === 'spigot' || this.type === 'curseforge') {
+      if (
+        this.type === 'spigot' ||
+        this.type === 'curseforge' ||
+        this.type === 'mcmarket'
+      ) {
         return 'number'
       } else {
         return 'text'
       }
     },
     subjectName() {
-      if (this.type === 'spigot' || this.type === 'curseforge') {
+      if (
+        this.type === 'spigot' ||
+        this.type === 'curseforge' ||
+        this.type === 'mcmarket'
+      ) {
         return 'ID'
       } else if (this.type === 'sponge' || this.type === 'modrinth') {
         return 'Name'

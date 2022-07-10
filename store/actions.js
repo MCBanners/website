@@ -20,6 +20,10 @@ export default {
     return dispatch('isValid', `resource/modrinth/${resName}`)
   },
 
+  checkValidMCMarketResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/mcmarket/${resId}`)
+  },
+
   checkValidSpigotAuthor({ dispatch }, authId) {
     return dispatch('isValid', `author/spigot/${authId}`)
   },
@@ -34,6 +38,10 @@ export default {
 
   checkValidModrinthAuthor({ dispatch }, authUsername) {
     return dispatch('isValid', `author/modrinth/${authUsername}`)
+  },
+
+  checkValidMCMarketAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/mcmarket/${authId}`)
   },
 
   checkValidServer({ dispatch }, payload) {

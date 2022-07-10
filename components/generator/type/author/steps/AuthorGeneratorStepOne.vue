@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     subjectName() {
-      if (this.type === 'spigot') {
+      if (this.type === 'spigot' || this.type === 'mcmarket') {
         return 'ID'
       } else if (this.type === 'sponge' || this.type === 'curseforge') {
         return 'Username'
