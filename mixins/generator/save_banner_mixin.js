@@ -80,6 +80,15 @@ export default {
         this.recompiledParams
       )
     },
+    async saveMCMarketAuthorBanner() {
+      await this.saveBanner(
+        'MCMARKET_AUTHOR',
+        {
+          _author_id: this.author.id,
+        },
+        this.recompiledParams
+      )
+    },
     async savePolyMartAuthorBanner() {
       await this.saveBanner(
         'POLYMART_AUTHOR',
@@ -125,6 +134,16 @@ export default {
         this.recompiledParams
       )
     },
+    async saveMCMarketResourceBanner() {
+      await this.saveBanner(
+        'MCMARKET_RESOURCE',
+        {
+          _resource_id: this.resource.id,
+        },
+        this.recompiledParams
+      )
+    },
+  }
     async savePolyMartResourceBanner() {
       await this.saveBanner(
         'POLYMART_RESOURCE',

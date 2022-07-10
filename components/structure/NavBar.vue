@@ -20,6 +20,7 @@
             <b-nav-item to="/sponge">Sponge</b-nav-item>
             <b-nav-item to="/curseforge">CurseForge</b-nav-item>
             <b-nav-item to="/modrinth">Modrinth</b-nav-item>
+            <b-nav-item to="/mcmarket">MCMarket</b-nav-item>
             <b-nav-item to="/polymart">Polymart</b-nav-item>
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>

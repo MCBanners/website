@@ -20,6 +20,10 @@ export default {
     return dispatch('isValid', `resource/modrinth/${resName}`)
   },
 
+  checkValidMCMarketResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/mcmarket/${resId}`)
+  },
+
   checkValidPolyMartResource({ dispatch }, resId) {
     return dispatch('isValid', `resource/polymart/${resId}`)
   },
@@ -38,10 +42,6 @@ export default {
 
   checkValidModrinthAuthor({ dispatch }, authUsername) {
     return dispatch('isValid', `author/modrinth/${authUsername}`)
-  },
-
-  checkValidPolyMartAuthor({ dispatch }, authId) {
-    return dispatch('isValid', `author/polymart/${authId}`)
   },
 
   checkValidServer({ dispatch }, payload) {
