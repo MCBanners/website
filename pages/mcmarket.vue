@@ -11,8 +11,12 @@
         <MCMarketResourceGenerator />
       </div>
 
-      <div v-else>
+      <div v-else-if="module.selected == 1">
         <MCMarketAuthorGenerator />
+      </div>
+
+      <div v-else>
+        <MCMarketMemberGenerator />
       </div>
     </div>
   </b-container>
@@ -21,9 +25,10 @@
 <script>
 import MCMarketResourceGenerator from "~/components/generator/type/mcmarket/MCMarketResourceGenerator";
 import MCMarketAuthorGenerator from "~/components/generator/type/mcmarket/MCMarketAuthorGenerator";
+import MCMarketMemberGenerator from "~/components/generator/type/mcmarket/MCMarketMemberGenerator";
 
 export default {
-  components: {MCMarketAuthorGenerator, MCMarketResourceGenerator},
+  components: {MCMarketAuthorGenerator, MCMarketResourceGenerator, MCMarketMemberGenerator},
   data() {
     return {
       module: {
@@ -31,6 +36,7 @@ export default {
         options: [
           { value: 0, text: 'Resource Banner' },
           { value: 1, text: 'Author Banner' },
+          { value: 2, text: 'Member Banner' },
         ],
       },
     }

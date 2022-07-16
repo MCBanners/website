@@ -44,6 +44,10 @@ export default {
     return dispatch('isValid', `author/mcmarket/${authId}`)
   },
 
+  checkValidMCMarketMember({ dispatch }, memberId) {
+    return dispatch('isValid', `member/mcmarket/${memberId}`)
+  },
+
   checkValidServer({ dispatch }, payload) {
     const { ip } = payload
     let { port } = payload

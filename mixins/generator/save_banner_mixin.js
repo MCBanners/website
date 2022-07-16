@@ -134,5 +134,14 @@ export default {
         this.recompiledParams
       )
     },
+    async saveMCMarketMemberBanner() {
+      await this.saveBanner(
+        'MCMARKET_MEMBER',
+        {
+          _member_id: this.member.id,
+        },
+        this.recompiledParams
+      )
+    },
   }
 }
