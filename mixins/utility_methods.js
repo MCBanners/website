@@ -36,6 +36,9 @@ export default {
         case 'resource-mcmarket':
           url += `mcmarket/${options.id}`
           break
+        case 'member-mcmarket':
+          url += `mcmarket/${options.id}`
+          break
         case 'author-polymart':
         case 'resource-polymart':
           url += `polymart/${options.id}`
