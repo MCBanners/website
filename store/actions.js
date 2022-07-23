@@ -20,6 +20,10 @@ export default {
     return dispatch('isValid', `resource/modrinth/${resName}`)
   },
 
+  checkValidPolyMartResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/polymart/${resId}`)
+  },
+
   checkValidSpigotAuthor({ dispatch }, authId) {
     return dispatch('isValid', `author/spigot/${authId}`)
   },
@@ -34,6 +38,10 @@ export default {
 
   checkValidModrinthAuthor({ dispatch }, authUsername) {
     return dispatch('isValid', `author/modrinth/${authUsername}`)
+  },
+
+  checkValidPolyMartAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/polymart/${authId}`)
   },
 
   checkValidServer({ dispatch }, payload) {

@@ -8,22 +8,22 @@
 
     <div class="generator">
       <div v-if="module.selected == 0">
-        <ModrinthResourceGenerator />
+        <PolyMartResourceGenerator />
       </div>
 
       <div v-else>
-        <ModrinthAuthorGenerator />
+        <PolyMartAuthorGenerator />
       </div>
     </div>
   </b-container>
 </template>
 
 <script>
-import ModrinthResourceGenerator from '~/components/generator/type/modrinth/ModrinthResourceGenerator'
-import ModrinthAuthorGenerator from '~/components/generator/type/modrinth/ModrinthAuthorGenerator'
+import PolyMartResourceGenerator from '~/components/generator/type/polymart/PolyMartResourceGenerator'
+import PolyMartAuthorGenerator from '~/components/generator/type/polymart/PolyMartAuthorGenerator'
 
 export default {
-  components: { ModrinthResourceGenerator, ModrinthAuthorGenerator },
+  components: { PolyMartResourceGenerator, PolyMartAuthorGenerator },
   data() {
     return {
       module: {
@@ -35,11 +35,9 @@ export default {
       },
     }
   },
-  head() {
-    return this.$seo({
-      name: 'MCBanners',
-      title: 'Modrinth Banners',
-      templateTitle: '%name% - %title%',
+  head({ $seo }) {
+    return $seo({
+      title: 'PolyMart Banners',
     })
   },
 }
