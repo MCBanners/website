@@ -80,6 +80,15 @@ export default {
         this.recompiledParams
       )
     },
+    async savePolyMartAuthorBanner() {
+      await this.saveBanner(
+        'POLYMART_AUTHOR',
+        {
+          _author_id: this.author.id,
+        },
+        this.recompiledParams
+      )
+    },
     async saveSpigotResourceBanner() {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
@@ -116,5 +125,14 @@ export default {
         this.recompiledParams
       )
     },
-  }
+    async savePolyMartResourceBanner() {
+      await this.saveBanner(
+        'POLYMART_RESOURCE',
+        {
+          _resource_id: this.resource.id,
+        },
+        this.recompiledParams
+      )
+    },
+  },
 }
