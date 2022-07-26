@@ -37,7 +37,7 @@ export default {
   },
   head({ $seo }) {
     return $seo({
-      title: 'PolyMart Banners',
+      title: 'Polymart Banners',
     })
   },
 }
