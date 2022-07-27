@@ -20,12 +20,32 @@
       block
       >Copy Banner URL</b-button
     >
+    <div class="mt-3">
+      <p>Markdown:</p>
+      <vue-code-highlight language="md">
+        <pre>![Banner]({{ bannerURL }})</pre>
+      </vue-code-highlight>
+      <p>BBCode:</p>
+      <vue-code-highlight language="bbcode">
+        <pre>[img]{{ bannerURL }}[/img]</pre>
+      </vue-code-highlight>
+      <p>HTML:</p>
+      <vue-code-highlight language="html">
+        <pre>&lt;img src="{{ bannerURL }}" /&gt;</pre>
+      </vue-code-highlight>
+    </div>
   </b-modal>
 </template>
 
 <script>
+import { component as VueCodeHighlight } from 'vue-code-highlight'
+import 'vue-code-highlight/themes/prism-okaidia.css'
+
 export default {
   name: 'GetURLModal',
+  components: {
+    VueCodeHighlight,
+  },
   props: {
     bannerURL: {
       type: String,
@@ -38,8 +58,7 @@ export default {
         group: 'global',
         type: 'success',
         title: 'Banner Saved',
-        text:
-          "Your banner has been saved and its new URL was copied for you. If you're signed in, it will also be available in your dashboard.",
+        text: "Your banner has been saved and its new URL was copied for you. If you're signed in, it will also be available in your dashboard.",
       })
     },
   },
