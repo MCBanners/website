@@ -2,7 +2,7 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a MCMarket Member Banner"
+      subtitle="Create a BuiltByBit Member Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
@@ -147,7 +147,7 @@ import MemberGeneratorStepOne from '~/components/generator/type/member/steps/Mem
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'MCMarketMemberGenerator',
+  name: 'BuiltByBitGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
@@ -220,7 +220,7 @@ export default {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('member-mcmarket', {
+      return this.generateBannerUrl('member-builtbybit', {
         id: this.member.id,
       })
     },
@@ -241,23 +241,23 @@ export default {
       const { id } = this.member
 
       if (!id) {
-        this.member.error = 'Please enter a MCMarket Member ID.'
+        this.member.error = 'Please enter a BuiltByBit Member ID.'
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidMCMarketMember', id)
+      const valid = await this.$store.dispatch('checkValidBuiltByBitMember', id)
 
       if (valid.state) {
         return true
       } else {
         this.member.error =
-          "That doesn't seem to a valid MCMarket Member ID. Please double check it."
+          "That doesn't seem to a valid BuiltByBit Member ID. Please double check it."
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveMCMarketMemberBanner()
+      await this.saveBuiltByBitMemberBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },

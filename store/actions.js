@@ -20,8 +20,8 @@ export default {
     return dispatch('isValid', `resource/modrinth/${resName}`)
   },
 
-  checkValidMCMarketResource({ dispatch }, resId) {
-    return dispatch('isValid', `resource/mcmarket/${resId}`)
+  checkValidBuiltByBitResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/builtbybit/${resId}`)
   },
 
   checkValidPolyMartResource({ dispatch }, resId) {
@@ -44,12 +44,12 @@ export default {
     return dispatch('isValid', `author/modrinth/${authUsername}`)
   },
 
-  checkValidMCMarketAuthor({ dispatch }, authId) {
-    return dispatch('isValid', `author/mcmarket/${authId}`)
+  checkValidBuiltByBitAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/builtbybit/${authId}`)
   },
 
-  checkValidMCMarketMember({ dispatch }, memberId) {
-    return dispatch('isValid', `member/mcmarket/${memberId}`)
+  checkValidBuiltByBitMember({ dispatch }, memberId) {
+    return dispatch('isValid', `member/builtbybit/${memberId}`)
   },
 
   checkValidServer({ dispatch }, payload) {

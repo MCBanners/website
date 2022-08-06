@@ -10,7 +10,7 @@
       <b-input-group :prepend="'Author ' + subjectName">
         <b-form-input
           v-model="subject"
-          :type="subjectName === 'spigot' ? 'number' : 'text'"
+          :type="formType"
           @change="$emit('update', { subject })"
         />
       </b-input-group>
@@ -33,8 +33,24 @@ export default {
     }
   },
   computed: {
+    formType() {
+      if (
+        this.type === 'spigot' ||
+        this.type === 'curseforge' ||
+        this.type === 'polymart' ||
+        this.type === 'builtbybit'
+      ) {
+        return 'number'
+      } else {
+        return 'text'
+      }
+    },
     subjectName() {
-      if (this.type === 'spigot' || this.type === 'polymart') {
+      if (
+        this.type === 'spigot' ||
+        this.type === 'polymart' ||
+        this.type === 'builtbybit'
+      ) {
         return 'ID'
       } else if (this.type === 'sponge' || this.type === 'curseforge') {
         return 'Username'

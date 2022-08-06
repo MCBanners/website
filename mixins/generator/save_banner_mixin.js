@@ -80,9 +80,9 @@ export default {
         this.recompiledParams
       )
     },
-    async saveMCMarketAuthorBanner() {
+    async saveBuiltByBitAuthorBanner() {
       await this.saveBanner(
-        'MCMARKET_AUTHOR',
+        'BUILTBYBIT_AUTHOR',
         {
           _author_id: this.author.id,
         },
@@ -134,33 +134,32 @@ export default {
         this.recompiledParams
       )
     },
-    async saveMCMarketResourceBanner() {
+    async saveBuiltByBitResourceBanner() {
       await this.saveBanner(
-        'MCMARKET_RESOURCE',
+        'BUILTBYBIT_RESOURCE',
         {
           _resource_id: this.resource.id,
         },
         this.recompiledParams
       )
     },
-    async saveMCMarketMemberBanner() {
+    async saveBuiltByBitMemberBanner() {
       await this.saveBanner(
-        'MCMARKET_MEMBER',
+        'BUILTBYBIT_MEMBER',
         {
           _member_id: this.member.id,
         },
         this.recompiledParams
       )
     },
-  }
-    async savePolyMartResourceBanner() {
-      await this.saveBanner(
-        'POLYMART_RESOURCE',
-        {
-          _resource_id: this.resource.id,
-        },
-        this.recompiledParams
-      )
-    },
+  },
+  async savePolyMartResourceBanner() {
+    await this.saveBanner(
+      'POLYMART_RESOURCE',
+      {
+        _resource_id: this.resource.id,
+      },
+      this.recompiledParams
+    )
   },
 }

@@ -32,12 +32,10 @@ export default {
         case 'resource-modrinth':
           url += `modrinth/${options.id}`
           break
-        case 'author-mcmarket':
-        case 'resource-mcmarket':
-          url += `mcmarket/${options.id}`
-          break
-        case 'member-mcmarket':
-          url += `mcmarket/${options.id}`
+        case 'author-builtbybit':
+        case 'resource-builtbybit':
+        case 'member-builtbybit':
+          url += `builtbybit/${options.id}`
           break
         case 'author-polymart':
         case 'resource-polymart':

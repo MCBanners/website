@@ -91,8 +91,8 @@
               >
                 <template #hint>
                   <p>
-                    Configure how the followers count will display in the generated
-                    banner.
+                    Configure how the followers count will display in the
+                    generated banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>

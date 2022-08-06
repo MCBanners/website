@@ -2,22 +2,22 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a MCMarket Resource Banner"
+      subtitle="Create a BuiltByBit Author Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
       @on-loading="setLoading"
       @on-complete="handleComplete"
     >
-      <tab-content :before-change="checkValidResource" title="Resource Details">
+      <tab-content :before-change="checkValidAuthor" title="Author Details">
         <GeneratorPreCheck
           :loading="loading"
-          :error-message="resource.error"
-          loading-message="One sec...we're just checking that resource."
+          :error-message="author.error"
+          loading-message="One sec...we're just checking that author."
         >
-          <ResourceGeneratorStepOne
-            type="mcmarket"
-            @update="updateResourceDetails"
+          <AuthorGeneratorStepOne
+            type="builtbybit"
+            @update="updateAuthorDetails"
           />
         </GeneratorPreCheck>
       </tab-content>
@@ -34,8 +34,8 @@
                 @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
-            <b-tab title="Resource Logo">
-              <ControlBox title="Resource Logo">
+            <b-tab title="Author Logo">
+              <ControlBox title="Author Logo">
                 <template #hint>
                   <p>
                     Configure how the resource logo will display in the
@@ -52,36 +52,6 @@
                 </template>
               </ControlBox>
             </b-tab>
-            <b-tab title="Resource Name">
-              <BannerTextFieldControlBox
-                :target="resource_name"
-                title="Resource Name"
-                namespace="resource_name"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the resource name will display in the
-                    generated banner.
-                  </p>
-                  <p>
-                    <small
-                      >* If your resource's name is too long for the image, set
-                      a <strong>Text Override</strong>.</small
-                    >
-                  </p>
-                </template>
-                <template #ext_bot_controls>
-                  <b-input-group prepend="Text Override">
-                    <b-input
-                      v-model="resource_name.display"
-                      type="text"
-                      placeholder="No Override Set"
-                    />
-                  </b-input-group>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
             <b-tab title="Author Name">
               <BannerTextFieldControlBox
                 :target="author_name"
@@ -92,6 +62,36 @@
                 <template #hint>
                   <p>
                     Configure how the author name will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Resource Count">
+              <BannerTextFieldControlBox
+                :target="resource_count"
+                title="Resource Count"
+                namespace="resource_count"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the resource count will display in the
+                    generated banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Likes Count">
+              <BannerTextFieldControlBox
+                :target="likes"
+                title="Likes Count"
+                namespace="likes"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the likes count will display in the generated
                     banner.
                   </p>
                 </template>
@@ -112,27 +112,6 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Stars">
-              <ControlBox title="Stars">
-                <template #hint>
-                  <p>
-                    Configure how the stars will display in the generated
-                    banner.
-                  </p>
-                </template>
-                <template #controls>
-                  <b-input-group prepend="X Offset" append="px">
-                    <b-form-input v-model.number="stars.x" type="number" />
-                  </b-input-group>
-                  <b-input-group prepend="Y Offset" append="px">
-                    <b-form-input v-model.number="stars.y" type="number" />
-                  </b-input-group>
-                  <b-input-group prepend="Gap" append="px">
-                    <b-form-input v-model.number="stars.gap" type="number" />
-                  </b-input-group>
-                </template>
-              </ControlBox>
-            </b-tab>
             <b-tab title="Download Count">
               <BannerTextFieldControlBox
                 :target="downloads"
@@ -144,21 +123,6 @@
                   <p>
                     Configure how the download count will display in the
                     generated banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Price">
-              <BannerTextFieldControlBox
-                :target="price"
-                title="Price"
-                namespace="price"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the price (if the resource is premium) will
-                    display in the generated banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
@@ -183,24 +147,24 @@ import GeneratorPreview from '~/components/generator/GeneratorPreview'
 import ControlBox from '~/components/generator/control/ControlBox'
 import BannerSelectControlBox from '~/components/generator/control/BannerSelectControlBox'
 import BannerTextFieldControlBox from '~/components/generator/control/BannerTextFieldControlBox'
-import ResourceGeneratorStepOne from '~/components/generator/type/resource/steps/ResourceGeneratorStepOne'
+import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/AuthorGeneratorStepOne'
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'MCMarketResourceGenerator',
+  name: 'BuiltByBitAuthorGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
     ControlBox,
     BannerSelectControlBox,
     BannerTextFieldControlBox,
-    ResourceGeneratorStepOne,
+    AuthorGeneratorStepOne,
     CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
-      resource: {
+      author: {
         id: undefined,
         error: '',
       },
@@ -209,18 +173,33 @@ export default {
         size: 80,
         x: 12,
       },
-      resource_name: {
+      author_name: {
         x: 104,
-        y: 25,
+        y: 22,
         font_size: 18,
         bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
-        display: '',
       },
-      author_name: {
+      resource_count: {
         x: 104,
-        y: 42,
+        y: 38,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO',
+      },
+      likes: {
+        x: 104,
+        y: 55,
+        font_size: 14,
+        bold: false,
+        text_align: 'LEFT',
+        font_face: 'SOURCE_SANS_PRO',
+      },
+      downloads: {
+        x: 104,
+        y: 72,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
@@ -228,30 +207,9 @@ export default {
       },
       reviews: {
         x: 104,
-        y: 62,
+        y: 89,
         font_size: 14,
         bold: false,
-        text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO',
-      },
-      stars: {
-        x: 180,
-        y: 51,
-        gap: 16.0,
-      },
-      downloads: {
-        x: 104,
-        y: 83,
-        font_size: 14,
-        bold: false,
-        text_align: 'LEFT',
-        font_face: 'SOURCE_SANS_PRO',
-      },
-      price: {
-        x: 210,
-        y: 83,
-        font_size: 14,
-        bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
@@ -260,14 +218,14 @@ export default {
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.resource,
+      defaults: (state) => state.svc.defaults.author,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('resource-mcmarket', {
-        id: this.resource.id,
+      return this.generateBannerUrl('author-builtbybit', {
+        id: this.author.id,
       })
     },
   },
@@ -276,39 +234,34 @@ export default {
       this[payload.namespace][payload.key] = payload.value
     },
     cleanupModifiedParams(copy) {
-      delete copy.resource
-
-      if (!copy.resource_name.display) {
-        copy.resource_name.display = ''
-      }
-
+      delete copy.author
       return copy
     },
-    updateResourceDetails(payload) {
-      this.resource.id = payload.subject
+    updateAuthorDetails(payload) {
+      this.author.id = payload.subject
     },
-    async checkValidResource() {
-      this.resource.error = ''
-      const { id } = this.resource
+    async checkValidAuthor() {
+      this.author.error = ''
+      const { id } = this.author
 
       if (!id) {
-        this.resource.error = 'Please enter a MCMarket Resource ID.'
+        this.author.error = 'Please enter a BuiltByBit Author ID.'
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidMCMarketResource', id)
+      const valid = await this.$store.dispatch('checkValidBuiltByBitAuthor', id)
 
       if (valid.state) {
         return true
       } else {
-        this.resource.error =
-          "That doesn't seem to a valid MCMarket Resource ID. Please double check it."
+        this.author.error =
+          "That doesn't seem to a valid BuiltByBit Author ID. Please double check it."
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveMCMarketResourceBanner()
+      await this.saveBuiltByBitAuthorBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },
@@ -327,13 +280,5 @@ export default {
 
 .input-group {
   margin-bottom: 2px;
-}
-
-.result_box {
-  margin-bottom: 10px;
-
-  .col-12 {
-    margin-bottom: 5px;
-  }
 }
 </style>

@@ -8,27 +8,31 @@
 
     <div class="generator">
       <div v-if="module.selected == 0">
-        <MCMarketResourceGenerator />
+        <BuiltByBitResourceGenerator />
       </div>
 
       <div v-else-if="module.selected == 1">
-        <MCMarketAuthorGenerator />
+        <BuiltByBitAuthorGenerator />
       </div>
 
       <div v-else>
-        <MCMarketMemberGenerator />
+        <BuiltByBitMemberGenerator />
       </div>
     </div>
   </b-container>
 </template>
 
 <script>
-import MCMarketResourceGenerator from "~/components/generator/type/mcmarket/MCMarketResourceGenerator";
-import MCMarketAuthorGenerator from "~/components/generator/type/mcmarket/MCMarketAuthorGenerator";
-import MCMarketMemberGenerator from "~/components/generator/type/mcmarket/MCMarketMemberGenerator";
+import BuiltByBitResourceGenerator from '~/components/generator/type/builtbybit/BuiltByBitResourceGenerator'
+import BuiltByBitAuthorGenerator from '~/components/generator/type/builtbybit/BuiltByBitAuthorGenerator'
+import BuiltByBitMemberGenerator from '~/components/generator/type/builtbybit/BuiltByBitMemberGenerator'
 
 export default {
-  components: {MCMarketAuthorGenerator, MCMarketResourceGenerator, MCMarketMemberGenerator},
+  components: {
+    BuiltByBitResourceGenerator,
+    BuiltByBitMemberGenerator,
+    BuiltByBitAuthorGenerator,
+  },
   data() {
     return {
       module: {
@@ -43,7 +47,7 @@ export default {
   },
   head({ $seo }) {
     return $seo({
-      title: 'MCMarket Banners',
+      title: 'BuiltByBit Banners',
     })
   },
 }
