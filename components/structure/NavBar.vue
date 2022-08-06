@@ -104,7 +104,7 @@ export default {
 
     &.main-links li {
       @media (min-width: 768px) {
-        padding-right: 10px;
+        padding-right: 5px;
         border-right: 2px #4299e1 solid;
 
         &:last-child {
