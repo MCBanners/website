@@ -94,7 +94,7 @@ export default {
     li {
       @media (min-width: 768px) {
         font-size: 18px;
-        margin: 0 10px 0 0;
+        margin: 0 5px 0 0;
 
         &:last-child {
           margin-right: 0;
