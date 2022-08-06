@@ -23,12 +23,16 @@
 </template>
 
 <script>
-import MCMarketResourceGenerator from "~/components/generator/type/mcmarket/MCMarketResourceGenerator";
-import MCMarketAuthorGenerator from "~/components/generator/type/mcmarket/MCMarketAuthorGenerator";
-import MCMarketMemberGenerator from "~/components/generator/type/mcmarket/MCMarketMemberGenerator";
+import MCMarketResourceGenerator from '~/components/generator/type/mcmarket/MCMarketResourceGenerator'
+import MCMarketAuthorGenerator from '~/components/generator/type/mcmarket/MCMarketAuthorGenerator'
+import MCMarketMemberGenerator from '~/components/generator/type/mcmarket/MCMarketMemberGenerator'
 
 export default {
-  components: {MCMarketAuthorGenerator, MCMarketResourceGenerator, MCMarketMemberGenerator},
+  components: {
+    MCMarketAuthorGenerator,
+    MCMarketResourceGenerator,
+    MCMarketMemberGenerator,
+  },
   data() {
     return {
       module: {

@@ -15,7 +15,10 @@
           :error-message="author.error"
           loading-message="One sec...we're just checking that author."
         >
-          <AuthorGeneratorStepOne type="mcmarket" @update="updateAuthorDetails" />
+          <AuthorGeneratorStepOne
+            type="mcmarket"
+            @update="updateAuthorDetails"
+          />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
