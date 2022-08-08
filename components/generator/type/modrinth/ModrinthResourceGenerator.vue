@@ -66,7 +66,7 @@
                   </p>
                   <p>
                     <small
-                    >* If your resource's name is too long for the image, set
+                      >* If your resource's name is too long for the image, set
                       a <strong>Text Override</strong>.</small
                     >
                   </p>
@@ -247,7 +247,10 @@ export default {
         return false
       }
 
-      const valid = await this.$store.dispatch('checkValidModrinthResource', name)
+      const valid = await this.$store.dispatch(
+        'checkValidModrinthResource',
+        name
+      )
 
       if (valid.state) {
         return true
@@ -292,4 +295,3 @@ export default {
   }
 }
 </style>
-

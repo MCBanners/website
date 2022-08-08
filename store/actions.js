@@ -20,6 +20,10 @@ export default {
     return dispatch('isValid', `resource/modrinth/${resName}`)
   },
 
+  checkValidBuiltByBitResource({ dispatch }, resId) {
+    return dispatch('isValid', `resource/builtbybit/${resId}`)
+  },
+
   checkValidPolyMartResource({ dispatch }, resId) {
     return dispatch('isValid', `resource/polymart/${resId}`)
   },
@@ -40,8 +44,12 @@ export default {
     return dispatch('isValid', `author/modrinth/${authUsername}`)
   },
 
-  checkValidPolyMartAuthor({ dispatch }, authId) {
-    return dispatch('isValid', `author/polymart/${authId}`)
+  checkValidBuiltByBitAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/builtbybit/${authId}`)
+  },
+
+  checkValidBuiltByBitMember({ dispatch }, memberId) {
+    return dispatch('isValid', `member/builtbybit/${memberId}`)
   },
 
   checkValidServer({ dispatch }, payload) {

@@ -2,7 +2,7 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a Modrinth Author Banner"
+      subtitle="Create a MCMarket Author Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
@@ -16,7 +16,7 @@
           loading-message="One sec...we're just checking that author."
         >
           <AuthorGeneratorStepOne
-            type="curseforge"
+            type="mcmarket"
             @update="updateAuthorDetails"
           />
         </GeneratorPreCheck>
@@ -82,7 +82,7 @@
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Followers Count">
+            <b-tab title="Likes Count">
               <BannerTextFieldControlBox
                 :target="likes"
                 title="Likes Count"
@@ -91,8 +91,23 @@
               >
                 <template #hint>
                   <p>
-                    Configure how the followers count will display in the
-                    generated banner.
+                    Configure how the likes count will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Review Count">
+              <BannerTextFieldControlBox
+                :target="reviews"
+                title="Review Count"
+                namespace="reviews"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the review count will display in the generated
+                    banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
@@ -136,7 +151,7 @@ import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/Aut
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'ModrinthAuthorGenerator',
+  name: 'MCMarketAuthorGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
@@ -150,7 +165,7 @@ export default {
   data() {
     return {
       author: {
-        username: undefined,
+        id: undefined,
         error: '',
       },
       template: 'MOONLIGHT_PURPLE',
@@ -209,8 +224,8 @@ export default {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('author-modrinth', {
-        id: this.author.username,
+      return this.generateBannerUrl('author-mcmarket', {
+        id: this.author.id,
       })
     },
   },
@@ -223,33 +238,30 @@ export default {
       return copy
     },
     updateAuthorDetails(payload) {
-      this.author.username = payload.subject
+      this.author.id = payload.subject
     },
     async checkValidAuthor() {
       this.author.error = ''
-      const { username } = this.author
+      const { id } = this.author
 
-      if (!username) {
-        this.author.error = 'Please enter a Modrinth Author Name.'
+      if (!id) {
+        this.author.error = 'Please enter a MCMarket Author ID.'
         return false
       }
 
-      const valid = await this.$store.dispatch(
-        'checkValidModrinthAuthor',
-        username
-      )
+      const valid = await this.$store.dispatch('checkValidMCMarketAuthor', id)
 
       if (valid.state) {
         return true
       } else {
         this.author.error =
-          "That doesn't seem to a valid Modrinth Author Name. Please double check it. T"
+          "That doesn't seem to a valid MCMarket Author ID. Please double check it."
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveModrinthAuthorBanner()
+      await this.saveMCMarketAuthorBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },

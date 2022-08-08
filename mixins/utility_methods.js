@@ -32,6 +32,11 @@ export default {
         case 'resource-modrinth':
           url += `modrinth/${options.id}`
           break
+        case 'author-builtbybit':
+        case 'resource-builtbybit':
+        case 'member-builtbybit':
+          url += `builtbybit/${options.id}`
+          break
         case 'author-polymart':
         case 'resource-polymart':
           url += `polymart/${options.id}`

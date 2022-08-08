@@ -2,23 +2,20 @@
   <div>
     <form-wizard
       title="Banner Creator"
-      subtitle="Create a Modrinth Author Banner"
+      subtitle="Create a MCMarket Member Banner"
       shape="tab"
       color="#4299e1"
       error-color="#ec4e20"
       @on-loading="setLoading"
       @on-complete="handleComplete"
     >
-      <tab-content :before-change="checkValidAuthor" title="Author Details">
+      <tab-content :before-change="checkValidMember" title="Member Details">
         <GeneratorPreCheck
           :loading="loading"
-          :error-message="author.error"
-          loading-message="One sec...we're just checking that author."
+          :error-message="member.error"
+          loading-message="One sec...we're just checking that member."
         >
-          <AuthorGeneratorStepOne
-            type="curseforge"
-            @update="updateAuthorDetails"
-          />
+          <MemberGeneratorStepOne @update="updateMemberDetails" />
         </GeneratorPreCheck>
       </tab-content>
       <tab-content title="Configure Banner">
@@ -34,12 +31,12 @@
                 @update="(newTemplate) => (template = newTemplate)"
               />
             </b-tab>
-            <b-tab title="Author Logo">
-              <ControlBox title="Author Logo">
+            <b-tab title="Member Logo">
+              <ControlBox title="Member Logo">
                 <template #hint>
                   <p>
-                    Configure how the resource logo will display in the
-                    generated banner.
+                    Configure how the member logo will display in the generated
+                    banner.
                   </p>
                 </template>
                 <template #controls>
@@ -52,62 +49,76 @@
                 </template>
               </ControlBox>
             </b-tab>
-            <b-tab title="Author Name">
+            <b-tab title="Member Name">
               <BannerTextFieldControlBox
-                :target="author_name"
-                title="Author Name"
-                namespace="author_name"
+                :target="member_name"
+                title="Member Name"
+                namespace="member_name"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the author name will display in the generated
+                    Configure how the member name will display in the generated
                     banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Resource Count">
+            <b-tab title="Rank">
               <BannerTextFieldControlBox
-                :target="resource_count"
-                title="Resource Count"
-                namespace="resource_count"
+                :target="rank"
+                title="Rank"
+                namespace="rank"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the resource count will display in the
+                    Configure how the rank will display in the generated banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Join Date">
+              <BannerTextFieldControlBox
+                :target="joined"
+                title="Join Date"
+                namespace="joined"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the join date will display in the generated
+                    banner.
+                  </p>
+                </template>
+              </BannerTextFieldControlBox>
+            </b-tab>
+            <b-tab title="Posts Count">
+              <BannerTextFieldControlBox
+                :target="posts"
+                title="Posts Count"
+                namespace="posts"
+                @update="handleFieldUpdate"
+              >
+                <template #hint>
+                  <p>
+                    Configure how the amount of posts will display in the
                     generated banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
             </b-tab>
-            <b-tab title="Followers Count">
+            <b-tab title="Feedback Count">
               <BannerTextFieldControlBox
                 :target="likes"
-                title="Likes Count"
+                title="Feedback Count"
                 namespace="likes"
                 @update="handleFieldUpdate"
               >
                 <template #hint>
                   <p>
-                    Configure how the followers count will display in the
-                    generated banner.
-                  </p>
-                </template>
-              </BannerTextFieldControlBox>
-            </b-tab>
-            <b-tab title="Download Count">
-              <BannerTextFieldControlBox
-                :target="downloads"
-                title="Download Count"
-                namespace="downloads"
-                @update="handleFieldUpdate"
-              >
-                <template #hint>
-                  <p>
-                    Configure how the download count will display in the
-                    generated banner.
+                    Configure how the likes count will display in the generated
+                    banner.
                   </p>
                 </template>
               </BannerTextFieldControlBox>
@@ -132,25 +143,25 @@ import GeneratorPreview from '~/components/generator/GeneratorPreview'
 import ControlBox from '~/components/generator/control/ControlBox'
 import BannerSelectControlBox from '~/components/generator/control/BannerSelectControlBox'
 import BannerTextFieldControlBox from '~/components/generator/control/BannerTextFieldControlBox'
-import AuthorGeneratorStepOne from '~/components/generator/type/author/steps/AuthorGeneratorStepOne'
+import MemberGeneratorStepOne from '~/components/generator/type/member/steps/MemberGeneratorStepOne'
 import CopyURLModal from '~/components/flow/CopyURLModal'
 
 export default {
-  name: 'ModrinthAuthorGenerator',
+  name: 'MCMarketMemberGenerator',
   components: {
     GeneratorPreCheck,
     GeneratorPreview,
     ControlBox,
     BannerSelectControlBox,
     BannerTextFieldControlBox,
-    AuthorGeneratorStepOne,
+    MemberGeneratorStepOne,
     CopyURLModal,
   },
   mixins: [UtilityMethods, GeneratorParamMixin, SaveBannerMixin, LoadingMixin],
   data() {
     return {
-      author: {
-        username: undefined,
+      member: {
+        id: undefined,
         error: '',
       },
       template: 'MOONLIGHT_PURPLE',
@@ -158,7 +169,7 @@ export default {
         size: 80,
         x: 12,
       },
-      author_name: {
+      member_name: {
         x: 104,
         y: 22,
         font_size: 18,
@@ -166,15 +177,15 @@ export default {
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      resource_count: {
+      rank: {
         x: 104,
-        y: 38,
+        y: 37,
         font_size: 14,
         bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      likes: {
+      joined: {
         x: 104,
         y: 55,
         font_size: 14,
@@ -182,7 +193,7 @@ export default {
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      downloads: {
+      posts: {
         x: 104,
         y: 72,
         font_size: 14,
@@ -190,7 +201,7 @@ export default {
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
-      reviews: {
+      likes: {
         x: 104,
         y: 89,
         font_size: 14,
@@ -203,14 +214,14 @@ export default {
   computed: {
     ...mapState({
       templates: (state) => state.svc.templates,
-      defaults: (state) => state.svc.defaults.author,
+      defaults: (state) => state.svc.defaults.member,
     }),
     templateOptions() {
       return this.makeSelectable(this.templates)
     },
     baseURL() {
-      return this.generateBannerUrl('author-modrinth', {
-        id: this.author.username,
+      return this.generateBannerUrl('member-mcmarket', {
+        id: this.member.id,
       })
     },
   },
@@ -222,34 +233,31 @@ export default {
       delete copy.author
       return copy
     },
-    updateAuthorDetails(payload) {
-      this.author.username = payload.subject
+    updateMemberDetails(payload) {
+      this.member.id = payload.subject
     },
-    async checkValidAuthor() {
-      this.author.error = ''
-      const { username } = this.author
+    async checkValidMember() {
+      this.member.error = ''
+      const { id } = this.member
 
-      if (!username) {
-        this.author.error = 'Please enter a Modrinth Author Name.'
+      if (!id) {
+        this.member.error = 'Please enter a MCMarket Member ID.'
         return false
       }
 
-      const valid = await this.$store.dispatch(
-        'checkValidModrinthAuthor',
-        username
-      )
+      const valid = await this.$store.dispatch('checkValidMCMarketMember', id)
 
       if (valid.state) {
         return true
       } else {
-        this.author.error =
-          "That doesn't seem to a valid Modrinth Author Name. Please double check it. T"
+        this.member.error =
+          "That doesn't seem to a valid MCMarket Member ID. Please double check it."
         return false
       }
     },
     async handleComplete() {
       this.loading = true
-      await this.saveModrinthAuthorBanner()
+      await this.saveMCMarketMemberBanner()
       this.loading = false
       this.$bvModal.show('copy-url-modal')
     },

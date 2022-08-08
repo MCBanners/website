@@ -37,7 +37,8 @@ export default {
       if (
         this.type === 'spigot' ||
         this.type === 'curseforge' ||
-        this.type === 'polymart'
+        this.type === 'polymart' ||
+        this.type === 'builtbybit'
       ) {
         return 'number'
       } else {
@@ -48,7 +49,8 @@ export default {
       if (
         this.type === 'spigot' ||
         this.type === 'curseforge' ||
-        this.type === 'polymart'
+        this.type === 'polymart' ||
+        this.type === 'builtbybit'
       ) {
         return 'ID'
       } else if (this.type === 'sponge' || this.type === 'modrinth') {

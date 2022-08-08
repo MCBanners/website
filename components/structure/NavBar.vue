@@ -20,6 +20,7 @@
             <b-nav-item to="/sponge">Sponge</b-nav-item>
             <b-nav-item to="/curseforge">CurseForge</b-nav-item>
             <b-nav-item to="/modrinth">Modrinth</b-nav-item>
+            <b-nav-item to="/builtbybit">BuiltByBit</b-nav-item>
             <b-nav-item to="/polymart">Polymart</b-nav-item>
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>
@@ -93,7 +94,7 @@ export default {
     li {
       @media (min-width: 768px) {
         font-size: 18px;
-        margin: 0 10px 0 0;
+        margin: 0 5px 0 0;
 
         &:last-child {
           margin-right: 0;
@@ -103,7 +104,7 @@ export default {
 
     &.main-links li {
       @media (min-width: 768px) {
-        padding-right: 10px;
+        padding-right: 5px;
         border-right: 2px #4299e1 solid;
 
         &:last-child {
