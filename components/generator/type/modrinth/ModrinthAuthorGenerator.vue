@@ -16,7 +16,7 @@
           loading-message="One sec...we're just checking that author."
         >
           <AuthorGeneratorStepOne
-            type="curseforge"
+            type="modrinth"
             @update="updateAuthorDetails"
           />
         </GeneratorPreCheck>
