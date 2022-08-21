@@ -24,7 +24,7 @@ export default {
     return dispatch('isValid', `resource/builtbybit/${resId}`)
   },
 
-  checkValidPolyMartResource({ dispatch }, resId) {
+  checkValidPolymartResource({ dispatch }, resId) {
     return dispatch('isValid', `resource/polymart/${resId}`)
   },
 
@@ -48,8 +48,16 @@ export default {
     return dispatch('isValid', `author/builtbybit/${authId}`)
   },
 
+  checkValidPolymartAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/polymart/${authId}`)
+  },
+
   checkValidBuiltByBitMember({ dispatch }, memberId) {
     return dispatch('isValid', `member/builtbybit/${memberId}`)
+  },
+
+  checkValidPolymartTeam({ dispatch }, teamId) {
+    return dispatch('isValid', `team/polymart/${teamId}`)
   },
 
   checkValidServer({ dispatch }, payload) {

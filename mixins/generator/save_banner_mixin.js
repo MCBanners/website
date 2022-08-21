@@ -89,7 +89,7 @@ export default {
         this.recompiledParams
       )
     },
-    async savePolyMartAuthorBanner() {
+    async savePolymartAuthorBanner() {
       await this.saveBanner(
         'POLYMART_AUTHOR',
         {
@@ -152,14 +152,23 @@ export default {
         this.recompiledParams
       )
     },
-  },
-  async savePolyMartResourceBanner() {
-    await this.saveBanner(
-      'POLYMART_RESOURCE',
-      {
-        _resource_id: this.resource.id,
-      },
-      this.recompiledParams
-    )
+    async savePolymartResourceBanner() {
+      await this.saveBanner(
+        'POLYMART_RESOURCE',
+        {
+          _resource_id: this.resource.id,
+        },
+        this.recompiledParams
+      )
+    },
+    async savePolymartTeamBanner() {
+      await this.saveBanner(
+        'POLYMART_TEAM',
+        {
+          _team_id: this.team.id,
+        },
+        this.recompiledParams
+      )
+    },
   },
 }

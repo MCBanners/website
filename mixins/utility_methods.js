@@ -39,6 +39,7 @@ export default {
           break
         case 'author-polymart':
         case 'resource-polymart':
+        case 'team-polymart':
           url += `polymart/${options.id}`
           break
       }

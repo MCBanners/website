@@ -6,6 +6,7 @@ export default () => ({
     resource: {},
     author: {},
     member: {},
+    team: {},
     server: {},
   },
 })
