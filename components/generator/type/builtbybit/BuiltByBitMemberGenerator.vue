@@ -230,7 +230,7 @@ export default {
       this[payload.namespace][payload.key] = payload.value
     },
     cleanupModifiedParams(copy) {
-      delete copy.author
+      delete copy.member
       return copy
     },
     updateMemberDetails(payload) {

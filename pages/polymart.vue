@@ -8,22 +8,31 @@
 
     <div class="generator">
       <div v-if="module.selected == 0">
-        <PolyMartResourceGenerator />
+        <PolymartResourceGenerator />
+      </div>
+
+      <div v-else-if="module.selected == 1">
+        <PolymartAuthorGenerator />
       </div>
 
       <div v-else>
-        <PolyMartAuthorGenerator />
+        <PolymartTeamGenerator />
       </div>
     </div>
   </b-container>
 </template>
 
 <script>
-import PolyMartResourceGenerator from '~/components/generator/type/polymart/PolyMartResourceGenerator'
-import PolyMartAuthorGenerator from '~/components/generator/type/polymart/PolyMartAuthorGenerator'
+import PolymartResourceGenerator from '~/components/generator/type/polymart/PolymartResourceGenerator'
+import PolymartAuthorGenerator from '~/components/generator/type/polymart/PolymartAuthorGenerator'
+import PolymartTeamGenerator from '~/components/generator/type/polymart/PolymartTeamGenerator'
 
 export default {
-  components: { PolyMartResourceGenerator, PolyMartAuthorGenerator },
+  components: {
+    PolymartResourceGenerator,
+    PolymartAuthorGenerator,
+    PolymartTeamGenerator,
+  },
   data() {
     return {
       module: {
@@ -31,6 +40,7 @@ export default {
         options: [
           { value: 0, text: 'Resource Banner' },
           { value: 1, text: 'Author Banner' },
+          { value: 2, text: 'Team Banner' },
         ],
       },
     }

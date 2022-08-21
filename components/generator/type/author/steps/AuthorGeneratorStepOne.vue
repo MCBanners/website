@@ -52,7 +52,11 @@ export default {
         this.type === 'builtbybit'
       ) {
         return 'ID'
-      } else if (this.type === 'sponge' || this.type === 'curseforge' || this.type === 'modrinth') {
+      } else if (
+        this.type === 'sponge' ||
+        this.type === 'curseforge' ||
+        this.type === 'modrinth'
+      ) {
         return 'Username'
       } else {
         return 'unknown'
