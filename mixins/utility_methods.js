@@ -18,7 +18,7 @@ export default {
           break
         case 'author-sponge':
         case 'resource-sponge':
-          url += `sponge/${options.id}`
+          url += `ore/${options.id}`
           break
         case 'author-spigot':
         case 'resource-spigot':
