@@ -8,5 +8,6 @@ export default () => ({
     member: {},
     team: {},
     server: {},
+    discord: {}
   },
 })
