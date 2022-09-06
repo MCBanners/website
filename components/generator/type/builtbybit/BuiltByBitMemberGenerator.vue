@@ -24,11 +24,11 @@
             <GeneratorPreview :banner-u-r-l="bannerURL" />
             <b-tab title="Background">
               <BannerSelectControlBox
-                :default="template"
+                :default="background.template"
                 :options="templateOptions"
                 title="Background"
                 hint="Choose the background for your banner."
-                @update="(newTemplate) => (template = newTemplate)"
+                @update="(newTemplate) => (background.template = newTemplate)"
               />
             </b-tab>
             <b-tab title="Member Logo">
@@ -164,7 +164,9 @@ export default {
         id: undefined,
         error: '',
       },
-      template: 'MOONLIGHT_PURPLE',
+      background: {
+        template: 'MOONLIGHT_PURPLE',
+      },
       logo: {
         size: 80,
         x: 12,
@@ -173,7 +175,7 @@ export default {
         x: 104,
         y: 22,
         font_size: 18,
-        bold: true,
+        font_bold: true,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
@@ -181,7 +183,7 @@ export default {
         x: 104,
         y: 37,
         font_size: 14,
-        bold: false,
+        font_bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
@@ -189,7 +191,7 @@ export default {
         x: 104,
         y: 55,
         font_size: 14,
-        bold: false,
+        font_bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
@@ -197,7 +199,7 @@ export default {
         x: 104,
         y: 72,
         font_size: 14,
-        bold: false,
+        font_bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
@@ -205,7 +207,7 @@ export default {
         x: 104,
         y: 89,
         font_size: 14,
-        bold: false,
+        font_bold: false,
         text_align: 'LEFT',
         font_face: 'SOURCE_SANS_PRO',
       },
