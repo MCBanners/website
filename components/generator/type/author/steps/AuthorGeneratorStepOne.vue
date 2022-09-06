@@ -36,7 +36,6 @@ export default {
     formType() {
       if (
         this.type === 'spigot' ||
-        this.type === 'curseforge' ||
         this.type === 'polymart' ||
         this.type === 'builtbybit'
       ) {

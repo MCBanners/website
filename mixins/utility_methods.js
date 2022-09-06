@@ -1,3 +1,7 @@
+function _hasOwn(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
 export default {
   methods: {
     makeSelectable(obj) {
@@ -9,6 +13,14 @@ export default {
     generateBannerUrl(module, options) {
       module = module.toLowerCase()
       const urlModule = module.split('-')[0]
+
+      if (
+        (_hasOwn(options, 'ip') && !options.ip) ||
+        (_hasOwn(options, 'id') && !options.id)
+      ) {
+        // Stop banner trying to render when URL cannot be built.
+        return undefined
+      }
 
       let url = `${this.$axios.defaults.baseURL}banner/${urlModule}/`
 
