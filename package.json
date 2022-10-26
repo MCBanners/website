@@ -22,7 +22,7 @@
     "@nuxtjs/robots": "^2.5.0",
     "@nuxtjs/sitemap": "^2.4.0",
     "bootstrap": "^4.5.2",
-    "bootstrap-vue": "^2.0.0",
+    "bootstrap-vue": "^2.23.1",
     "cookie-universal-nuxt": "^2.1.0",
     "deep-object-diff": "^1.1.0",
     "lodash.clone": "^4.5.0",
