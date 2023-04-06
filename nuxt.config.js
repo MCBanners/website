@@ -88,8 +88,8 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    // baseURL: 'https://api.mcbanners.com/',
-    baseURL: 'http://localhost:8100/'
+    baseURL: 'https://api.mcbanners.com/',
+    // baseURL: 'http://localhost:8100/'
   },
   seo: {
     baseUrl: 'https://mcbanners.com/',
