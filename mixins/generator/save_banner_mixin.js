@@ -14,17 +14,15 @@ export default {
     },
   },
   methods: {
-    async saveBanner(type, extraData, recompiledParams) {
+    async saveBanner(type, metadata, settings) {
       this.banner_save.error = ''
       this.banner_save.working = true
       this.banner_save.result = {}
 
       const result = await this.$store.dispatch('banner/saveBanner', {
         type,
-        body: {
-          ...extraData,
-          ...recompiledParams,
-        },
+        metadata,
+        settings,
       })
 
       if (!result) {
@@ -38,8 +36,8 @@ export default {
       await this.saveBanner(
         'MINECRAFT_SERVER',
         {
-          _server_host: this.server.ip,
-          _server_port: this.server.port,
+          server_host: this.server.ip,
+          server_port: this.server.port,
         },
         this.recompiledParams
       )
@@ -48,7 +46,7 @@ export default {
       await this.saveBanner(
         'SPIGOT_AUTHOR',
         {
-          _author_id: this.author.id,
+          author_id: this.author.id,
         },
         this.recompiledParams
       )
@@ -57,7 +55,7 @@ export default {
       await this.saveBanner(
         'SPONGE_AUTHOR',
         {
-          _author_id: this.author.username,
+          author_id: this.author.username,
         },
         this.recompiledParams
       )
@@ -66,7 +64,7 @@ export default {
       await this.saveBanner(
         'CURSEFORGE_AUTHOR',
         {
-          _author_id: this.author.username,
+          author_id: this.author.username,
         },
         this.recompiledParams
       )
@@ -75,7 +73,7 @@ export default {
       await this.saveBanner(
         'MODRINTH_AUTHOR',
         {
-          _author_id: this.author.username,
+          author_id: this.author.username,
         },
         this.recompiledParams
       )
@@ -84,7 +82,7 @@ export default {
       await this.saveBanner(
         'BUILTBYBIT_AUTHOR',
         {
-          _author_id: this.author.id,
+          author_id: this.author.id,
         },
         this.recompiledParams
       )
@@ -93,7 +91,7 @@ export default {
       await this.saveBanner(
         'POLYMART_AUTHOR',
         {
-          _author_id: this.author.id,
+          author_id: this.author.id,
         },
         this.recompiledParams
       )
@@ -102,7 +100,7 @@ export default {
       await this.saveBanner(
         'SPIGOT_RESOURCE',
         {
-          _resource_id: this.resource.id,
+          resource_id: this.resource.id,
         },
         this.recompiledParams
       )
@@ -111,7 +109,7 @@ export default {
       await this.saveBanner(
         'SPONGE_RESOURCE',
         {
-          _resource_id: this.resource.name,
+          resource_id: this.resource.name,
         },
         this.recompiledParams
       )
@@ -120,7 +118,7 @@ export default {
       await this.saveBanner(
         'CURSEFORGE_RESOURCE',
         {
-          _resource_id: this.resource.id,
+          resource_id: this.resource.id,
         },
         this.recompiledParams
       )
@@ -129,7 +127,7 @@ export default {
       await this.saveBanner(
         'MODRINTH_RESOURCE',
         {
-          _resource_id: this.resource.name,
+          resource_id: this.resource.name,
         },
         this.recompiledParams
       )
@@ -138,7 +136,7 @@ export default {
       await this.saveBanner(
         'BUILTBYBIT_RESOURCE',
         {
-          _resource_id: this.resource.id,
+          resource_id: this.resource.id,
         },
         this.recompiledParams
       )
@@ -147,7 +145,7 @@ export default {
       await this.saveBanner(
         'BUILTBYBIT_MEMBER',
         {
-          _member_id: this.member.id,
+          member_id: this.member.id,
         },
         this.recompiledParams
       )
@@ -156,7 +154,7 @@ export default {
       await this.saveBanner(
         'POLYMART_RESOURCE',
         {
-          _resource_id: this.resource.id,
+          resource_id: this.resource.id,
         },
         this.recompiledParams
       )
@@ -165,7 +163,7 @@ export default {
       await this.saveBanner(
         'POLYMART_TEAM',
         {
-          _team_id: this.team.id,
+          team_id: this.team.id,
         },
         this.recompiledParams
       )

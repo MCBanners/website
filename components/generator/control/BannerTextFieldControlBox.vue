@@ -13,9 +13,9 @@
         :x="target.x"
         :y="target.y"
         :font-size="target.font_size"
-        :bold="target.bold"
+        :font-bold="target.font_bold"
         :text-align="target.text_align"
-        :font="target.font_face"
+        :font-face="target.font_face"
         :namespace="namespace"
         @update="handleFieldUpdate"
       />

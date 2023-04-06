@@ -6,7 +6,7 @@
         happy with it, click "Finish".
       </template>
       <template #controls>
-        <img :src="bannerURL" />
+        <img v-if="bannerURL" :src="bannerURL" />
       </template>
     </ControlBox>
   </div>
@@ -21,7 +21,8 @@ export default {
   props: {
     bannerURL: {
       type: String,
-      required: true,
+      required: false,
+      default: undefined,
     },
   },
 }

@@ -1,5 +1,3 @@
-import qs from 'qs'
-
 export default {
   async saveBanner({ dispatch }, payload) {
     const savedBanner = await dispatch('saveBannerRequest', payload)
@@ -11,12 +9,7 @@ export default {
   },
 
   saveBannerRequest({ _ }, payload) {
-    const { type, body } = payload
-    return this.$axios.post(
-      `banner/saved/save/${type}`,
-      qs.stringify(body),
-      this.$addAuthHeader()
-    )
+    return this.$axios.post(`banner/saved/save`, payload, this.$addAuthHeader())
   },
 
   async getAllSavedBanners({ dispatch }) {

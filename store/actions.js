@@ -9,7 +9,7 @@ export default {
   },
 
   checkValidSpongeResource({ dispatch }, resName) {
-    return dispatch('isValid', `resource/sponge/${resName}`)
+    return dispatch('isValid', `resource/ore/${resName}`)
   },
 
   checkValidCurseForgeResource({ dispatch }, resId) {
@@ -33,7 +33,7 @@ export default {
   },
 
   checkValidSpongeAuthor({ dispatch }, authUsername) {
-    return dispatch('isValid', `author/sponge/${authUsername}`)
+    return dispatch('isValid', `author/ore/${authUsername}`)
   },
 
   checkValidCurseForgeAuthor({ dispatch }, authUsername) {

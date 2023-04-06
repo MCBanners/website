@@ -24,11 +24,11 @@
             <GeneratorPreview :banner-u-r-l="bannerURL" />
             <b-tab title="Background">
               <BannerSelectControlBox
-                :default="template"
+                :default="background.template"
                 :options="templateOptions"
                 title="Background"
                 hint="Choose the background for your banner."
-                @update="(newTemplate) => (template = newTemplate)"
+                @update="(newTemplate) => (background.template = newTemplate)"
               />
             </b-tab>
             <b-tab title="Server Logo">
@@ -182,13 +182,15 @@ export default {
         port: 25565,
         error: '',
       },
-      template: 'MOONLIGHT_PURPLE',
+      background: {
+        template: 'MOONLIGHT_PURPLE',
+      },
       logo: {
         x: 12,
         size: 80,
       },
       server_name: {
-        bold: true,
+        font_bold: true,
         display: '',
         font_face: 'SOURCE_SANS_PRO',
         font_size: 18,
@@ -197,7 +199,7 @@ export default {
         y: 22,
       },
       version: {
-        bold: false,
+        font_bold: false,
         font_face: 'SOURCE_SANS_PRO',
         font_size: 14,
         text_align: 'LEFT',
@@ -207,7 +209,7 @@ export default {
       motd: {
         enable: true,
         max_chars: 9999,
-        bold: false,
+        font_bold: false,
         font_face: 'SOURCE_SANS_PRO',
         font_size: 14,
         text_align: 'LEFT',
@@ -215,7 +217,7 @@ export default {
         y: 55,
       },
       players: {
-        bold: false,
+        font_bold: false,
         font_face: 'SOURCE_SANS_PRO',
         font_size: 14,
         text_align: 'LEFT',
