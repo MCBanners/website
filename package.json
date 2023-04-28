@@ -28,7 +28,7 @@
     "lodash.clone": "^4.5.0",
     "lodash.filter": "^4.6.0",
     "lodash.isempty": "^4.4.0",
-    "node-sass": "7.0.1",
+    "node-sass": "7.0.3",
     "nuxt": "2.16.3",
     "nuxt-client-init-module": "^0.3.0",
     "nuxt-fontawesome": "^0.4.0",
