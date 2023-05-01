@@ -17,7 +17,7 @@ export default {
           const namespace = entry[0]
 
           const subObject = this.modifiedParams[namespace]
-          if (subObject && typeof subObject.valueOf() === 'string') {
+          if (subObject && Array.isArray(subObject)) {
             const out = {}
             out[namespace] = subObject
             return out
