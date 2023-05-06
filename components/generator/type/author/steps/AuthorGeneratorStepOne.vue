@@ -54,7 +54,8 @@ export default {
       } else if (
         this.type === 'sponge' ||
         this.type === 'curseforge' ||
-        this.type === 'modrinth'
+        this.type === 'modrinth' ||
+        this.type === 'hangar'
       ) {
         return 'Username'
       } else {

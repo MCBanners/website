@@ -22,6 +22,7 @@
             <b-nav-item to="/modrinth">Modrinth</b-nav-item>
             <b-nav-item to="/builtbybit">BuiltByBit</b-nav-item>
             <b-nav-item to="/polymart">Polymart</b-nav-item>
+            <b-nav-item to="/hangar">Hangar</b-nav-item>
             <b-nav-item to="/servers">Servers</b-nav-item>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
@@ -93,7 +94,7 @@ export default {
 
     li {
       @media (min-width: 768px) {
-        font-size: 18px;
+        font-size: 16px;
         margin: 0 5px 0 0;
 
         &:last-child {

@@ -54,6 +54,9 @@ export default {
         case 'team-polymart':
           url += `polymart/${options.id}`
           break
+        case 'author-hangar':
+          url += `hangar/${options.id}`
+          break
       }
 
       return url + '/banner.png'

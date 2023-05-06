@@ -96,6 +96,15 @@ export default {
         this.recompiledParams
       )
     },
+    async saveHangarAuthorBanner() {
+      await this.saveBanner(
+        'HANGAR_AUTHOR',
+        {
+          author_id: this.author.username,
+        },
+        this.recompiledParams
+      )
+    },
     async saveSpigotResourceBanner() {
       await this.saveBanner(
         'SPIGOT_RESOURCE',

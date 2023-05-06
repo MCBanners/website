@@ -52,6 +52,10 @@ export default {
     return dispatch('isValid', `author/polymart/${authId}`)
   },
 
+  checkValidHangarAuthor({ dispatch }, authId) {
+    return dispatch('isValid', `author/hangar/${authId}`)
+  },
+
   checkValidBuiltByBitMember({ dispatch }, memberId) {
     return dispatch('isValid', `member/builtbybit/${memberId}`)
   },
