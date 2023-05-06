@@ -168,6 +168,17 @@ export default {
         this.recompiledParams
       )
     },
+    async saveHangarResourceBanner() {
+      await this.saveBanner(
+        'HANGAR_RESOURCE',
+        {
+          resource_id: this.resource.name,
+          author_id: -1,
+          author_name: this.resource.author,
+        },
+        this.recompiledParams
+      )
+    },
     async savePolymartTeamBanner() {
       await this.saveBanner(
         'POLYMART_TEAM',

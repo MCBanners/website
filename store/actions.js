@@ -28,6 +28,11 @@ export default {
     return dispatch('isValid', `resource/polymart/${resId}`)
   },
 
+  checkValidHangarResource({ dispatch }, resource) {
+    const { name, author } = resource
+    return dispatch('isValid', `resource/hangar/${name}/${author}`)
+  },
+
   checkValidSpigotAuthor({ dispatch }, authId) {
     return dispatch('isValid', `author/spigot/${authId}`)
   },

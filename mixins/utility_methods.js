@@ -57,6 +57,8 @@ export default {
         case 'author-hangar':
           url += `hangar/${options.id}`
           break
+        case 'resource-hangar':
+          url += `hangar/${options.resource}/${options.author}`
       }
 
       return url + '/banner.png'

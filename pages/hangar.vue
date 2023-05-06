@@ -18,23 +18,28 @@
 
 <script>
 import HangarAuthorGenerator from '~/components/generator/type/hangar/HangarAuthorGenerator'
+import HangarResourceGenerator from '~/components/generator/type/hangar/HangarResourceGenerator'
 
 export default {
   components: {
     HangarAuthorGenerator,
+    HangarResourceGenerator,
   },
   data() {
     return {
       module: {
-        selected: 1,
-        options: [{ value: 1, text: 'Author Banner' }],
+        selected: 0,
+        options: [
+          { value: 0, text: 'Resource Banner' },
+          { value: 1, text: 'Author Banner' },
+        ],
       },
     }
   },
   computed: {
     selectedComponent() {
       return this.module.selected === 0
-        ? 'HangarAuthorGenerator'
+        ? 'HangarResourceGenerator'
         : 'HangarAuthorGenerator'
     },
     head({ $seo }) {
