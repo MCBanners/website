@@ -1,37 +1,53 @@
-<template>
-  <div style="padding: 1.25rem">
-    <ControlBox title="Preview" hint-md-cols="6" controls-md-cols="6">
-      <template #hint>
-        This is how your banner will look with the current settings. Once you're
-        happy with it, click "Finish".
-      </template>
-      <template #controls>
-        <img v-if="bannerURL" :src="bannerURL" />
-      </template>
-    </ControlBox>
-  </div>
-</template>
+<script setup lang="ts">
+import { useDefaultStore } from '~/stores/defaults'
+import GlobalSettings from '~/components/generator/global/Settings.vue'
 
-<script>
-import ControlBox from '~/components/generator/control/ControlBox'
+defineProps({
+  label: String,
+  description: String
+})
 
-export default {
-  name: 'GeneratorPreview',
-  components: { ControlBox },
-  props: {
-    bannerURL: {
-      type: String,
-      required: false,
-      default: undefined,
-    },
-  },
-}
+const isOpen = ref(false)
+
+const defaults = useDefaultStore()
+
+const computedImageUrl: ComputedRef<string> = computed(() => {
+  return defaults.generateBannerUrl()
+})
 </script>
 
-<style lang="scss" scoped>
-@media (max-width: 1280px) {
-  img {
-    width: 100%;
-  }
-}
-</style>
+<template>
+  <UCard class="w-full mb-4">
+    <template #header>
+      <h3
+        class="text-base font-semibold leading-6 text-gray-900 dark:text-white text-center"
+      >
+        Preview
+      </h3>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 text-center underline" @click="isOpen = true">
+        Global Settings
+      </p>
+      <UModal v-model="isOpen" :overlay="false">
+        <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+          <template #header>
+            <h3
+              class="text-base font-semibold leading-6 text-gray-900 dark:text-white text-center"
+            >
+              Global Font Family + Bold Controls
+            </h3>
+          </template>
+          <GlobalSettings />
+        </UCard>
+      </UModal>
+    </template>
+    <div class="flex items-center justify-center">
+      <img
+        :alt="label"
+        :src="computedImageUrl"
+        width="300"
+        height="100"
+        class="rounded-lg"
+      >
+    </div>
+  </UCard>
+</template>

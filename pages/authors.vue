@@ -5,17 +5,17 @@ import ConfigureStep from '~/components/generator/steps/ConfigureStep.vue'
 
 const defaults = useDefaultStore()
 
-const { host, port, type } = storeToRefs(defaults)
+const { id, platform, type } = storeToRefs(defaults)
 
-type.value = 'server'
+type.value = 'author'
 
 const items = [
   {
     key: 'details',
-    label: 'Server Details',
+    label: 'Author Details',
     disabled: false,
     description:
-      'Enter the Server IP and Port that you want to generate a banner for.'
+      'Enter the Author ID that you want to generate a banner for.'
   },
   {
     key: 'configure',
@@ -26,13 +26,59 @@ const items = [
   }
 ]
 
-const serverForm = reactive({ host: '', port: 25565 })
+const platforms = [
+  {
+    key: 'spigot',
+    value: 'Spigot',
+    type: 'SPIGOT_AUTHOR'
+  },
+  {
+    key: 'hangar',
+    value: 'Hangar',
+    type: 'HANGAR_AUTHOR'
+  },
+  {
+    key: 'ore',
+    value: 'Sponge',
+    type: 'SPONGE_AUTHOR'
+  },
+  {
+    key: 'curseforge',
+    value: 'CurseForge',
+    type: 'CURSEFORGE_AUTHOR'
+  },
+  {
+    key: 'modrinth',
+    value: 'Modrinth',
+    type: 'MODRINTH_AUTHOR'
+  },
+  {
+    key: 'builtbybit',
+    value: 'BuiltByBit',
+    type: 'BUILTBYBIT_AUTHOR'
+  },
+  {
+    key: 'polymart',
+    value: 'Polymart',
+    type: 'POLYMART_AUTHOR'
+  }
+]
+
+const idForm = reactive({ id: '', platform: 'Spigot' })
 const index = ref(0)
 
 const toast = useToast()
 
 const isOpen = ref(false)
 const mnemonic = ref('')
+
+function getPlatformKey (value: string): string | undefined {
+  return platforms.find(platform => platform.value === value)?.key
+}
+
+function getPlatformType (value: string): string | undefined {
+  return platforms.find(platform => platform.value === value)?.type
+}
 
 function copyToClipboard () {
   navigator.clipboard.writeText(computedResultUrl.value)
@@ -44,8 +90,8 @@ function copyToClipboard () {
   })
 }
 
-async function save () {
-  const saved = await defaults.save('MINECRAFT_SERVER')
+async function save (type: string) {
+  const saved = await defaults.save(type)
   if (saved.mnemonic) {
     mnemonic.value = saved.mnemonic
     isOpen.value = true
@@ -57,15 +103,15 @@ const computedResultUrl: ComputedRef<string> = computed(() => {
 })
 
 async function onSubmit (form: any) {
-  const serverHost = form.host
-  const serverPort = form.port
+  const bannerId = form.id
+  const platformName = getPlatformKey(form.platform)
   const data = await fetch(
-    `https://api.mcbanners.com/banner/server/${serverHost}/${serverPort}/isValid`
+    `https://api.mcbanners.com/banner/author/${platformName}/${bannerId}/isValid`
   )
   const json = await data.json()
   if (json.valid) {
-    host.value = serverHost
-    port.value = serverPort
+    id.value = bannerId
+    platform.value = platformName!
     items[1].disabled = false
     index.value = 1
     items[0].disabled = true
@@ -75,7 +121,7 @@ async function onSubmit (form: any) {
       id: 'fetch_failed',
       title: 'Error!',
       description:
-        'Failed to ping that server. Please make sure the IP and port are correct.',
+        'Failed to fetch author. Check that the author ID is correct.',
       timeout: 3000
     })
   }
@@ -86,7 +132,7 @@ async function onSubmit (form: any) {
     <template #item="{ item }">
       <UCard
         @submit.prevent="
-          () => onSubmit(item.key === 'details' ? serverForm : serverForm)
+          () => onSubmit(item.key === 'details' ? idForm : idForm)
         "
       >
         <template #header>
@@ -100,11 +146,23 @@ async function onSubmit (form: any) {
           </p>
         </template>
         <div v-if="item.key === 'details'" class="space-y-3">
-          <UFormGroup label="Host" name="host">
-            <UInput v-model="serverForm.host" />
+          <UAlert
+            icon="i-heroicons-command-line"
+            description="While we refer to it as a author ID, it can also be a slug or name based on the platform."
+            title="Heads Up"
+            color="primary"
+            variant="outline"
+            class="mb-2"
+          />
+          <UFormGroup label="Platform" name="platform">
+            <USelect
+              v-model="idForm.platform"
+              :options="platforms"
+              option-attribute="value"
+            />
           </UFormGroup>
-          <UFormGroup label="Port" name="port">
-            <UInput v-model="serverForm.port" type="number" />
+          <UFormGroup label="Author ID" name="id">
+            <UInput v-model="idForm.id" />
           </UFormGroup>
         </div>
         <div v-else-if="item.key === 'configure'" class="space-y-3">
@@ -120,7 +178,7 @@ async function onSubmit (form: any) {
             <UButton
               type="submit"
               variant="outline"
-              @click="() => save()"
+              @click="() => save(getPlatformType(idForm.platform)!)"
             >
               Submit
             </UButton>
@@ -138,7 +196,7 @@ async function onSubmit (form: any) {
               </template>
               <!-- Content -->
               <img
-                :alt="`Banner for ${host.value}`"
+                :alt="`Banner for ${id.value}`"
                 :src="computedResultUrl"
                 width="300"
                 height="100"
