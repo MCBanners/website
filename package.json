@@ -18,7 +18,7 @@
     "nuxt": "^3.7.4"
   },
   "dependencies": {
-    "@nuxt/image": "1.0.0-rc.3",
+    "@nuxt/image": "1.0.0",
     "@nuxt/ui": "^2.9.0",
     "@pinia/nuxt": "^0.5.1",
     "pinia": "^2.1.7"
