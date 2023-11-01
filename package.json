@@ -13,7 +13,7 @@
     "@iconify-json/simple-icons": "^1.1.75",
     "@nuxt/devtools": "latest",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtseo/module": "2.0.0-beta.37",
+    "@nuxtseo/module": "2.0.0-beta.40",
     "eslint": "^8.51.0",
     "nuxt": "^3.8.0"
   },
