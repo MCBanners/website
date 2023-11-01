@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -48,4 +48,4 @@ jobs:
       - name: Build
         env:
           CI: true
-        run: pnpm build
+        run: pnpm run generate
