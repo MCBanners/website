@@ -9,18 +9,19 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@iconify-json/heroicons": "^1.1.13",
-    "@iconify-json/simple-icons": "^1.1.76",
-    "@nuxt/devtools": "^1.0.0",
+    "@iconify-json/heroicons": "^1.1.20",
+    "@iconify-json/simple-icons": "^1.1.97",
+    "@nuxt/devtools": "^1.1.5",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtseo/module": "2.0.0-beta.40",
-    "eslint": "^8.52.0",
-    "nuxt": "^3.8.0"
+    "@nuxtjs/seo": "2.0.0-rc.10",
+    "eslint": "^8.57.0",
+    "nuxt": "^3.11.1"
   },
   "dependencies": {
-    "@nuxt/image": "1.0.0",
-    "@nuxt/ui": "^2.10.0",
+    "@nuxt/image": "1.4.0",
+    "@nuxt/ui": "^2.15.0",
     "@pinia/nuxt": "^0.5.1",
+    "@playwright/test": "^1.42.1",
     "pinia": "^2.1.7"
   }
 }
