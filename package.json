@@ -6,7 +6,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare && pnpm dlx playwright install"
   },
   "devDependencies": {
     "@iconify-json/heroicons": "^1.1.20",
