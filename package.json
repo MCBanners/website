@@ -18,7 +18,7 @@
     "nuxt": "^3.11.1"
   },
   "dependencies": {
-    "@nuxt/image": "1.4.0",
+    "@nuxt/image": "1.7.0",
     "@nuxt/ui": "^2.15.0",
     "@pinia/nuxt": "^0.5.1",
     "@playwright/test": "^1.42.1",
