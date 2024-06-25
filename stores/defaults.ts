@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useConstantStore } from './constants'
-import { Resource, Author, Server } from '~/types/banner'
-import { BannerSaveResponse } from '~/types/misc'
+import type { Resource, Author, Server } from '~/types/banner'
+import type { BannerSaveResponse } from '~/types/misc'
 
 export const useDefaultStore = defineStore('defaults', () => {
   const id = ref('0')

@@ -1,4 +1,4 @@
-import { KeyValueMapping } from '~/types/misc'
+import type { KeyValueMapping } from '~/types/misc'
 
 export function getTemplateKey (
   source: string,

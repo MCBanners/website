@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { KeyValueMapping } from '~/types/misc'
-import { SVC } from '~/types/svc'
+import type { KeyValueMapping } from '~/types/misc'
+import type { SVC } from '~/types/svc'
 
 export const useConstantStore = defineStore('constants', () => {
   const templates = ref<KeyValueMapping[]>([])
