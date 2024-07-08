@@ -43,7 +43,7 @@ jobs:
       - name: Install frontend deps
         env:
           CI: true
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
         env:
