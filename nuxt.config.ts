@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     zeroRuntime: true
   },
 
+  sitemap: {
+    zeroRuntime: true,
+  },
+
   site: {
     url: 'https://mcbanners.com',
     name: 'MCBanners - Minecraft Statistical Banners',
