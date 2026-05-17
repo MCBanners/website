@@ -1,63 +1,100 @@
-# Nuxt 3 Minimal Starter
+# MCBanners Website
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 4 + Nuxt UI 4 frontend for generating and saving MCBanners image URLs for Minecraft resources, authors, and servers.
 
-## Setup
+## Stack
 
-Make sure to install the dependencies:
+- Nuxt 4
+- Nuxt UI 4 + Tailwind CSS 4
+- Pinia 3
+- Nuxt Image 2
+- Nuxt SEO
+- Playwright E2E tests
+- Static Cloudflare Pages deployment via `nuxt generate`
+
+## Requirements
+
+- Node.js 22 or newer
+- pnpm 11.1.1 via Corepack
 
 ```bash
-# npm
-npm install
-
-# pnpm
+corepack enable
 pnpm install
-
-# yarn
-yarn install
 ```
 
-## Development Server
+## Environment
 
-Start the development server on `http://localhost:3000`:
+Copy the example file when local overrides are needed:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
+cp .env.example .env
 ```
 
-## Production
-
-Build the application for production:
+Available variables:
 
 ```bash
-# npm
-npm run build
+NUXT_PUBLIC_MCBANNERS_API_BASE=https://api.mcbanners.com
+PLAYWRIGHT_PORT=4173
+PLAYWRIGHT_API_PORT=4310
+```
 
-# pnpm
+## Development
+
+```bash
+pnpm dev
+```
+
+The app runs at `http://localhost:3000` by default.
+
+## Quality gates
+
+```bash
+pnpm run lint
+pnpm run typecheck
 pnpm run build
-
-# yarn
-yarn build
+pnpm run test:e2e
 ```
 
-Locally preview production build:
+For trace artifacts when debugging E2E failures:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
+pnpm run test:e2e:trace
+pnpm run test:e2e:report
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Static production build
+
+This project is optimized for static Cloudflare Pages deployment.
+
+```bash
+pnpm run generate
+```
+
+Generated output is written to:
+
+```text
+.output/public
+```
+
+Cloudflare Pages settings:
+
+```text
+Build command: pnpm run generate
+Build output directory: .output/public
+Node version: 22
+```
+
+## Cloudflare preview/deploy with Wrangler
+
+```bash
+pnpm run preview:cloudflare
+pnpm run deploy:cloudflare
+```
+
+The included `wrangler.toml` declares `.output/public` as the Pages build output directory.
+
+## Notes
+
+- Runtime API calls use `NUXT_PUBLIC_MCBANNERS_API_BASE` and default to `https://api.mcbanners.com`.
+- E2E tests start a local mock API server so tests are deterministic and do not depend on the live API.
+- Generated folders such as `.nuxt`, `.output`, `playwright-report`, and `test-results` should not be committed.
