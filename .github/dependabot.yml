@@ -21,6 +21,10 @@ updates:
     open-pull-requests-limit: 10
     versioning-strategy: increase
     groups:
+      security-runtime:
+        applies-to: security-updates
+        patterns:
+          - '*'
       nuxt-stack:
         patterns:
           - nuxt
