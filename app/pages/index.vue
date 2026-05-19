@@ -26,7 +26,6 @@ type ValuePoint = {
 
 type ExampleCard = {
   title: string
-  description: string
   imageUrl: string
   alt: string
 }
@@ -70,19 +69,16 @@ const valuePoints: ValuePoint[] = [
 const exampleCards: ExampleCard[] = [
   {
     title: 'Resource Banner',
-    description: 'Real generated resource example',
     imageUrl: 'https://api.mcbanners.com/banner/saved/IRQubpsghQdjqb.png',
     alt: 'Generated resource banner example'
   },
   {
     title: 'Author Banner',
-    description: 'Real generated author example',
     imageUrl: 'https://api.mcbanners.com/banner/saved/gcNDoSInhxExGy.png',
     alt: 'Generated author banner example'
   },
   {
     title: 'Server Banner',
-    description: 'Real generated server example',
     imageUrl: 'https://api.mcbanners.com/banner/saved/dYZnpqVrUMOggw.png',
     alt: 'Generated server banner example'
   }
@@ -525,13 +521,6 @@ async function validateAndOpenBuilder (
               Real MCBanners output
             </h2>
           </div>
-          <UBadge
-            color="neutral"
-            variant="soft"
-            class="w-fit border border-white/10 bg-gray-900/80 text-gray-300"
-          >
-            300 x 100
-          </UBadge>
         </div>
         <div class="grid gap-4 md:grid-cols-3">
           <article
@@ -544,13 +533,7 @@ async function validateAndOpenBuilder (
                 <h3 class="font-semibold text-white">
                   {{ card.title }}
                 </h3>
-                <p class="text-sm text-gray-400">
-                  {{ card.description }}
-                </p>
               </div>
-              <span class="shrink-0 rounded-md border border-white/10 bg-gray-950 px-2 py-1 text-xs font-semibold text-gray-400">
-                3:1
-              </span>
             </div>
 
             <div class="aspect-[3/1] overflow-hidden rounded-md border border-white/10 bg-gray-950 p-2">
