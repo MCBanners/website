@@ -18,6 +18,22 @@ export const useDefaultStore = defineStore('defaults', () => {
   const author = ref<Author>()
   const server = ref<Server>()
 
+  const hasActiveBuilderSource = computed(() => {
+    if (!hasSelectedSource.value) {
+      return false
+    }
+
+    if (type.value === 'server') {
+      return !!server.value
+    }
+
+    if (type.value === 'author') {
+      return !!author.value
+    }
+
+    return !!resource.value
+  })
+
   const getDefaults = async () => {
     if (resource.value) { return }
     const defaults = await fetch(useMcbannersApiUrl('/banner/svc/defaults/all'))
@@ -38,6 +54,9 @@ export const useDefaultStore = defineStore('defaults', () => {
     host.value = 'localhost'
     port.value = 25565
     hasSelectedSource.value = false
+    resource.value = undefined
+    author.value = undefined
+    server.value = undefined
   }
 
   function convertToQueryParameters (): string {
@@ -176,6 +195,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     host,
     port,
     hasSelectedSource,
+    hasActiveBuilderSource,
     resource,
     author,
     server,

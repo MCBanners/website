@@ -178,7 +178,7 @@ async function continueToBuilder () {
   validationMessage.value = ''
 
   if (kind.value === 'resource') {
-    const bannerId = resourceId.value.trim() || extractResourceIdFromUrl(resourceUrl.value)
+    const bannerId = resourceId.value.trim() || extractResourceIdFromUrl(resourceUrl.value, resourcePlatform.value)
 
     if (!bannerId) {
       validationMessage.value = 'Enter a resource URL or resource ID.'

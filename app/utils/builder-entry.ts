@@ -97,7 +97,7 @@ export function getSupportedPlatform (
   return options.some(option => option.value === value) ? value : fallback
 }
 
-export function extractResourceIdFromUrl (value: string): string {
+export function extractResourceIdFromUrl (value: string, platform = 'spigot'): string {
   const trimmed = value.trim()
   if (!trimmed) {
     return ''
@@ -111,8 +111,30 @@ export function extractResourceIdFromUrl (value: string): string {
       return ''
     }
 
-    const numericSuffix = lastSegment.match(/\.([0-9]+)$/)
-    return numericSuffix?.[1] || lastSegment
+    if (platform === 'hangar' || platform === 'ore') {
+      if (segments.length < 2) {
+        return ''
+      }
+
+      const owner = decodeURIComponent(segments.at(-2) || '').trim()
+      const project = lastSegment
+      return owner && project ? `${owner}/${project}` : ''
+    }
+
+    if (platform === 'spigot' || platform === 'builtbybit' || platform === 'polymart') {
+      const numericSuffix = lastSegment.match(/\.([0-9]+)$/)
+      if (numericSuffix?.[1]) {
+        return numericSuffix[1]
+      }
+
+      return /^[0-9]+$/.test(lastSegment) ? lastSegment : ''
+    }
+
+    if (platform === 'curseforge' || platform === 'modrinth') {
+      return lastSegment
+    }
+
+    return ''
   } catch {
     return ''
   }

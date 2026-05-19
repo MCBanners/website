@@ -216,7 +216,11 @@ const sourceMeta = computed(() => {
 })
 
 const summaryItems = computed(() => {
-  return []
+  if (type.value === 'server') {
+    return [subject.value, sourceMeta.value, '300 x 100'].filter(Boolean)
+  }
+
+  return [subject.value, platformDisplay.value, '300 x 100'].filter(Boolean)
 })
 </script>
 
