@@ -1,7 +1,6 @@
 <script setup lang="ts">
 defineProps<{
   title: string
-  summaryItems: string[]
 }>()
 </script>
 
@@ -21,12 +20,6 @@ export default {
         <h2 class="mt-1 text-2xl font-bold tracking-tight text-highlighted">
           {{ title }}
         </h2>
-        <div class="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted">
-          <template v-for="item in summaryItems" :key="item">
-            <span class="text-muted">&middot;</span>
-            <span>{{ item }}</span>
-          </template>
-        </div>
       </div>
       <slot name="actions" />
     </section>
