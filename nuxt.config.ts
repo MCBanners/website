@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      mcbannersApiBase: 'https://api.mcbanners.com'
+      mcbannersApiBase: 'https://staging-api.mcbanners.com'
     }
   },
 
