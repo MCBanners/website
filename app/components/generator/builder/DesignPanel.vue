@@ -63,8 +63,8 @@ export default {
 
 <template>
   <UCard
-    class="h-full bg-elevated/55"
-    :ui="{ body: 'space-y-5', header: 'pb-3' }"
+    class="h-full border-white/10 bg-elevated/45"
+    :ui="{ body: 'space-y-4', header: 'pb-3' }"
   >
     <template #header>
       <div>
@@ -77,12 +77,12 @@ export default {
       </div>
     </template>
 
-    <section>
+    <section class="space-y-3">
       <p class="mb-3 text-sm font-semibold text-highlighted">
         Theme Presets
       </p>
       <div
-        class="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5"
+        class="grid grid-cols-2 gap-2 sm:grid-cols-3 2xl:grid-cols-5"
         data-testid="theme-presets"
       >
         <ThemePresetCard

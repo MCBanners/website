@@ -109,10 +109,10 @@ function onImageError () {
     <div class="relative flex items-center justify-center">
       <USkeleton
         v-if="!hasLoaded"
-        class="h-[100px] w-[300px] max-w-full rounded-xl bg-elevated"
+        class="aspect-[3/1] w-full max-w-[600px] rounded-xl bg-elevated"
       />
       <div
-        :class="hasLoaded ? 'mx-auto w-fit rounded-xl ring-1 ring-white/10 shadow-xl' : 'sr-only'"
+        :class="hasLoaded ? 'mx-auto w-full max-w-[600px] rounded-xl ring-1 ring-white/10 shadow-xl' : 'sr-only'"
       >
         <Transition name="fade">
           <div
@@ -132,13 +132,13 @@ function onImageError () {
           :src="displayUrl"
           width="300"
           height="100"
-          class="max-w-full rounded-xl"
+          class="w-full rounded-xl"
           @load="onImageLoad"
           @error="onImageError"
         >
         <div
           v-else
-          class="flex h-[100px] w-[300px] max-w-full items-center justify-center rounded-xl bg-elevated text-xs text-muted"
+          class="flex aspect-[3/1] w-full max-w-[600px] items-center justify-center rounded-xl bg-elevated text-xs text-muted"
           role="img"
           :aria-label="`${label || 'Banner preview'} unavailable`"
         >

@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const defaults = useDefaultStore()
-const { id, host, port, platform, type } = storeToRefs(defaults)
+const { id, host, port, platform, type, resource, author, server } = storeToRefs(defaults)
 
 const configureItems = [
   {
@@ -198,19 +198,30 @@ const builderKindLabel = computed(() => {
 const title = computed(() => `Configure ${builderKindLabel.value} Banner`)
 
 const subject = computed(() => {
+  if (type.value === 'server') return server.value?.server_name?.display || `${host.value}:${port.value}`
+  if (type.value === 'author') return author.value?.author_name?.display || id.value
+  return resource.value?.resource_name?.display || id.value
+})
+
+const platformDisplay = computed(() => {
+  if (type.value === 'server') return ''
+
+  const options = type.value === 'author' ? authorPlatformOptions : resourcePlatformOptions
+  return options.find(option => option.value === platform.value)?.label || platform.value
+})
+
+const sourceMeta = computed(() => {
   if (type.value === 'server') return `${host.value}:${port.value}`
   return id.value
 })
 
 const subtitle = computed(() => {
-  if (type.value === 'server') return subject.value
-  return `${subject.value} on ${platform.value}`
+  if (type.value === 'server') return `${subject.value} · ${sourceMeta.value} · 300 x 100`
+  return `${subject.value} · ${platformDisplay.value} · 300 x 100`
 })
 
 const summaryItems = computed(() => {
-  const items = ['300 x 100']
-  if (type.value !== 'server') items.unshift(platform.value)
-  return items
+  return []
 })
 </script>
 

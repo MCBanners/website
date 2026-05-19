@@ -77,58 +77,50 @@ export default {
 
 <template>
   <UCard
-    class="h-full bg-elevated/55"
+    class="h-full border-white/10 bg-elevated/45"
     :ui="{ body: 'space-y-4', header: 'pb-3' }"
   >
     <template #header>
-      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h3 class="text-base font-semibold text-highlighted">
-            Preview
-          </h3>
-          <p class="mt-1 flex items-center gap-1.5 text-sm text-muted">
-            <UIcon name="i-lucide-circle-dot" class="size-3.5" />
-            Live preview updates automatically.
-          </p>
-        </div>
-        <UButton
-          type="button"
-          size="sm"
-          variant="outline"
-          color="neutral"
-          :icon="copiedKey === 'preview' ? 'i-lucide-check' : 'i-lucide-link'"
-          @click="copyPreviewUrl"
-        >
-          Copy Preview URL
-        </UButton>
+      <div>
+        <h3 class="text-base font-semibold text-highlighted">
+          Preview
+        </h3>
+        <p class="mt-1 flex items-center gap-1.5 text-sm text-muted">
+          <UIcon name="i-lucide-circle-dot" class="size-3.5" />
+          Live preview updates automatically.
+        </p>
       </div>
     </template>
 
-    <div class="rounded-xl border border-muted bg-default/55 p-3 shadow-inner">
-      <div class="mx-auto w-fit rounded-xl bg-elevated/70 p-2 ring-1 ring-white/10">
-        <GeneratorPreview label="Banner preview" />
+    <section class="space-y-3">
+      <div class="rounded-xl bg-default/35 p-4 shadow-inner sm:p-5">
+        <div class="mx-auto w-full max-w-[640px]">
+          <GeneratorPreview label="Banner preview" />
+        </div>
       </div>
-    </div>
 
-    <div class="flex flex-wrap justify-center gap-2">
-      <UBadge color="neutral" variant="soft" icon="i-lucide-scan">
-        300 x 100
-      </UBadge>
-      <UBadge color="neutral" variant="soft" icon="i-lucide-image">
-        {{ outputFormat.toUpperCase() }}
-      </UBadge>
-    </div>
+      <div class="flex flex-wrap justify-center gap-2">
+        <UBadge color="neutral" variant="soft" icon="i-lucide-scan">
+          300 x 100
+        </UBadge>
+        <UBadge color="neutral" variant="soft" icon="i-lucide-image">
+          {{ outputFormat.toUpperCase() }}
+        </UBadge>
+      </div>
+    </section>
 
     <USeparator />
 
     <section class="space-y-4">
-      <div>
-        <h3 class="text-base font-semibold text-highlighted">
-          Save Your Banner
-        </h3>
-        <p class="mt-1 text-sm text-muted">
-          Saved banners are permanent, live-updating, and accountless.
-        </p>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h3 class="text-base font-semibold text-highlighted">
+            Save Your Banner
+          </h3>
+          <p class="mt-1 text-sm text-muted">
+            Saved banners are permanent, live-updating, and accountless.
+          </p>
+        </div>
       </div>
 
       <div class="grid gap-3 sm:grid-cols-2">

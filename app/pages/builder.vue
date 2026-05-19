@@ -58,7 +58,7 @@ async function saveCurrent () {
   <main class="bg-gray-950 text-white">
     <section
       v-if="hasSelectedSource"
-      class="mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-10"
+      class="mx-auto w-full max-w-[1520px] px-4 py-5 sm:px-6 lg:px-8"
       data-testid="builder-route-state"
     >
       <ConfigureStep

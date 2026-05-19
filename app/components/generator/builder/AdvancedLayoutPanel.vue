@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 const activeItemValue = ref('')
-const isExpanded = ref(true)
+const isExpanded = ref(false)
 
 watch(
   () => props.items,
@@ -91,7 +91,7 @@ export default {
 
 <template>
   <UCard
-    class="border-muted/70 bg-elevated/25"
+    class="border-white/10 bg-elevated/20"
     data-testid="advanced-layout-panel"
     :ui="{ body: 'space-y-3 p-3 sm:p-4 pt-0', header: 'p-3 sm:p-4' }"
   >
@@ -124,7 +124,7 @@ export default {
       class="space-y-3"
     >
       <div
-        class="flex overflow-x-auto px-1"
+        class="flex overflow-x-auto"
         role="tablist"
         aria-label="Advanced layout sections"
         data-testid="configure-advanced-tabs"
