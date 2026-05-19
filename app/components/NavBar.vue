@@ -9,7 +9,7 @@ function resetToHome () {
 <template>
   <header class="w-full border-b border-white/10 bg-gray-950/90 text-white">
     <nav
-      class="mx-auto flex h-20 w-full max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-10"
+      class="mx-auto flex h-16 w-full max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-10"
       aria-label="Primary"
     >
       <NuxtLink

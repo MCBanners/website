@@ -215,11 +215,6 @@ const sourceMeta = computed(() => {
   return id.value
 })
 
-const subtitle = computed(() => {
-  if (type.value === 'server') return `${subject.value} · ${sourceMeta.value} · 300 x 100`
-  return `${subject.value} · ${platformDisplay.value} · 300 x 100`
-})
-
 const summaryItems = computed(() => {
   return []
 })
@@ -242,7 +237,6 @@ export default {
 
     <BuilderShell
       :title="title"
-      :subtitle="subtitle"
       :summary-items="summaryItems"
     >
       <template #actions>

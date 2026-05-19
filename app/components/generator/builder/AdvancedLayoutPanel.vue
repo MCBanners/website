@@ -25,7 +25,7 @@ const props = defineProps<{
 }>()
 
 const activeItemValue = ref('')
-const isExpanded = ref(false)
+const isExpanded = ref(true)
 
 watch(
   () => props.items,
@@ -101,17 +101,17 @@ export default {
 
 <template>
   <UCard
-    class="border-white/10 bg-elevated/20"
+    class="border-white/10 bg-elevated/35"
     data-testid="advanced-layout-panel"
-    :ui="{ body: 'space-y-3 p-3 sm:p-4 pt-0', header: 'p-3 sm:p-4' }"
+    :ui="{ body: 'space-y-4 p-4 pt-0', header: 'pb-3' }"
   >
     <template #header>
       <div class="flex items-start justify-between gap-4">
-        <div>
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
           <h3 class="text-sm font-semibold text-highlighted">
             Advanced Controls
           </h3>
-          <p class="mt-1 text-xs text-muted">
+          <p class="text-xs text-muted">
             Fine-tune every element with precision.
           </p>
         </div>

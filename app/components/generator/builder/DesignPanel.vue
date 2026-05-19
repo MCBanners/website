@@ -78,7 +78,7 @@ export default {
     </template>
 
     <section class="space-y-3">
-      <p class="mb-3 text-sm font-semibold text-highlighted">
+      <p class="text-sm font-semibold text-highlighted">
         Theme Presets
       </p>
       <div
@@ -97,15 +97,16 @@ export default {
 
     <USeparator />
 
-    <section class="space-y-3">
-      <p class="text-sm font-semibold text-highlighted">
-        Background
-      </p>
-      <div
-        role="radiogroup"
-        class="inline-flex rounded-md shadow-sm"
-        data-testid="background-mode-controls"
-      >
+    <section class="grid gap-5 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]">
+      <div class="space-y-3">
+        <p class="text-sm font-semibold text-highlighted">
+          Background
+        </p>
+        <div
+          role="radiogroup"
+          class="inline-flex rounded-md shadow-sm"
+          data-testid="background-mode-controls"
+        >
           <UButton
             v-for="option in backgroundModeOptions"
             :key="option.value"
@@ -119,123 +120,132 @@ export default {
           >
             {{ option.label }}
           </UButton>
+        </div>
+
+        <UFormField
+          v-if="backgroundMode === 'template'"
+          label="Template"
+          name="template"
+        >
+          <USelect
+            v-model="template"
+            :items="constants.templates"
+            label-key="value"
+            value-key="value"
+            class="w-full"
+          />
+        </UFormField>
+
+        <div v-else class="space-y-2" data-testid="background-color-section">
+          <ColorInput
+            :model-value="backgroundColor"
+            label="Color"
+            name="backgroundColor"
+            tooltip="Use a solid background color instead of the selected template."
+            :error="errors.backgroundColor"
+            @update:model-value="style.setBackgroundColor($event)"
+            @blur="flushPreview"
+            @enter="flushPreview"
+          />
+          <UButton
+            size="xs"
+            variant="ghost"
+            color="neutral"
+            icon="i-lucide-rotate-ccw"
+            data-testid="reset-background-button"
+            @click="style.resetBackground()"
+          >
+            Reset Background
+          </UButton>
+        </div>
       </div>
 
-      <UFormField
-        v-if="backgroundMode === 'template'"
-        label="Template"
-        name="template"
-      >
-        <USelect
-          v-model="template"
-          :items="constants.templates"
-          label-key="value"
-          value-key="value"
-          class="w-full"
-        />
-      </UFormField>
+      <div class="space-y-3 border-white/10 xl:border-l xl:pl-5">
+        <div class="flex items-center justify-between gap-3">
+          <p class="text-sm font-semibold text-highlighted">
+            Text Colors
+          </p>
+          <UButton
+            size="xs"
+            variant="ghost"
+            color="neutral"
+            icon="i-lucide-rotate-ccw"
+            data-testid="reset-text-colors-button"
+            @click="style.resetTextColors()"
+          >
+            Reset
+          </UButton>
+        </div>
 
-      <div v-else class="space-y-2" data-testid="background-color-section">
-        <ColorInput
-          :model-value="backgroundColor"
-          label="Color"
-          name="backgroundColor"
-          tooltip="Use a solid background color instead of the selected template."
-          :error="errors.backgroundColor"
-          @update:model-value="style.setBackgroundColor($event)"
-          @blur="flushPreview"
-          @enter="flushPreview"
-        />
-        <UButton
-          size="xs"
-          variant="ghost"
-          color="neutral"
-          icon="i-lucide-rotate-ccw"
-          data-testid="reset-background-button"
-          @click="style.resetBackground()"
-        >
-          Reset Background
-        </UButton>
+        <div class="grid gap-3 md:grid-cols-3">
+          <ColorInput
+            :model-value="textPrimaryColor"
+            label="Primary"
+            name="textPrimaryColor"
+            tooltip="Primary text color used for main labels and names."
+            :error="errors.textPrimaryColor"
+            @update:model-value="style.setTextPrimaryColor($event)"
+            @blur="flushPreview"
+            @enter="flushPreview"
+          />
+          <ColorInput
+            :model-value="textSecondaryColor"
+            label="Secondary"
+            name="textSecondaryColor"
+            tooltip="Secondary text color used for supporting information."
+            :error="errors.textSecondaryColor"
+            @update:model-value="style.setTextSecondaryColor($event)"
+            @blur="flushPreview"
+            @enter="flushPreview"
+          />
+          <ColorInput
+            :model-value="textAccentColor"
+            label="Accent"
+            name="textAccentColor"
+            tooltip="Accent color used for highlighted elements and counts."
+            :error="errors.textAccentColor"
+            @update:model-value="style.setTextAccentColor($event)"
+            @blur="flushPreview"
+            @enter="flushPreview"
+          />
+        </div>
       </div>
     </section>
 
     <USeparator />
 
-    <section class="space-y-3">
-      <div class="flex items-center justify-between gap-3">
-        <p class="text-sm font-semibold text-highlighted">
-          Text Colors
+    <section class="grid gap-5 xl:grid-cols-2">
+      <div>
+        <p class="mb-3 text-sm font-semibold text-highlighted">
+          Shadow
         </p>
-        <UButton
-          size="xs"
-          variant="ghost"
-          color="neutral"
-          icon="i-lucide-rotate-ccw"
-          data-testid="reset-text-colors-button"
-          @click="style.resetTextColors()"
-        >
-          Reset
-        </UButton>
+        <UFormField label="Preset" name="shadowPreset">
+          <USelect
+            v-model="shadowModel"
+            :items="shadowOptions"
+            label-key="label"
+            value-key="value"
+            class="w-full"
+            data-testid="shadow-preset-select"
+          />
+        </UFormField>
       </div>
 
-      <div class="grid gap-3 md:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
-        <ColorInput
-          :model-value="textPrimaryColor"
-          label="Primary"
-          name="textPrimaryColor"
-          tooltip="Primary text color used for main labels and names."
-          :error="errors.textPrimaryColor"
-          @update:model-value="style.setTextPrimaryColor($event)"
-          @blur="flushPreview"
-          @enter="flushPreview"
-        />
-        <ColorInput
-          :model-value="textSecondaryColor"
-          label="Secondary"
-          name="textSecondaryColor"
-          tooltip="Secondary text color used for supporting information."
-          :error="errors.textSecondaryColor"
-          @update:model-value="style.setTextSecondaryColor($event)"
-          @blur="flushPreview"
-          @enter="flushPreview"
-        />
-        <ColorInput
-          :model-value="textAccentColor"
-          label="Accent"
-          name="textAccentColor"
-          tooltip="Accent color used for highlighted elements and counts."
-          :error="errors.textAccentColor"
-          @update:model-value="style.setTextAccentColor($event)"
-          @blur="flushPreview"
-          @enter="flushPreview"
-        />
+      <div class="border-white/10 xl:border-l xl:pl-5">
+        <p class="mb-3 text-sm font-semibold text-highlighted">
+          Output Format
+        </p>
+        <UFormField label="Format" name="outputFormat">
+          <USelect
+            v-model="formatModel"
+            :items="formatOptions"
+            label-key="label"
+            value-key="value"
+            class="w-full"
+            data-testid="output-format-select"
+          />
+        </UFormField>
       </div>
-    </section>
-
-    <USeparator />
-
-    <section class="grid gap-4 sm:grid-cols-2">
-      <UFormField label="Shadow" name="shadowPreset">
-        <USelect
-          v-model="shadowModel"
-          :items="shadowOptions"
-          label-key="label"
-          value-key="value"
-          class="w-full"
-          data-testid="shadow-preset-select"
-        />
-      </UFormField>
-
-      <UFormField label="Output Format" name="outputFormat">
-        <USelect
-          v-model="formatModel"
-          :items="formatOptions"
-          label-key="label"
-          value-key="value"
-          class="w-full"
-          data-testid="output-format-select"
-        />
-      </UFormField>
     </section>
 
     <USeparator />
