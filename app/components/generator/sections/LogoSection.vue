@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LogoControls from '~/components/generator/types/LogoControls.vue'
+import GlobalSettings from '~/components/generator/global/Settings.vue'
 
 defineProps({
   label: String,
@@ -27,7 +28,14 @@ export default {
         </p>
       </div>
     </template>
-    <div class="space-y-3">
+    <div class="space-y-5">
+      <div>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-400">
+          Typography
+        </p>
+        <GlobalSettings />
+      </div>
+      <USeparator />
       <LogoControls />
     </div>
   </UCard>

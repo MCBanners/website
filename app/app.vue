@@ -3,7 +3,14 @@ import { useConstantStore } from '~/stores/constants'
 import { useDefaultStore } from '~/stores/defaults'
 
 defineOgImageScreenshot({
-  colorScheme: 'dark'
+  colorScheme: 'dark',
+  delay: 2000,
+})
+
+useHead({
+  htmlAttrs: {
+    class: 'dark'
+  }
 })
 
 const constants = useConstantStore()
@@ -15,7 +22,7 @@ await callOnce('mcbanners:defaults', () => defaults.getDefaults())
 
 <template>
   <UApp>
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-dvh bg-gray-950 text-white">
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

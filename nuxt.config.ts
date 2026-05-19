@@ -10,11 +10,17 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
 
+  routeRules: {
+    '/servers': { redirect: { to: '/', statusCode: 301 } },
+    '/authors': { redirect: { to: '/', statusCode: 301 } },
+    '/resources': { redirect: { to: '/', statusCode: 301 } },
+  },
+
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
     public: {
-      mcbannersApiBase: 'https://api.mcbanners.com'
+      mcbannersApiBase: 'http://localhost:3000'
     }
   },
 
@@ -22,12 +28,17 @@ export default defineNuxtConfig({
     viewTransition: true
   },
 
+  colorMode: {
+    preference: 'dark',
+    fallback: 'dark'
+  },
+
   compatibilityDate: '2026-05-14',
 
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/resources', '/authors', '/servers']
+      routes: ['/', '/builder']
     }
   },
 
@@ -36,7 +47,7 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    zeroRuntime: true
+    zeroRuntime: true,
   },
 
   sitemap: {

@@ -1,38 +1,27 @@
+<script setup lang="ts">
+const defaults = useDefaultStore()
+
+function resetToHome () {
+  defaults.resetSelectedSource()
+}
+</script>
+
 <template>
-  <header class="w-full">
+  <header class="w-full border-b border-white/10 bg-gray-950/90 text-white">
     <nav
-      class="container mx-auto flex h-24 items-center justify-between px-4 sm:px-6"
+      class="mx-auto flex h-20 w-full max-w-[1600px] items-center justify-between px-4 sm:px-6 lg:px-10"
       aria-label="Primary"
     >
-      <div class="flex flex-1 justify-center gap-6 text-gray-600 dark:text-gray-300">
-        <NuxtLink
-          to="/"
-          class="font-bold transition-colors hover:text-gray-900 dark:hover:text-white"
-        >
-          Home
-        </NuxtLink>
-        <NuxtLink
-          to="/resources"
-          class="font-bold transition-colors hover:text-gray-900 dark:hover:text-white"
-        >
-          Resources
-        </NuxtLink>
-        <NuxtLink
-          to="/authors"
-          class="font-bold transition-colors hover:text-gray-900 dark:hover:text-white"
-        >
-          Authors
-        </NuxtLink>
-        <NuxtLink
-          to="/servers"
-          class="font-bold transition-colors hover:text-gray-900 dark:hover:text-white"
-        >
-          Servers
-        </NuxtLink>
-      </div>
+      <NuxtLink
+        to="/"
+        class="text-xl font-black tracking-normal text-white transition-colors hover:text-lime-200"
+        aria-label="MCBanners home"
+        @click="resetToHome"
+      >
+        MCBanners
+      </NuxtLink>
 
       <div class="flex items-center gap-2">
-        <ColorModeButton />
         <GitHubButton />
       </div>
     </nav>

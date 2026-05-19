@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+  <div class="flex min-h-dvh flex-col bg-gray-950 text-white">
     <NavBar />
-    <main>
+    <main class="min-h-0 flex-1">
       <slot />
     </main>
   </div>
