@@ -1,12 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: process.env.NODE_ENV !== 'production' },
-
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
     '@pinia/nuxt',
-    '@nuxtjs/seo',
     '@nuxt/image'
   ],
 
@@ -20,7 +17,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      mcbannersApiBase: 'http://localhost:3000'
+      mcbannersApiBase: 'https://api.mcbanners.com'
     }
   },
 
@@ -28,6 +25,8 @@ export default defineNuxtConfig({
     viewTransition: true
   },
 
+  // MCBanners is intentionally dark-only. Nuxt UI still reads color mode,
+  // so keep it pinned rather than exposing a user-facing theme switch.
   colorMode: {
     preference: 'dark',
     fallback: 'dark'
@@ -44,21 +43,5 @@ export default defineNuxtConfig({
 
   image: {
     format: ['webp']
-  },
-
-  ogImage: {
-    zeroRuntime: true,
-  },
-
-  sitemap: {
-    zeroRuntime: true,
-  },
-
-  site: {
-    url: 'https://mcbanners.com',
-    name: 'MCBanners - Minecraft Statistical Banners',
-    description:
-      'We turn backend statistics into beautiful front-end images that can be displayed on forums and more.',
-    defaultLocale: 'en'
   }
 })

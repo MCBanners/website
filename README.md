@@ -1,6 +1,15 @@
 # MCBanners Website
 
-Nuxt 4 + Nuxt UI 4 frontend for generating and saving MCBanners image URLs for Minecraft resources, authors, and servers.
+Nuxt 4 + Nuxt UI frontend for building live-updating MCBanners image URLs for Minecraft resources, authors, and servers.
+
+The current product is a focused two-route builder:
+
+```text
+/         Guided source entry and validation
+/builder  Banner customization, preview, save, and output
+```
+
+Legacy setup routes (`/resources`, `/authors`, and `/servers`) are not active product pages. They redirect to `/`.
 
 ## Stack
 
@@ -8,8 +17,6 @@ Nuxt 4 + Nuxt UI 4 frontend for generating and saving MCBanners image URLs for M
 - Nuxt UI 4 + Tailwind CSS 4
 - Pinia 3
 - Nuxt Image 2
-- Nuxt SEO
-- Playwright E2E tests
 - Static Cloudflare Pages deployment via `nuxt generate`
 
 ## Requirements
@@ -24,50 +31,50 @@ pnpm install
 
 ## Environment
 
-Copy the example file when local overrides are needed:
+The website calls the MCBanners API from the browser. Local development defaults to:
 
 ```bash
-cp .env.example .env
+NUXT_PUBLIC_MCBANNERS_API_BASE=http://localhost:3000
 ```
 
-Available variables:
+Use the production API when needed:
 
 ```bash
 NUXT_PUBLIC_MCBANNERS_API_BASE=https://api.mcbanners.com
-PLAYWRIGHT_PORT=4173
-PLAYWRIGHT_API_PORT=4310
 ```
 
 ## Development
+
+Run the website:
 
 ```bash
 pnpm dev
 ```
 
-The app runs at `http://localhost:3000` by default.
-
-## Quality gates
+Nuxt runs at `http://localhost:3000` by default. When running a local API at the same port, start Nuxt on another port:
 
 ```bash
-pnpm run lint
-pnpm run typecheck
-pnpm run build
-pnpm run test:e2e
+pnpm dev -- --port 3001
 ```
 
-For trace artifacts when debugging E2E failures:
+## Current Checks
+
+Required checks for this cleanup line:
 
 ```bash
-pnpm run test:e2e:trace
-pnpm run test:e2e:report
+pnpm typecheck
+pnpm lint
+pnpm build
 ```
 
-## Static production build
+Playwright coverage is intentionally deferred after the route and UI overhaul. The old e2e files still describe the retired `/resources`, `/authors`, and `/servers` flow and should be rebuilt around `/` to `/builder` before being treated as a gate again.
+
+## Static Production Build
 
 This project is optimized for static Cloudflare Pages deployment.
 
 ```bash
-pnpm run generate
+pnpm build
 ```
 
 Generated output is written to:
@@ -79,22 +86,15 @@ Generated output is written to:
 Cloudflare Pages settings:
 
 ```text
-Build command: pnpm run generate
+Build command: pnpm build
 Build output directory: .output/public
 Node version: 22
 ```
 
-## Cloudflare preview/deploy with Wrangler
+## Deployment Notes
 
-```bash
-pnpm run preview:cloudflare
-pnpm run deploy:cloudflare
-```
-
-The included `wrangler.toml` declares `.output/public` as the Pages build output directory.
-
-## Notes
-
-- Runtime API calls use `NUXT_PUBLIC_MCBANNERS_API_BASE` and default to `https://api.mcbanners.com`.
-- E2E tests start a local mock API server so tests are deterministic and do not depend on the live API.
-- Generated folders such as `.nuxt`, `.output`, `playwright-report`, and `test-results` should not be committed.
+- Static routes prerendered by Nuxt: `/` and `/builder`.
+- Legacy setup routes redirect to `/` through `routeRules` in `nuxt.config.ts`.
+- Static OG metadata points at `public/og/mcbanners-og.png`.
+- The app is dark-only. Nuxt UI color mode is pinned to dark and no theme switch is exposed.
+- Generated folders such as `.nuxt`, `.output`, `dist`, `playwright-report`, and `test-results` should not be committed.

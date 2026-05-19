@@ -84,9 +84,8 @@ body {
   }
 }
 
-/* Dark-only first paint hardening for Nuxt UI controls.
-   The app no longer supports light mode, so critical home-entry controls should
-   not depend on color-mode hydration or default light component variables. */
+/* Dark-only first paint hardening for Nuxt UI controls. Critical home-entry
+   controls should not depend on color-mode hydration or default variables. */
 .mcb-home-surface {
   color-scheme: dark;
 }

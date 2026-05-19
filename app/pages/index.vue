@@ -69,17 +69,17 @@ const valuePoints: ValuePoint[] = [
 const exampleCards: ExampleCard[] = [
   {
     title: 'Resource Banner',
-    imageUrl: 'https://api.mcbanners.com/banner/saved/IRQubpsghQdjqb.png',
+    imageUrl: 'https://api.mcbanners.com/banner/saved/gcNDoSInhxExGy.png',
     alt: 'Generated resource banner example'
   },
   {
     title: 'Author Banner',
-    imageUrl: 'https://api.mcbanners.com/banner/saved/gcNDoSInhxExGy.png',
+    imageUrl: 'https://api.mcbanners.com/banner/saved/dYZnpqVrUMOggw.png',
     alt: 'Generated author banner example'
   },
   {
     title: 'Server Banner',
-    imageUrl: 'https://api.mcbanners.com/banner/saved/dYZnpqVrUMOggw.png',
+    imageUrl: 'https://api.mcbanners.com/banner/saved/IRQubpsghQdjqb.png',
     alt: 'Generated server banner example'
   }
 ]
