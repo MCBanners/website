@@ -71,6 +71,16 @@ function tabLabel (item: ConfigureItem): string {
   return labels[item.value] || item.label
 }
 
+function itemIcon (value: string): string {
+  if (value.includes('Logo')) return 'i-lucide-image'
+  if (value.includes('Name') || value.includes('Motd') || value === 'serverVersion') return 'i-lucide-type'
+  if (value === 'stars') return 'i-lucide-star'
+  if (value.includes('download')) return 'i-lucide-download'
+  if (value === 'price') return 'i-lucide-circle-dollar-sign'
+  if (value.includes('Count') || value === 'reviewCount' || value === 'starredCount' || value === 'viewCount') return 'i-lucide-hash'
+  return 'i-lucide-sliders-horizontal'
+}
+
 const activeMicrocopy = computed(() => {
   const value = activeItem.value?.value
 
@@ -99,10 +109,10 @@ export default {
       <div class="flex items-start justify-between gap-4">
         <div>
           <h3 class="text-sm font-semibold text-highlighted">
-            Advanced Layout
+            Advanced Controls
           </h3>
           <p class="mt-1 text-xs text-muted">
-            Fine-tune typography, positioning, and field-level details.
+            Fine-tune every element with precision.
           </p>
         </div>
         <UButton
@@ -121,102 +131,108 @@ export default {
     <div
       v-if="isExpanded"
       id="advanced-layout-content"
-      class="space-y-3"
+      class="space-y-4"
     >
       <div
-        class="flex overflow-x-auto"
-        role="tablist"
-        aria-label="Advanced layout sections"
-        data-testid="configure-advanced-tabs"
-      >
-        <button
-          v-for="item in items"
-          :key="item.value"
-          type="button"
-          role="tab"
-          :aria-selected="activeItemValue === item.value"
-          :class="[
-            'relative shrink-0 border-b-2 px-3 py-2 text-xs font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
-            activeItemValue === item.value
-              ? 'border-primary text-primary'
-              : 'border-transparent text-muted hover:text-default'
-          ]"
-          @click="activeItemValue = item.value"
-        >
-          {{ tabLabel(item) }}
-        </button>
-      </div>
-
-      <USeparator />
-
-      <div
         v-if="activeItem"
-        role="tabpanel"
-        class="px-1"
-        :data-testid="`configure-section-${activeItem.value}`"
+        class="grid gap-5 border-t border-white/10 pt-4 lg:grid-cols-[210px_minmax(0,1fr)]"
       >
-        <div class="mb-3 flex justify-end">
-          <p class="text-xs text-muted">
-            {{ activeMicrocopy }}
-          </p>
-        </div>
+        <nav
+          class="flex gap-1 overflow-x-auto lg:flex-col lg:overflow-visible"
+          role="tablist"
+          aria-label="Advanced control sections"
+          data-testid="configure-advanced-tabs"
+        >
+          <button
+            v-for="item in items"
+            :key="item.value"
+            type="button"
+            role="tab"
+            :aria-selected="activeItemValue === item.value"
+            :class="[
+              'flex shrink-0 items-center gap-2 rounded-md border border-transparent px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
+              activeItemValue === item.value
+                ? 'border-primary/25 bg-primary/10 text-primary'
+                : 'text-muted hover:bg-elevated/45 hover:text-default'
+            ]"
+            @click="activeItemValue = item.value"
+          >
+            <UIcon :name="itemIcon(item.value)" class="size-4 shrink-0 opacity-80" />
+            <span>{{ tabLabel(item) }}</span>
+          </button>
+        </nav>
 
-        <div class="advanced-control-surface overflow-x-auto">
-          <LogoControls
-            v-if="activeItem.value === 'resourceLogo' || activeItem.value === 'authorLogo' || activeItem.value === 'serverLogo'"
-          />
+        <div
+          role="tabpanel"
+          class="min-w-0 border-white/10 lg:border-l lg:pl-6"
+          :data-testid="`configure-section-${activeItem.value}`"
+        >
+          <div class="mb-5">
+            <h4 class="text-base font-semibold text-highlighted">
+              {{ tabLabel(activeItem) }}
+            </h4>
+            <p class="mt-2 text-sm text-muted">
+              {{ activeMicrocopy }}
+            </p>
+          </div>
 
-          <ResourceNameControls
-            v-else-if="activeItem.value === 'resourceName'"
-          />
+          <div class="advanced-control-surface">
+            <LogoControls
+              v-if="activeItem.value === 'resourceLogo' || activeItem.value === 'authorLogo' || activeItem.value === 'serverLogo'"
+            />
 
-          <AuthorNameControls
-            v-else-if="activeItem.value === 'authorName'"
-          />
+            <ResourceNameControls
+              v-else-if="activeItem.value === 'resourceName'"
+            />
 
-          <ReviewCountControls
-            v-else-if="activeItem.value === 'reviewCount' || activeItem.value === 'starredCount' || activeItem.value === 'viewCount'"
-          />
+            <AuthorNameControls
+              v-else-if="activeItem.value === 'authorName'"
+            />
 
-          <StarControls
-            v-else-if="activeItem.value === 'stars'"
-          />
+            <ReviewCountControls
+              v-else-if="activeItem.value === 'reviewCount' || activeItem.value === 'starredCount' || activeItem.value === 'viewCount'"
+            />
 
-          <DownloadCountControls
-            v-else-if="activeItem.value === 'downloadCount'"
-          />
+            <StarControls
+              v-else-if="activeItem.value === 'stars'"
+            />
 
-          <UpdatedTimeControls
-            v-else-if="activeItem.value === 'lastUpdated'"
-          />
+            <DownloadCountControls
+              v-else-if="activeItem.value === 'downloadCount'"
+            />
 
-          <PriceControls
-            v-else-if="activeItem.value === 'price'"
-          />
+            <UpdatedTimeControls
+              v-else-if="activeItem.value === 'lastUpdated'"
+            />
 
-          <ResourceCountControls
-            v-else-if="activeItem.value === 'resourceCount'"
-          />
+            <PriceControls
+              v-else-if="activeItem.value === 'price'"
+            />
 
-          <LikeCountControls
-            v-else-if="activeItem.value === 'likeCount' || activeItem.value === 'followersCount' || activeItem.value === 'starsCount'"
-          />
+            <ResourceCountControls
+              v-else-if="activeItem.value === 'resourceCount'"
+            />
 
-          <ServerNameControls
-            v-else-if="activeItem.value === 'serverName'"
-          />
+            <LikeCountControls
+              v-else-if="activeItem.value === 'likeCount' || activeItem.value === 'followersCount' || activeItem.value === 'starsCount'"
+            />
 
-          <ServerVersionControls
-            v-else-if="activeItem.value === 'serverVersion'"
-          />
+            <ServerNameControls
+              v-else-if="activeItem.value === 'serverName'"
+            />
 
-          <ServerMotdControls
-            v-else-if="activeItem.value === 'serverMotd'"
-          />
+            <ServerVersionControls
+              v-else-if="activeItem.value === 'serverVersion'"
+            />
 
-          <ServerPlayerCountControls
-            v-else-if="activeItem.value === 'serverPlayerCount'"
-          />
+            <ServerMotdControls
+              v-else-if="activeItem.value === 'serverMotd'"
+            />
+
+            <ServerPlayerCountControls
+              v-else-if="activeItem.value === 'serverPlayerCount'"
+            />
+          </div>
         </div>
       </div>
     </div>

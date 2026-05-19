@@ -42,54 +42,64 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
-    <FormInput
-      v-model="logo.size"
-      name="logoSize"
-      label="Size"
-      type="number"
-      class="w-1/12"
-      trail-text="px"
-    />
-    <FormInput
-      v-model="logo.x"
-      name="logoXOffset"
-      label="X Offset"
-      type="number"
-      class="w-1/12"
-      trail-text="px"
-    />
-    <UFormField
-      label="Y Offset"
-      name="logoYOffset"
-      class="mr-4 w-fit"
-    >
-      <template #hint>
-        <UTooltip text="Vertical offset for the logo. 0 preserves the default auto-centered position.">
-          <UIcon
-            name="i-heroicons-question-mark-circle"
-            class="size-4 cursor-help text-gray-400"
-          />
-        </UTooltip>
-      </template>
-      <div class="flex items-center gap-2">
-        <input
-          type="range"
-          :value="logoY"
-          min="-50"
-          max="50"
-          step="1"
-          class="w-28 accent-primary-500"
-          data-testid="logo-y-slider"
-          @input="onLogoYChange"
-          @change="onLogoYCommit"
-        >
-        <span class="w-12 text-center text-sm tabular-nums text-gray-700 dark:text-gray-300">
-          {{ logoY }}px
-        </span>
+  <div class="advanced-control-inspector">
+    <section class="advanced-control-group">
+      <p class="advanced-control-heading">
+        Position
+      </p>
+      <div class="advanced-control-fields advanced-control-fields--inline">
+        <FormInput
+          v-model="logo.x"
+          name="logoXOffset"
+          label="X Offset"
+          type="number"
+          trail-text="px"
+        />
+        <UFormField label="Y Offset" name="logoYOffset">
+          <template #hint>
+            <UTooltip text="Vertical offset for the logo. 0 preserves the default auto-centered position.">
+              <UIcon name="i-heroicons-question-mark-circle" class="size-4 cursor-help text-gray-400" />
+            </UTooltip>
+          </template>
+          <div class="flex items-center gap-2">
+            <input
+              type="range"
+              :value="logoY"
+              min="-50"
+              max="50"
+              step="1"
+              class="w-full min-w-28 accent-primary-500"
+              data-testid="logo-y-slider"
+              @input="onLogoYChange"
+              @change="onLogoYCommit"
+            >
+            <span class="w-12 text-center text-sm tabular-nums text-gray-300">
+              {{ logoY }}px
+            </span>
+          </div>
+        </UFormField>
       </div>
-    </UFormField>
-    <div class="ml-auto flex min-w-32 justify-end">
+    </section>
+
+    <section class="advanced-control-group">
+      <p class="advanced-control-heading">
+        Size
+      </p>
+      <div class="advanced-control-fields">
+        <FormInput
+          v-model="logo.size"
+          name="logoSize"
+          label="Logo Size"
+          type="number"
+          trail-text="px"
+        />
+      </div>
+    </section>
+
+    <section class="advanced-control-group">
+      <p class="advanced-control-heading">
+        Actions
+      </p>
       <UButton
         v-if="logoY !== 0"
         size="xs"
@@ -101,6 +111,9 @@ export default {
       >
         Reset Logo
       </UButton>
-    </div>
+      <p v-else class="text-xs text-muted">
+        Logo is using default vertical placement.
+      </p>
+    </section>
   </div>
 </template>

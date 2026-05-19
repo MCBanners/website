@@ -18,39 +18,70 @@ body {
   overflow-x: hidden;
 }
 
-.advanced-control-surface > div {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
-  gap: 0.875rem 1rem;
-}
-
-.advanced-control-surface .space-x-4 {
-  column-gap: 1rem;
-}
-
-.advanced-control-surface .space-x-4 > :not(:last-child) {
-  margin-right: 0;
-}
-
 .advanced-control-surface [data-slot="field"] {
-  min-width: 7rem;
   margin-right: 0;
 }
 
-.advanced-control-surface .w-1\/12,
-.advanced-control-surface .w-1\/6 {
-  width: 7rem;
+.advanced-control-surface [data-slot="label"] {
+  font-size: 0.75rem;
 }
 
-.advanced-control-surface .w-1\/4 {
-  width: 9rem;
+.advanced-control-inspector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
-.advanced-control-surface .w-1\/2 {
-  width: 14rem;
+.advanced-control-group {
+  min-width: 0;
+  border-left: 1px solid rgb(255 255 255 / 0.08);
+  padding-left: 1.25rem;
+}
+
+.advanced-control-group:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.advanced-control-heading {
+  margin-bottom: 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: rgb(248 250 252);
+}
+
+.advanced-control-fields {
+  display: grid;
+  gap: 0.875rem;
+}
+
+.advanced-control-fields--inline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 1023px) {
+  .advanced-control-inspector {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .advanced-control-group {
+    border-left: 0;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
+  .advanced-control-group:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .advanced-control-fields--inline {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Dark-only first paint hardening for Nuxt UI controls.
