@@ -32,13 +32,11 @@ pnpm run deploy:cloudflare
 
 The website is a static shell that calls the MCBanners API from the browser for validation, saving, and banner image generation. Static generation avoids a persistent SSR worker and lets Cloudflare serve pages from the edge CDN.
 
-The app still prerenders the known public routes:
+The app prerenders the two public product routes:
 
 ```text
 /
-/resources
-/authors
-/servers
+/builder
 ```
 
-The fallback rule in `public/_redirects` keeps future client-routed pages from returning a hard 404 before they are explicitly prerendered.
+Legacy setup URLs (`/resources`, `/authors`, and `/servers`) are redirected to `/` by Nuxt route rules.

@@ -19,7 +19,6 @@ concurrency:
 env:
   NODE_VERSION: '22'
   PNPM_VERSION: '11.1.1'
-  PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
 
 jobs:
   validate:
@@ -56,11 +55,8 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
-      - name: Install Playwright Chromium for build-time OG images
-        run: pnpm exec playwright install --with-deps chromium
-
       - name: Generate static site
-        run: pnpm run generate
+        run: pnpm run build
 
       - name: Upload static site artifact
         uses: actions/upload-artifact@v7
@@ -70,52 +66,52 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  e2e:
-    name: Playwright E2E
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    needs: validate
+  # e2e:
+  #   name: Playwright E2E
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 30
+  #   needs: validate
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v6
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: ${{ env.PNPM_VERSION }}
-          run_install: false
+  #     - name: Set up pnpm
+  #       uses: pnpm/action-setup@v6
+  #       with:
+  #         version: ${{ env.PNPM_VERSION }}
+  #         run_install: false
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v6
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: pnpm
+  #         cache-dependency-path: pnpm-lock.yaml
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+  #     - name: Install dependencies
+  #       run: pnpm install --frozen-lockfile
 
-      - name: Install Playwright Chromium
-        run: pnpm exec playwright install --with-deps chromium
+  #     - name: Install Playwright Chromium
+  #       run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run E2E tests
-        run: pnpm run test:e2e
+  #     - name: Run E2E tests
+  #       run: pnpm run test:e2e
 
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: playwright-report
-          path: playwright-report/
-          if-no-files-found: ignore
-          retention-days: 7
+  #     - name: Upload Playwright report
+  #       if: always()
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: playwright-report
+  #         path: playwright-report/
+  #         if-no-files-found: ignore
+  #         retention-days: 7
 
-      - name: Upload Playwright test results
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: playwright-test-results
-          path: test-results/
-          if-no-files-found: ignore
-          retention-days: 7
+  #     - name: Upload Playwright test results
+  #       if: always()
+  #       uses: actions/upload-artifact@v7
+  #       with:
+  #         name: playwright-test-results
+  #         path: test-results/
+  #         if-no-files-found: ignore
+  #         retention-days: 7

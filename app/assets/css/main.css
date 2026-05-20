@@ -1,2 +1,115 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+html,
+body,
+#__nuxt {
+  min-height: 100%;
+  background: #050914;
+  color: #f8fafc;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.advanced-control-surface [data-slot="field"] {
+  margin-right: 0;
+}
+
+.advanced-control-surface [data-slot="label"] {
+  font-size: 0.75rem;
+}
+
+.advanced-control-inspector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.advanced-control-group {
+  min-width: 0;
+  border-left: 1px solid rgb(255 255 255 / 0.08);
+  padding-left: 1rem;
+}
+
+.advanced-control-group:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.advanced-control-heading {
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: rgb(248 250 252);
+}
+
+.advanced-control-fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.advanced-control-fields--inline {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 1023px) {
+  .advanced-control-inspector {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .advanced-control-group {
+    border-left: 0;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
+  .advanced-control-group:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .advanced-control-fields--inline {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dark-only first paint hardening for Nuxt UI controls. Critical home-entry
+   controls should not depend on color-mode hydration or default variables. */
+.mcb-home-surface {
+  color-scheme: dark;
+}
+
+.mcb-home-surface .mcb-source-input,
+.mcb-home-surface .mcb-source-input input,
+.mcb-home-surface .mcb-source-input [data-slot="input"],
+.mcb-home-surface .mcb-source-input [data-slot="base"] {
+  background-color: rgb(15 23 42 / 0.82) !important;
+  color: rgb(241 245 249) !important;
+  border-color: rgb(51 65 85 / 0.95) !important;
+  box-shadow: none !important;
+}
+
+.mcb-home-surface .mcb-source-input input::placeholder,
+.mcb-home-surface .mcb-source-input [data-slot="input"]::placeholder {
+  color: rgb(100 116 139) !important;
+  opacity: 1;
+}
+
+.mcb-home-surface .mcb-source-input:focus-within,
+.mcb-home-surface .mcb-source-input:focus-within input,
+.mcb-home-surface .mcb-source-input:focus-within [data-slot="input"],
+.mcb-home-surface .mcb-source-input:focus-within [data-slot="base"] {
+  border-color: rgb(190 242 100 / 0.65) !important;
+  box-shadow: 0 0 0 1px rgb(190 242 100 / 0.35) !important;
+}

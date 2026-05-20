@@ -1,300 +1,201 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import ServerNameSection from '../sections/server/ServerNameSection.vue'
-import ServerVersionSection from '../sections/server/ServerVersionSection.vue'
-import ServerMotdSection from '../sections/server/ServerMotdSection.vue'
-import ServerPlayerCountSection from '../sections/server/ServerPlayerCountSection.vue'
 import { useDefaultStore } from '~/stores/defaults'
-import BackgroundSection from '~/components/generator/sections/BackgroundSection.vue'
-import LogoSection from '~/components/generator/sections/LogoSection.vue'
-import ResourceNameSection from '~/components/generator/sections/ResourceNameSection.vue'
-import AuthorNameSection from '~/components/generator/sections/AuthorNameSection.vue'
-import ReviewCountSection from '~/components/generator/sections/ReviewCountSection.vue'
-import StarSection from '~/components/generator/sections/StarSection.vue'
-import DownloadCountSection from '~/components/generator/sections/DownloadCountSection.vue'
-import UpdatedTimeSection from '~/components/generator/sections/UpdatedTimeSection.vue'
-import PriceSection from '~/components/generator/sections/PriceSection.vue'
-import ResourceCountSection from '~/components/generator/sections/ResourceCountSection.vue'
-import LikeCountSection from '~/components/generator/sections/LikeCountSection.vue'
+import BuilderShell from '~/components/generator/builder/BuilderShell.vue'
+import BuilderPreviewPanel from '~/components/generator/builder/BuilderPreviewPanel.vue'
+import DesignPanel from '~/components/generator/builder/DesignPanel.vue'
+import AdvancedLayoutPanel from '~/components/generator/builder/AdvancedLayoutPanel.vue'
+
+const props = defineProps<{
+  savedUrl: string
+  resultUrl: string
+  saveButtonTestId: string
+  isSaving: boolean
+  hasErrors: boolean
+}>()
+
+const emit = defineEmits<{
+  (e: 'save' | 'change-resource'): void
+}>()
 
 const defaults = useDefaultStore()
-
 const { platform, type } = storeToRefs(defaults)
 
 const configureItems = [
   {
     value: 'background',
     label: 'Background',
-    description: 'Background Configuration'
+    description: 'Background Configuration',
+    group: 'Design'
+  },
+  {
+    value: 'style',
+    label: 'Style',
+    description: 'Customize colors, shadows, and output format.',
+    group: 'Design'
   },
   {
     value: 'resourceLogo',
     label: 'Resource Logo',
-    description: 'Logo Configuration'
+    description: 'Logo Configuration',
+    group: 'Layout'
   },
   {
     value: 'authorLogo',
     label: 'Author Logo',
-    description: 'Logo Configuration'
+    description: 'Logo Configuration',
+    group: 'Layout'
   },
   {
     value: 'serverLogo',
     label: 'Server Logo',
-    description: 'Logo Configuration'
+    description: 'Logo Configuration',
+    group: 'Layout'
   },
   {
     value: 'resourceCount',
     label: 'Resource Count',
-    description: 'Resource Count Configuration'
+    description: 'Resource Count Configuration',
+    group: 'Content'
   },
   {
     value: 'resourceName',
     label: 'Resource Name',
-    description: 'Name Configuration'
+    description: 'Name Configuration',
+    group: 'Content'
   },
   {
     value: 'authorName',
     label: 'Author Name',
-    description: 'Change the author name of your banner.'
+    description: 'Change the author name of your banner.',
+    group: 'Content'
   },
   {
     value: 'serverName',
     label: 'Server Name',
-    description: 'Name Configuration'
+    description: 'Name Configuration',
+    group: 'Content'
   },
   {
     value: 'reviewCount',
     label: 'Review Count',
-    description: 'Change the review count of your banner.'
+    description: 'Change the review count of your banner.',
+    group: 'Content'
   },
   {
     value: 'viewCount',
     label: 'View Count',
-    description: 'View Count Configuration.'
+    description: 'View Count Configuration.',
+    group: 'Content'
   },
   {
     value: 'starredCount',
     label: 'Star Count',
-    description: 'Change the star count of your banner.'
+    description: 'Change the star count of your banner.',
+    group: 'Content'
   },
   {
     value: 'likeCount',
     label: 'Like Count',
-    description: 'Like Count Configuration.'
+    description: 'Like Count Configuration.',
+    group: 'Content'
   },
   {
     value: 'followersCount',
     label: 'Follower Count',
-    description: 'Change the follower count of your banner.'
+    description: 'Change the follower count of your banner.',
+    group: 'Content'
   },
   {
     value: 'starsCount',
     label: 'Stars Count',
-    description: 'Star Count Configuration.'
+    description: 'Star Count Configuration.',
+    group: 'Content'
   },
   {
     value: 'lastUpdated',
     label: 'Updated Time',
-    description: 'Change the last updated design of your banner.'
+    description: 'Change the last updated design of your banner.',
+    group: 'Content'
   },
   {
     value: 'stars',
     label: 'Stars',
-    description: 'Change the stars of your banner.'
+    description: 'Change the stars of your banner.',
+    group: 'Content'
   },
   {
     value: 'downloadCount',
     label: 'Download Count',
-    description: 'Change the download count of your banner.'
+    description: 'Change the download count of your banner.',
+    group: 'Content'
   },
   {
     value: 'price',
     label: 'Price',
-    description: 'Change the price of your banner.'
+    description: 'Change the price of your banner.',
+    group: 'Content'
   },
   {
     value: 'serverVersion',
     label: 'Server Version',
-    description: 'Change the server version of your banner.'
+    description: 'Change the server version of your banner.',
+    group: 'Content'
   },
   {
     value: 'serverMotd',
     label: 'MOTD',
-    description: 'Change the MOTD of your banner.'
+    description: 'Change the MOTD of your banner.',
+    group: 'Content'
   },
   {
     value: 'serverPlayerCount',
     label: 'Player Count',
-    description: 'Change the player count of your banner.'
+    description: 'Change the player count of your banner.',
+    group: 'Content'
   }
 ]
 
 const platformSectionConfig: Record<string, Record<string, string[]>> = {
   resource: {
-    spigot: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'reviewCount',
-      'stars',
-      'downloadCount',
-      'price'
-    ],
-    ore: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'reviewCount',
-      'downloadCount'
-    ],
-    curseforge: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'lastUpdated',
-      'downloadCount'
-    ],
-    modrinth: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'lastUpdated',
-      'downloadCount'
-    ],
-    builtbybit: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'reviewCount',
-      'stars',
-      'downloadCount',
-      'price'
-    ],
-    polymart: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'reviewCount',
-      'stars',
-      'downloadCount',
-      'price'
-    ],
-    hangar: [
-      'background',
-      'resourceLogo',
-      'resourceName',
-      'authorName',
-      'starredCount',
-      'downloadCount'
-    ]
+    spigot: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
+    ore: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'downloadCount'],
+    curseforge: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'lastUpdated', 'downloadCount'],
+    modrinth: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'lastUpdated', 'downloadCount'],
+    builtbybit: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
+    polymart: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
+    hangar: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'starredCount', 'downloadCount']
   },
   author: {
-    spigot: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'likeCount',
-      'reviewCount',
-      'downloadCount'
-    ],
-    ore: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'likeCount',
-      'downloadCount'
-    ],
-    curseforge: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'downloadCount'
-    ],
-    modrinth: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'followersCount',
-      'downloadCount'
-    ],
-    builtbybit: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'reviewCount',
-      'downloadCount'
-    ],
-    polymart: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'reviewCount',
-      'downloadCount'
-    ],
-    hangar: [
-      'background',
-      'authorLogo',
-      'authorName',
-      'resourceCount',
-      'starsCount',
-      'viewCount',
-      'downloadCount'
-    ]
+    spigot: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'likeCount', 'reviewCount', 'downloadCount'],
+    ore: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'likeCount', 'downloadCount'],
+    curseforge: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'downloadCount'],
+    modrinth: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'followersCount', 'downloadCount'],
+    builtbybit: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'reviewCount', 'downloadCount'],
+    polymart: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'reviewCount', 'downloadCount'],
+    hangar: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'starsCount', 'viewCount', 'downloadCount']
   }
 }
 
-const serverSectionConfig = [
-  'background',
-  'serverLogo',
-  'serverName',
-  'serverVersion',
-  'serverMotd',
-  'serverPlayerCount'
-]
+const serverSectionConfig = ['background', 'style', 'serverLogo', 'serverName', 'serverVersion', 'serverMotd', 'serverPlayerCount']
 
 const filteredItems = computed(() => {
-  let sectionsToShow: string | string[] = []
-
-  if (type.value === 'server') {
-    sectionsToShow = serverSectionConfig
-  } else {
-    sectionsToShow = platformSectionConfig[type.value]?.[platform.value] || []
-  }
+  const sectionsToShow = type.value === 'server'
+    ? serverSectionConfig
+    : platformSectionConfig[type.value]?.[platform.value] || []
 
   return configureItems.filter(item => sectionsToShow.includes(item.value))
 })
 
-const activeConfigureTab = ref('background')
+const advancedItems = computed(() => filteredItems.value.filter(item => item.group !== 'Design'))
 
-watch(
-  filteredItems,
-  (items) => {
-    const firstItem = items[0]
+const builderKindLabel = computed(() => {
+  if (type.value === 'server') return 'Server'
+  if (type.value === 'author') return 'Author'
+  return 'Resource'
+})
 
-    if (!firstItem) {
-      return
-    }
-
-    const activeItemStillVisible = items.some(item => item.value === activeConfigureTab.value)
-
-    if (!activeItemStillVisible) {
-      activeConfigureTab.value = firstItem.value
-    }
-  },
-  { immediate: true }
-)
+const title = computed(() => `Configure ${builderKindLabel.value} Banner`)
 </script>
 
 <script lang="ts">
@@ -303,132 +204,47 @@ export default {
 }
 </script>
 
-
 <template>
-  <UTabs
-    v-model="activeConfigureTab"
-    :items="filteredItems"
-    orientation="vertical"
-    :unmount-on-hide="false"
-    data-testid="configure-tabs"
-    :ui="{
-      root: 'flex flex-col gap-4 md:flex-row md:items-start',
-      list: 'w-full md:w-48 shrink-0',
-      content: 'min-w-0 flex-1'
-    }"
-  >
-    <template #content="{ item }">
-      <div
-        class="flex min-w-0 flex-col"
-        :data-testid="`configure-section-${item.value}`"
-      >
-        <GeneratorPreview />
+  <div data-testid="configure-tabs">
+    <div class="sr-only" data-testid="configure-section-background">
+      Background Configuration
+    </div>
+    <div class="sr-only" data-testid="configure-section-style">
+      Style
+    </div>
 
-        <BackgroundSection
-          v-if="item.value === 'background'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
+    <BuilderShell
+      :title="title"
+    >
+      <template #actions>
+        <UButton
+          type="button"
+          variant="outline"
+          icon="i-lucide-arrow-left"
+          @click="emit('change-resource')"
+        >
+          Change {{ builderKindLabel }}
+        </UButton>
+      </template>
 
-        <LogoSection
-          v-else-if="item.value === 'resourceLogo' || item.value === 'authorLogo' || item.value === 'serverLogo'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
+      <template #left>
+        <BuilderPreviewPanel
+          :saved-url="props.savedUrl"
+          :result-url="props.resultUrl"
+          :save-button-test-id="props.saveButtonTestId"
+          :is-saving="props.isSaving"
+          :has-errors="props.hasErrors"
+          @save="emit('save')"
         />
+      </template>
 
-        <ResourceNameSection
-          v-else-if="item.value === 'resourceName'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
+      <template #design>
+        <DesignPanel />
+      </template>
 
-        <AuthorNameSection
-          v-else-if="item.value === 'authorName'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ReviewCountSection
-          v-else-if="item.value === 'reviewCount' || item.value === 'starredCount' || item.value === 'viewCount'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <StarSection
-          v-else-if="item.value === 'stars'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <DownloadCountSection
-          v-else-if="item.value === 'downloadCount'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <UpdatedTimeSection
-          v-else-if="item.value === 'lastUpdated'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <PriceSection
-          v-else-if="item.value === 'price'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ResourceCountSection
-          v-else-if="item.value === 'resourceCount'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <LikeCountSection
-          v-else-if="item.value === 'likeCount' || item.value === 'followersCount' || item.value === 'starsCount'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ServerNameSection
-          v-else-if="item.value === 'serverName'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ServerVersionSection
-          v-else-if="item.value === 'serverVersion'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ServerMotdSection
-          v-else-if="item.value === 'serverMotd'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-
-        <ServerPlayerCountSection
-          v-else-if="item.value === 'serverPlayerCount'"
-          :label="item.label"
-          :description="item.description"
-          class="space-y-3"
-        />
-      </div>
-    </template>
-  </UTabs>
+      <template #advanced>
+        <AdvancedLayoutPanel :items="advancedItems" />
+      </template>
+    </BuilderShell>
+  </div>
 </template>

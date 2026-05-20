@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useConstantStore } from './constants'
+import { useStyleStore } from './style'
 import type { Resource, Author, Server } from '~/types/banner'
 import type { BannerSaveResponse } from '~/types/misc'
 
@@ -11,10 +12,27 @@ export const useDefaultStore = defineStore('defaults', () => {
 
   const host = ref('localhost')
   const port = ref(25565)
+  const hasSelectedSource = ref(false)
 
   const resource = ref<Resource>()
   const author = ref<Author>()
   const server = ref<Server>()
+
+  const hasActiveBuilderSource = computed(() => {
+    if (!hasSelectedSource.value) {
+      return false
+    }
+
+    if (type.value === 'server') {
+      return !!server.value
+    }
+
+    if (type.value === 'author') {
+      return !!author.value
+    }
+
+    return !!resource.value
+  })
 
   const getDefaults = async () => {
     if (resource.value) { return }
@@ -23,6 +41,22 @@ export const useDefaultStore = defineStore('defaults', () => {
     resource.value = defaultsJson.resource
     author.value = defaultsJson.author
     server.value = defaultsJson.server
+  }
+
+  function markSelectedSource () {
+    hasSelectedSource.value = true
+  }
+
+  function resetSelectedSource () {
+    id.value = '0'
+    platform.value = 'spigot'
+    type.value = 'resource'
+    host.value = 'localhost'
+    port.value = 25565
+    hasSelectedSource.value = false
+    resource.value = undefined
+    author.value = undefined
+    server.value = undefined
   }
 
   function convertToQueryParameters (): string {
@@ -57,12 +91,21 @@ export const useDefaultStore = defineStore('defaults', () => {
       }
     }
 
+    // Append v1 style overrides
+    const styleStore = useStyleStore()
+    const styleParams = styleStore.buildStyleParams()
+    for (const [key, value] of Object.entries(styleParams)) {
+      queryParams.push(`${key}=${value}`)
+    }
+
     return queryParams.join('&')
   }
 
   function generateBannerUrl (): string {
-    const regularUrl = useMcbannersApiUrl(`/banner/${type.value}/${platform.value}/${id.value}/banner.png?${convertToQueryParameters()}`)
-    const serverUrl = useMcbannersApiUrl(`/banner/server/${host.value}/${port.value}/banner.png?${convertToQueryParameters()}`)
+    const styleStore = useStyleStore()
+    const ext = styleStore.outputFormat === 'jpg' ? 'jpg' : 'png'
+    const regularUrl = useMcbannersApiUrl(`/banner/${type.value}/${platform.value}/${id.value}/banner.${ext}?${convertToQueryParameters()}`)
+    const serverUrl = useMcbannersApiUrl(`/banner/server/${host.value}/${port.value}/banner.${ext}?${convertToQueryParameters()}`)
 
     return type.value === 'server' ? serverUrl : regularUrl
   }
@@ -121,6 +164,13 @@ export const useDefaultStore = defineStore('defaults', () => {
       }
     }
 
+    // Persist non-default v1 style fields
+    const styleStore = useStyleStore()
+    const styleParams = styleStore.buildStyleParams()
+    for (const [key, value] of Object.entries(styleParams)) {
+      data.settings[key] = value
+    }
+
     const response = await fetch(
       useMcbannersApiUrl('/banner/saved/save'),
       {
@@ -144,10 +194,14 @@ export const useDefaultStore = defineStore('defaults', () => {
     type,
     host,
     port,
+    hasSelectedSource,
+    hasActiveBuilderSource,
     resource,
     author,
     server,
     getDefaults,
+    markSelectedSource,
+    resetSelectedSource,
     convertToQueryParameters,
     generateBannerUrl,
     save

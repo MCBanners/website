@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-  <UFormField :label="label" :name="name" class="w-1/6 mr-4">
+  <UFormField :label="label" :name="name" class="min-w-0">
     <UInput
       :model-value="modelValue"
       :type="type"
