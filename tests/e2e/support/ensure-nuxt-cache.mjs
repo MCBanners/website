@@ -1,4 +1,4 @@
-import { mkdir } from 'node:fs/promises'
+import { mkdir, rm, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 const directories = [
@@ -7,6 +7,23 @@ const directories = [
   '.nuxt/cache/vite'
 ]
 
-await Promise.all(
-  directories.map(directory => mkdir(resolve(process.cwd(), directory), { recursive: true }))
-)
+async function ensureDirectory (directory) {
+  const target = resolve(process.cwd(), directory)
+
+  try {
+    const current = await stat(target)
+    if (current.isDirectory()) {
+      return
+    }
+
+    await rm(target, { force: true })
+  } catch (error) {
+    if (error?.code !== 'ENOENT') {
+      throw error
+    }
+  }
+
+  await mkdir(target, { recursive: true })
+}
+
+await Promise.all(directories.map(directory => ensureDirectory(directory)))

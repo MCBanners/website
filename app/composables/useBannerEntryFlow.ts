@@ -1,5 +1,6 @@
 import { storeToRefs } from 'pinia'
 import { useDefaultStore } from '~/stores/defaults'
+import type { ServerGame } from '~/types/banner'
 import type { BannerKind, PlatformOption } from '~/utils/builder-entry'
 
 export type BannerValidationResult = {
@@ -9,7 +10,7 @@ export type BannerValidationResult = {
 
 export function useBannerEntryFlow () {
   const defaults = useDefaultStore()
-  const { id, platform, type, host, port } = storeToRefs(defaults)
+  const { id, platform, type, host, port, serverGame } = storeToRefs(defaults)
 
   async function validateResource (
     platformName: string,
@@ -56,16 +57,19 @@ export function useBannerEntryFlow () {
   }
 
   async function validateServer (
+    selectedGame: ServerGame,
     serverHost: string,
     serverPort: number
   ): Promise<BannerValidationResult> {
-    const response = await fetch(useMcbannersApiUrl(`/banner/server/${encodeURIComponent(serverHost)}/${serverPort}/isValid`))
+    const response = await fetch(useMcbannersApiUrl(`/banner/server/${selectedGame}/${encodeURIComponent(serverHost)}/${serverPort}/isValid`))
     const json = await response.json()
 
     if (!json.valid) {
       return {
         ok: false,
-        message: 'Failed to ping that server. Please make sure the IP and port are correct.'
+        message: selectedGame === 'hytale'
+          ? 'Could not query that Hytale server. Check the host and port, and make sure the server has OneQuery or Minecraft-compatible PingProtocol enabled.'
+          : 'Failed to ping that server. Please make sure the IP and port are correct.'
       }
     }
 
@@ -73,6 +77,7 @@ export function useBannerEntryFlow () {
     type.value = 'server'
     host.value = serverHost
     port.value = serverPort
+    serverGame.value = selectedGame
     defaults.markSelectedSource()
     return { ok: true }
   }

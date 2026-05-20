@@ -36,6 +36,11 @@ function isInvalidValidationPath (pathname) {
   return /\/invalid(?:-|\/|$)/i.test(pathname) || /invalid\.example\.test/i.test(pathname)
 }
 
+function isKnownServerBannerPath (pathname) {
+  return /^\/banner\/server\/(?:minecraft|hytale)\/[^/]+\/[0-9]+\/(?:isValid|banner\.png)$/i.test(pathname)
+    || /^\/banner\/server\/[^/]+\/[0-9]+\/(?:isValid|banner\.png)$/i.test(pathname)
+}
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url || '/', `http://${host}:${port}`)
   const pathname = url.pathname
@@ -62,6 +67,11 @@ const server = http.createServer(async (req, res) => {
 
   if (pathname === '/banner/svc/defaults/all') {
     sendJson(res, defaults)
+    return
+  }
+
+  if (pathname.startsWith('/banner/server/') && !isKnownServerBannerPath(pathname)) {
+    sendJson(res, { error: `Unhandled mock API route: ${pathname}` }, 404)
     return
   }
 

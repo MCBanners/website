@@ -19,7 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const defaults = useDefaultStore()
-const { platform, type } = storeToRefs(defaults)
+const { platform, type, serverGame } = storeToRefs(defaults)
 
 const configureItems = [
   {
@@ -190,9 +190,14 @@ const filteredItems = computed(() => {
 const advancedItems = computed(() => filteredItems.value.filter(item => item.group !== 'Design'))
 
 const builderKindLabel = computed(() => {
-  if (type.value === 'server') return 'Server'
+  if (type.value === 'server') return serverGame.value === 'hytale' ? 'Hytale Server' : 'Minecraft Server'
   if (type.value === 'author') return 'Author'
   return 'Resource'
+})
+
+const changeButtonLabel = computed(() => {
+  if (type.value === 'server') return 'Change Server'
+  return `Change ${builderKindLabel.value}`
 })
 
 const title = computed(() => `Configure ${builderKindLabel.value} Banner`)
@@ -223,7 +228,7 @@ export default {
           icon="i-lucide-arrow-left"
           @click="emit('change-resource')"
         >
-          Change {{ builderKindLabel }}
+          {{ changeButtonLabel }}
         </UButton>
       </template>
 

@@ -1,3 +1,5 @@
+export type ServerGame = 'minecraft' | 'hytale'
+
 export type Layout = {
     max_chars: number;
     enable: boolean;

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useConstantStore } from './constants'
 import { useStyleStore } from './style'
-import type { Resource, Author, Server } from '~/types/banner'
+import type { Resource, Author, Server, ServerGame } from '~/types/banner'
 import type { BannerSaveResponse } from '~/types/misc'
 
 export const useDefaultStore = defineStore('defaults', () => {
@@ -12,6 +12,7 @@ export const useDefaultStore = defineStore('defaults', () => {
 
   const host = ref('localhost')
   const port = ref(25565)
+  const serverGame = ref<ServerGame>('minecraft')
   const hasSelectedSource = ref(false)
 
   const resource = ref<Resource>()
@@ -53,10 +54,25 @@ export const useDefaultStore = defineStore('defaults', () => {
     type.value = 'resource'
     host.value = 'localhost'
     port.value = 25565
+    serverGame.value = 'minecraft'
     hasSelectedSource.value = false
     resource.value = undefined
     author.value = undefined
     server.value = undefined
+  }
+
+  function setServerGame (nextGame: ServerGame): void {
+    if (serverGame.value === nextGame) {
+      return
+    }
+
+    if (serverGame.value === 'minecraft' && nextGame === 'hytale' && port.value === 25565) {
+      port.value = 5520
+    } else if (serverGame.value === 'hytale' && nextGame === 'minecraft' && port.value === 5520) {
+      port.value = 25565
+    }
+
+    serverGame.value = nextGame
   }
 
   function convertToQueryParameters (): string {
@@ -105,7 +121,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     const styleStore = useStyleStore()
     const ext = styleStore.outputFormat === 'jpg' ? 'jpg' : 'png'
     const regularUrl = useMcbannersApiUrl(`/banner/${type.value}/${platform.value}/${id.value}/banner.${ext}?${convertToQueryParameters()}`)
-    const serverUrl = useMcbannersApiUrl(`/banner/server/${host.value}/${port.value}/banner.${ext}?${convertToQueryParameters()}`)
+    const serverUrl = useMcbannersApiUrl(`/banner/server/${serverGame.value}/${encodeURIComponent(host.value)}/${port.value}/banner.${ext}?${convertToQueryParameters()}`)
 
     return type.value === 'server' ? serverUrl : regularUrl
   }
@@ -133,6 +149,7 @@ export const useDefaultStore = defineStore('defaults', () => {
         author_id?: string;
         server_host?: string;
         server_port?: number;
+        server_game?: ServerGame;
       };
       settings: Record<string, unknown>;
     } = {
@@ -148,6 +165,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     } else {
       data.metadata.server_host = host.value
       data.metadata.server_port = port.value
+      data.metadata.server_game = serverGame.value
     }
 
     for (const [key, value] of Object.entries(using)) {
@@ -194,6 +212,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     type,
     host,
     port,
+    serverGame,
     hasSelectedSource,
     hasActiveBuilderSource,
     resource,
@@ -202,6 +221,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     getDefaults,
     markSelectedSource,
     resetSelectedSource,
+    setServerGame,
     convertToQueryParameters,
     generateBannerUrl,
     save

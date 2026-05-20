@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import { useDefaultStore } from '~/stores/defaults'
+import type { ServerGame } from '~/types/banner'
 import type { BannerKind, PlatformOption, SourcePlaceholder } from '~/utils/builder-entry'
 import {
   authorPlaceholders,
@@ -13,6 +15,7 @@ type HomeBuilderState = 'entry' | 'loading' | 'error'
 
 type BannerTypeOption = {
   kind: BannerKind
+  serverGame?: ServerGame
   label: string
   icon: string
   description: string
@@ -36,6 +39,7 @@ const {
   validateServer
 } = useBannerEntryFlow()
 const defaults = useDefaultStore()
+const { serverGame } = storeToRefs(defaults)
 
 defaults.resetSelectedSource()
 
@@ -54,9 +58,17 @@ const bannerTypes: BannerTypeOption[] = [
   },
   {
     kind: 'server',
-    label: 'Server Banner',
+    serverGame: 'minecraft',
+    label: 'Minecraft Server Banner',
     icon: 'i-lucide-server',
-    description: 'Show server status, players, and version.'
+    description: 'Show Minecraft server status, players, and version.'
+  },
+  {
+    kind: 'server',
+    serverGame: 'hytale',
+    label: 'Hytale Server Banner',
+    icon: 'i-lucide-radio-tower',
+    description: 'Show Hytale server status through OneQuery or PingProtocol.'
   }
 ]
 
@@ -95,7 +107,11 @@ const serverHost = ref('')
 const serverPort = ref('25565')
 const validationMessage = ref('')
 
-const selectedType = computed(() => bannerTypes.find(type => type.kind === kind.value)!)
+const selectedType = computed(() =>
+  bannerTypes.find(typeOption =>
+    typeOption.kind === kind.value && (typeOption.kind !== 'server' || typeOption.serverGame === serverGame.value)
+  )!
+)
 const activePlatforms = computed<PlatformOption[]>(() => {
   if (kind.value === 'author') {
     return authorPlatformOptions
@@ -129,7 +145,9 @@ const sourceDescription = computed(() => {
   if (kind.value === 'author') {
     return 'Enter the author, user, or creator ID.'
   }
-  return 'Enter a Minecraft server host and optional port.'
+  return serverGame.value === 'hytale'
+    ? 'Enter a Hytale server host and port.'
+    : 'Enter a Minecraft server host and optional port.'
 })
 const loadingTitle = computed(() => {
   if (kind.value === 'resource') {
@@ -138,7 +156,9 @@ const loadingTitle = computed(() => {
   if (kind.value === 'author') {
     return `Fetching author from ${platformLabel(authorPlatform.value)}...`
   }
-  return `Pinging ${serverHost.value.trim() || 'server'}...`
+  return serverGame.value === 'hytale'
+    ? `Querying ${serverHost.value.trim() || 'server'}...`
+    : `Pinging ${serverHost.value.trim() || 'server'}...`
 })
 const fallbackResourcePlaceholder: SourcePlaceholder = {
   url: 'https://www.spigotmc.org/resources/placeholderapi.6245/',
@@ -151,13 +171,25 @@ const fallbackAuthorPlaceholder: SourcePlaceholder = {
 }
 const resourcePlaceholder = computed<SourcePlaceholder>(() => resourcePlaceholders[resourcePlatform.value] || fallbackResourcePlaceholder)
 const authorPlaceholder = computed<SourcePlaceholder>(() => authorPlaceholders[authorPlatform.value] || fallbackAuthorPlaceholder)
+const serverPortPlaceholder = computed(() => serverGame.value === 'hytale' ? '5520' : '25565')
+const defaultServerPort = computed(() => serverGame.value === 'hytale' ? 5520 : 25565)
 
 function platformLabel (value: string): string {
   return activePlatforms.value.find(platformOption => platformOption.value === value)?.label || value
 }
 
-function chooseKind (nextKind: BannerKind) {
-  kind.value = nextKind
+function chooseKind (typeOption: BannerTypeOption) {
+  kind.value = typeOption.kind
+  if (typeOption.kind === 'server' && typeOption.serverGame) {
+    const previousGame = serverGame.value
+    defaults.setServerGame(typeOption.serverGame)
+
+    if (previousGame === 'minecraft' && typeOption.serverGame === 'hytale' && serverPort.value.trim() === '25565') {
+      serverPort.value = '5520'
+    } else if (previousGame === 'hytale' && typeOption.serverGame === 'minecraft' && serverPort.value.trim() === '5520') {
+      serverPort.value = '25565'
+    }
+  }
   validationMessage.value = ''
   if (flowState.value === 'error') {
     flowState.value = 'entry'
@@ -170,7 +202,7 @@ function choosePlatform (platform: string) {
 }
 
 function serverPortNumber (): number {
-  const parsed = Number(serverPort.value.trim() || 25565)
+  const parsed = Number(serverPort.value.trim() || defaultServerPort.value)
   return Number.isFinite(parsed) ? parsed : Number.NaN
 }
 
@@ -212,7 +244,7 @@ async function continueToBuilder () {
     return
   }
 
-  await validateAndOpenBuilder(() => validateServer(host, port))
+  await validateAndOpenBuilder(() => validateServer(serverGame.value, host, port))
 }
 
 async function validateAndOpenBuilder (
@@ -255,7 +287,7 @@ async function validateAndOpenBuilder (
           </div>
         </div>
 
-        <div class="grid gap-3 sm:grid-cols-3">
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <div
             v-for="point in valuePoints"
             :key="point.title"
@@ -340,11 +372,11 @@ async function validateAndOpenBuilder (
             <div class="grid gap-3 lg:grid-cols-3">
               <button
                 v-for="typeOption in bannerTypes"
-                :key="typeOption.kind"
+                :key="`${typeOption.kind}-${typeOption.serverGame || 'default'}`"
                 type="button"
                 class="flex min-h-28 items-start gap-4 rounded-lg border p-4 text-left transition hover:border-lime-300/60 hover:bg-white/[0.04]"
-                :class="kind === typeOption.kind ? 'border-lime-300 bg-lime-300/10' : 'border-white/10 bg-gray-900/80'"
-                @click="chooseKind(typeOption.kind)"
+                :class="kind === typeOption.kind && (typeOption.kind !== 'server' || typeOption.serverGame === serverGame) ? 'border-lime-300 bg-lime-300/10' : 'border-white/10 bg-gray-900/80'"
+                @click="chooseKind(typeOption)"
               >
                 <span class="flex size-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5">
                   <UIcon :name="typeOption.icon" class="size-6 text-lime-300" />
@@ -454,6 +486,13 @@ async function validateAndOpenBuilder (
               </div>
 
               <div v-else class="grid gap-4 sm:grid-cols-[1fr_140px]">
+                <p
+                  v-if="serverGame === 'hytale'"
+                  class="sm:col-span-2 text-xs leading-5 text-gray-500"
+                >
+                  Hytale banners require query support on the server. We recommend OneQuery. MCBanners will also try Minecraft-compatible PingProtocol as a fallback.
+                </p>
+
                 <UFormField label="Server host" name="server-host">
                   <div class="relative">
                     <UIcon name="i-lucide-server" class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-500" />
@@ -470,7 +509,7 @@ async function validateAndOpenBuilder (
                   <input
                     v-model="serverPort"
                     name="server-port"
-                    placeholder="25565"
+                    :placeholder="serverPortPlaceholder"
                     type="number"
                     class="mcb-native-input w-full rounded-md border border-slate-700/90 bg-slate-950/80 px-3 py-2.5 text-sm text-slate-100 shadow-none outline-none placeholder:text-slate-500 focus:border-lime-300/65 focus:ring-1 focus:ring-lime-300/35"
                   >
