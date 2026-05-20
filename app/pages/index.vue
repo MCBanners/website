@@ -245,15 +245,6 @@ async function validateAndOpenBuilder (
     >
       <div class="grid gap-5 lg:grid-cols-[minmax(0,0.92fr)_minmax(520px,1fr)] lg:items-end">
         <div class="space-y-4">
-          <UBadge
-            color="primary"
-            variant="soft"
-            class="w-fit border border-lime-400/20 bg-lime-400/10 uppercase tracking-wide text-lime-300"
-          >
-            <UIcon name="i-lucide-zap" class="mr-1 size-4" />
-            Live data. Beautiful banners.
-          </UBadge>
-
           <div class="space-y-3">
             <h1 class="max-w-[820px] text-4xl font-bold leading-tight tracking-normal text-white">
               Build beautiful <span class="text-lime-300">live-updating</span> banners in seconds
