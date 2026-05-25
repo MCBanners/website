@@ -27,13 +27,13 @@
     "@playwright/test": "^1.60.0",
     "@vue/language-core": "^3.2.9",
     "eslint": "^10.4.0",
-    "nuxt": "^4.4.5",
+    "nuxt": "^4.4.6",
     "typescript": "^6.0.3",
     "vue-tsc": "^3.2.9"
   },
   "dependencies": {
     "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "^4.7.1",
+    "@nuxt/ui": "^4.8.0",
     "@pinia/nuxt": "^0.11.3",
     "pinia": "^3.0.4",
     "tailwindcss": "^4.3.0"
