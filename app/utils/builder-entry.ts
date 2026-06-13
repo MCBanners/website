@@ -16,10 +16,18 @@ export const resourcePlatformOptions: PlatformOption[] = [
   { label: 'Spigot', value: 'spigot', bannerType: 'SPIGOT_RESOURCE' },
   { label: 'Hangar', value: 'hangar', bannerType: 'HANGAR_RESOURCE' },
   { label: 'Sponge', value: 'ore', bannerType: 'SPONGE_RESOURCE' },
-  { label: 'CurseForge', value: 'curseforge', bannerType: 'CURSEFORGE_RESOURCE' },
+  {
+    label: 'CurseForge',
+    value: 'curseforge',
+    bannerType: 'CURSEFORGE_RESOURCE',
+  },
   { label: 'Modrinth', value: 'modrinth', bannerType: 'MODRINTH_RESOURCE' },
-  { label: 'BuiltByBit', value: 'builtbybit', bannerType: 'BUILTBYBIT_RESOURCE' },
-  { label: 'Polymart', value: 'polymart', bannerType: 'POLYMART_RESOURCE' }
+  {
+    label: 'BuiltByBit',
+    value: 'builtbybit',
+    bannerType: 'BUILTBYBIT_RESOURCE',
+  },
+  { label: 'Polymart', value: 'polymart', bannerType: 'POLYMART_RESOURCE' },
 ]
 
 export const authorPlatformOptions: PlatformOption[] = [
@@ -29,75 +37,88 @@ export const authorPlatformOptions: PlatformOption[] = [
   { label: 'CurseForge', value: 'curseforge', bannerType: 'CURSEFORGE_AUTHOR' },
   { label: 'Modrinth', value: 'modrinth', bannerType: 'MODRINTH_AUTHOR' },
   { label: 'BuiltByBit', value: 'builtbybit', bannerType: 'BUILTBYBIT_AUTHOR' },
-  { label: 'Polymart', value: 'polymart', bannerType: 'POLYMART_AUTHOR' }
+  { label: 'Polymart', value: 'polymart', bannerType: 'POLYMART_AUTHOR' },
 ]
 
 export const resourcePlaceholders: Record<string, SourcePlaceholder> = {
   spigot: {
     url: 'https://www.spigotmc.org/resources/placeholderapi.6245/',
     id: '6245',
-    helper: 'Spigot resources usually use the numeric ID from the resource URL.'
+    helper:
+      'Spigot resources usually use the numeric ID from the resource URL.',
   },
   hangar: {
     url: 'https://hangar.papermc.io/HelpChat/PlaceholderAPI',
     id: 'HelpChat/PlaceholderAPI',
-    helper: 'Hangar resources use owner/project.'
+    helper: 'Hangar resources use owner/project.',
   },
   ore: {
     url: 'https://ore.spongepowered.org/author/project',
     id: 'author/project',
-    helper: 'Sponge resources use author/project.'
+    helper: 'Sponge resources use author/project.',
   },
   curseforge: {
     url: 'https://www.curseforge.com/minecraft/mc-mods/example-mod',
     id: 'example-mod',
-    helper: 'CurseForge resources can use the project slug.'
+    helper: 'CurseForge resources can use the project slug.',
   },
   modrinth: {
     url: 'https://modrinth.com/plugin/placeholderapi',
     id: 'placeholderapi',
-    helper: 'Modrinth resources can use the project slug.'
+    helper: 'Modrinth resources can use the project slug.',
   },
   builtbybit: {
     url: 'https://builtbybit.com/resources/example-resource.12345/',
     id: '12345',
-    helper: 'BuiltByBit resources usually use the numeric resource ID.'
+    helper: 'BuiltByBit resources usually use the numeric resource ID.',
   },
   polymart: {
     url: 'https://polymart.org/resource/example-resource.1234',
     id: '1234',
-    helper: 'Polymart resources usually use the numeric resource ID.'
-  }
+    helper: 'Polymart resources usually use the numeric resource ID.',
+  },
 }
 
 export const authorPlaceholders: Record<string, SourcePlaceholder> = {
   spigot: { id: 'HelpChat', helper: 'Enter the Spigot author name or ID.' },
   hangar: { id: 'HelpChat', helper: 'Enter the Hangar owner name.' },
   ore: { id: 'lucko', helper: 'Enter the Sponge author name.' },
-  curseforge: { id: 'Lecroq', helper: 'Enter the CurseForge author slug or ID.' },
-  modrinth: { id: 'lucko', helper: 'Enter the Modrinth user or organization slug.' },
-  builtbybit: { id: 'Lecroq', helper: 'Enter the BuiltByBit author name or ID.' },
-  polymart: { id: 'Lecroq', helper: 'Enter the Polymart author name or ID.' }
+  curseforge: {
+    id: 'Lecroq',
+    helper: 'Enter the CurseForge author slug or ID.',
+  },
+  modrinth: {
+    id: 'lucko',
+    helper: 'Enter the Modrinth user or organization slug.',
+  },
+  builtbybit: {
+    id: 'Lecroq',
+    helper: 'Enter the BuiltByBit author name or ID.',
+  },
+  polymart: { id: 'Lecroq', helper: 'Enter the Polymart author name or ID.' },
 }
 
-export function getSingleQueryValue (value: unknown): string {
+export function getSingleQueryValue(value: unknown): string {
   if (Array.isArray(value)) {
-    const firstString = value.find(item => typeof item === 'string')
+    const firstString = value.find((item) => typeof item === 'string')
     return firstString?.trim() || ''
   }
 
   return typeof value === 'string' ? value.trim() : ''
 }
 
-export function getSupportedPlatform (
+export function getSupportedPlatform(
   value: string,
   options: PlatformOption[],
-  fallback = 'spigot'
+  fallback = 'spigot',
 ): string {
-  return options.some(option => option.value === value) ? value : fallback
+  return options.some((option) => option.value === value) ? value : fallback
 }
 
-export function extractResourceIdFromUrl (value: string, platform = 'spigot'): string {
+export function extractResourceIdFromUrl(
+  value: string,
+  platform = 'spigot',
+): string {
   const trimmed = value.trim()
   if (!trimmed) {
     return ''
@@ -121,7 +142,11 @@ export function extractResourceIdFromUrl (value: string, platform = 'spigot'): s
       return owner && project ? `${owner}/${project}` : ''
     }
 
-    if (platform === 'spigot' || platform === 'builtbybit' || platform === 'polymart') {
+    if (
+      platform === 'spigot' ||
+      platform === 'builtbybit' ||
+      platform === 'polymart'
+    ) {
       const numericSuffix = lastSegment.match(/\.([0-9]+)$/)
       if (numericSuffix?.[1]) {
         return numericSuffix[1]

@@ -35,7 +35,9 @@ export const useDefaultStore = defineStore('defaults', () => {
   })
 
   const getDefaults = async () => {
-    if (resource.value) { return }
+    if (resource.value) {
+      return
+    }
     const defaults = await fetch(useMcbannersApiUrl('/banner/svc/defaults/all'))
     const defaultsJson = await defaults.json()
     resource.value = defaultsJson.resource
@@ -43,11 +45,11 @@ export const useDefaultStore = defineStore('defaults', () => {
     server.value = defaultsJson.server
   }
 
-  function markSelectedSource () {
+  function markSelectedSource() {
     hasSelectedSource.value = true
   }
 
-  function resetSelectedSource () {
+  function resetSelectedSource() {
     id.value = '0'
     platform.value = 'spigot'
     type.value = 'resource'
@@ -59,7 +61,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     server.value = undefined
   }
 
-  function convertToQueryParameters (): string {
+  function convertToQueryParameters(): string {
     const queryParams: string[] = []
 
     let using: Record<string, unknown> = {}
@@ -83,7 +85,9 @@ export const useDefaultStore = defineStore('defaults', () => {
             queryParams.push(`${key}__${subKey}=${subValue}`)
           } else if (key === 'background' && typeof subValue === 'string') {
             const constants = useConstantStore()
-            queryParams.push(`${key}__${subKey}=${getTemplateKey(template.value, constants.templates)}`)
+            queryParams.push(
+              `${key}__${subKey}=${getTemplateKey(template.value, constants.templates)}`,
+            )
           }
         }
       } else {
@@ -101,16 +105,20 @@ export const useDefaultStore = defineStore('defaults', () => {
     return queryParams.join('&')
   }
 
-  function generateBannerUrl (): string {
+  function generateBannerUrl(): string {
     const styleStore = useStyleStore()
     const ext = styleStore.outputFormat === 'jpg' ? 'jpg' : 'png'
-    const regularUrl = useMcbannersApiUrl(`/banner/${type.value}/${platform.value}/${id.value}/banner.${ext}?${convertToQueryParameters()}`)
-    const serverUrl = useMcbannersApiUrl(`/banner/server/${host.value}/${port.value}/banner.${ext}?${convertToQueryParameters()}`)
+    const regularUrl = useMcbannersApiUrl(
+      `/banner/${type.value}/${platform.value}/${id.value}/banner.${ext}?${convertToQueryParameters()}`,
+    )
+    const serverUrl = useMcbannersApiUrl(
+      `/banner/server/${host.value}/${port.value}/banner.${ext}?${convertToQueryParameters()}`,
+    )
 
     return type.value === 'server' ? serverUrl : regularUrl
   }
 
-  async function save (bannerType: string): Promise<BannerSaveResponse> {
+  async function save(bannerType: string): Promise<BannerSaveResponse> {
     const constants = useConstantStore()
 
     let using: Record<string, unknown> = {}
@@ -127,18 +135,18 @@ export const useDefaultStore = defineStore('defaults', () => {
         break
     }
     const data: {
-      type: string;
+      type: string
       metadata: {
-        resource_id?: string;
-        author_id?: string;
-        server_host?: string;
-        server_port?: number;
-      };
-      settings: Record<string, unknown>;
+        resource_id?: string
+        author_id?: string
+        server_host?: string
+        server_port?: number
+      }
+      settings: Record<string, unknown>
     } = {
       type: bannerType,
       metadata: {},
-      settings: {}
+      settings: {},
     }
 
     if (type.value === 'resource') {
@@ -156,7 +164,10 @@ export const useDefaultStore = defineStore('defaults', () => {
           if (key !== 'background') {
             data.settings[`${key}__${subKey}`] = subValue
           } else if (key === 'background' && typeof subValue === 'string') {
-            data.settings[`${key}__${subKey}`] = getTemplateKey(template.value, constants.templates)
+            data.settings[`${key}__${subKey}`] = getTemplateKey(
+              template.value,
+              constants.templates,
+            )
           }
         }
       } else {
@@ -171,16 +182,13 @@ export const useDefaultStore = defineStore('defaults', () => {
       data.settings[key] = value
     }
 
-    const response = await fetch(
-      useMcbannersApiUrl('/banner/saved/save'),
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      }
-    )
+    const response = await fetch(useMcbannersApiUrl('/banner/saved/save'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
 
     const responseJson = (await response.json()) as BannerSaveResponse
 
@@ -204,6 +212,6 @@ export const useDefaultStore = defineStore('defaults', () => {
     resetSelectedSource,
     convertToQueryParameters,
     generateBannerUrl,
-    save
+    save,
   }
 })

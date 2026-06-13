@@ -7,21 +7,26 @@ export type BannerValidationResult = {
   message?: string
 }
 
-export function useBannerEntryFlow () {
+export function useBannerEntryFlow() {
   const defaults = useDefaultStore()
   const { id, platform, type, host, port } = storeToRefs(defaults)
 
-  async function validateResource (
+  async function validateResource(
     platformName: string,
-    bannerId: string
+    bannerId: string,
   ): Promise<BannerValidationResult> {
-    const response = await fetch(useMcbannersApiUrl(`/banner/resource/${platformName}/${encodeURIComponent(bannerId)}/isValid`))
+    const response = await fetch(
+      useMcbannersApiUrl(
+        `/banner/resource/${platformName}/${encodeURIComponent(bannerId)}/isValid`,
+      ),
+    )
     const json = await response.json()
 
     if (!json.valid) {
       return {
         ok: false,
-        message: 'Failed to fetch resource. Check that the resource ID is correct.'
+        message:
+          'Failed to fetch resource. Check that the resource ID is correct.',
       }
     }
 
@@ -33,17 +38,21 @@ export function useBannerEntryFlow () {
     return { ok: true }
   }
 
-  async function validateAuthor (
+  async function validateAuthor(
     platformName: string,
-    bannerId: string
+    bannerId: string,
   ): Promise<BannerValidationResult> {
-    const response = await fetch(useMcbannersApiUrl(`/banner/author/${platformName}/${encodeURIComponent(bannerId)}/isValid`))
+    const response = await fetch(
+      useMcbannersApiUrl(
+        `/banner/author/${platformName}/${encodeURIComponent(bannerId)}/isValid`,
+      ),
+    )
     const json = await response.json()
 
     if (!json.valid) {
       return {
         ok: false,
-        message: 'Failed to fetch author. Check that the author ID is correct.'
+        message: 'Failed to fetch author. Check that the author ID is correct.',
       }
     }
 
@@ -55,17 +64,22 @@ export function useBannerEntryFlow () {
     return { ok: true }
   }
 
-  async function validateServer (
+  async function validateServer(
     serverHost: string,
-    serverPort: number
+    serverPort: number,
   ): Promise<BannerValidationResult> {
-    const response = await fetch(useMcbannersApiUrl(`/banner/server/${encodeURIComponent(serverHost)}/${serverPort}/isValid`))
+    const response = await fetch(
+      useMcbannersApiUrl(
+        `/banner/server/${encodeURIComponent(serverHost)}/${serverPort}/isValid`,
+      ),
+    )
     const json = await response.json()
 
     if (!json.valid) {
       return {
         ok: false,
-        message: 'Failed to ping that server. Please make sure the IP and port are correct.'
+        message:
+          'Failed to ping that server. Please make sure the IP and port are correct.',
       }
     }
 
@@ -77,12 +91,14 @@ export function useBannerEntryFlow () {
     return { ok: true }
   }
 
-  function getPlatformBannerType (
+  function getPlatformBannerType(
     kind: Exclude<BannerKind, 'server'>,
     platformName: string,
-    platforms: PlatformOption[]
+    platforms: PlatformOption[],
   ): string | undefined {
-    const option = platforms.find(platformOption => platformOption.value === platformName)
+    const option = platforms.find(
+      (platformOption) => platformOption.value === platformName,
+    )
     if (!option) {
       return undefined
     }
@@ -102,6 +118,6 @@ export function useBannerEntryFlow () {
     validateResource,
     validateAuthor,
     validateServer,
-    getPlatformBannerType
+    getPlatformBannerType,
   }
 }

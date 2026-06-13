@@ -9,14 +9,14 @@ const MAX_CACHE_SIZE = 100
 // Using a plain Map (not reactive) — we only need reactivity on displayUrl/isLoading
 const previewCache = new Map<string, string>()
 
-function revokeAndClear () {
+function revokeAndClear() {
   for (const blobUrl of previewCache.values()) URL.revokeObjectURL(blobUrl)
   previewCache.clear()
 }
 
 defineProps({
   label: String,
-  description: String
+  description: String,
 })
 
 const defaults = useDefaultStore()
@@ -31,7 +31,7 @@ const hasError = ref(false)
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 
 /** Fetch the API URL, cache it as a blob URL, and commit to displayUrl. */
-async function fetchAndCommit (apiUrl: string) {
+async function fetchAndCommit(apiUrl: string) {
   try {
     const resp = await fetch(apiUrl)
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
@@ -56,7 +56,7 @@ async function fetchAndCommit (apiUrl: string) {
 }
 
 /** Returns true and commits immediately if apiUrl is already cached. */
-function tryCommitCached (apiUrl: string): boolean {
+function tryCommitCached(apiUrl: string): boolean {
   const cached = previewCache.get(apiUrl)
   if (cached !== undefined) {
     hasError.value = false
@@ -68,7 +68,10 @@ function tryCommitCached (apiUrl: string): boolean {
 
 // Watch for style/settings changes; apply cache-first logic with 500ms debounce for misses
 watch(immediateUrl, (newUrl) => {
-  if (debounceTimer) { clearTimeout(debounceTimer); debounceTimer = null }
+  if (debounceTimer) {
+    clearTimeout(debounceTimer)
+    debounceTimer = null
+  }
   hasError.value = false
   if (tryCommitCached(newUrl)) return
   isLoading.value = true
@@ -76,14 +79,20 @@ watch(immediateUrl, (newUrl) => {
 })
 
 // Immediately flush the preview when signalled (Enter, blur, or preset click)
-watch(() => styleStore.previewFlushTick, () => {
-  if (debounceTimer) { clearTimeout(debounceTimer); debounceTimer = null }
-  const url = immediateUrl.value
-  hasError.value = false
-  if (tryCommitCached(url)) return
-  isLoading.value = true
-  fetchAndCommit(url)
-})
+watch(
+  () => styleStore.previewFlushTick,
+  () => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer)
+      debounceTimer = null
+    }
+    const url = immediateUrl.value
+    hasError.value = false
+    if (tryCommitCached(url)) return
+    isLoading.value = true
+    fetchAndCommit(url)
+  },
+)
 
 // Clear the session cache when Reset All is triggered
 watch(() => styleStore.cacheResetTick, revokeAndClear)
@@ -91,13 +100,13 @@ watch(() => styleStore.cacheResetTick, revokeAndClear)
 // Revoke all blob URLs when the component is unmounted to avoid memory leaks
 onUnmounted(revokeAndClear)
 
-function onImageLoad () {
+function onImageLoad() {
   hasLoaded.value = true
   hasError.value = false
   isLoading.value = false
 }
 
-function onImageError () {
+function onImageError() {
   hasLoaded.value = true
   hasError.value = true
   isLoading.value = false
@@ -112,7 +121,11 @@ function onImageError () {
         class="aspect-[3/1] w-full max-w-[600px] rounded-xl bg-elevated"
       />
       <div
-        :class="hasLoaded ? 'mx-auto w-full max-w-[600px] rounded-xl ring-1 ring-white/10 shadow-xl' : 'sr-only'"
+        :class="
+          hasLoaded
+            ? 'mx-auto w-full max-w-[600px] rounded-xl ring-1 ring-white/10 shadow-xl'
+            : 'sr-only'
+        "
       >
         <Transition name="fade">
           <div
@@ -135,7 +148,7 @@ function onImageError () {
           class="w-full rounded-xl"
           @load="onImageLoad"
           @error="onImageError"
-        >
+        />
         <div
           v-else
           class="flex aspect-[3/1] w-full max-w-[600px] items-center justify-center rounded-xl bg-elevated text-xs text-muted"

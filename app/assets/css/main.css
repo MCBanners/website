@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "@nuxt/ui";
+@import 'tailwindcss';
+@import '@nuxt/ui';
 
 html,
 body,
@@ -18,11 +18,11 @@ body {
   overflow-x: hidden;
 }
 
-.advanced-control-surface [data-slot="field"] {
+.advanced-control-surface [data-slot='field'] {
   margin-right: 0;
 }
 
-.advanced-control-surface [data-slot="label"] {
+.advanced-control-surface [data-slot='label'] {
   font-size: 0.75rem;
 }
 
@@ -92,8 +92,8 @@ body {
 
 .mcb-home-surface .mcb-source-input,
 .mcb-home-surface .mcb-source-input input,
-.mcb-home-surface .mcb-source-input [data-slot="input"],
-.mcb-home-surface .mcb-source-input [data-slot="base"] {
+.mcb-home-surface .mcb-source-input [data-slot='input'],
+.mcb-home-surface .mcb-source-input [data-slot='base'] {
   background-color: rgb(15 23 42 / 0.82) !important;
   color: rgb(241 245 249) !important;
   border-color: rgb(51 65 85 / 0.95) !important;
@@ -101,15 +101,15 @@ body {
 }
 
 .mcb-home-surface .mcb-source-input input::placeholder,
-.mcb-home-surface .mcb-source-input [data-slot="input"]::placeholder {
+.mcb-home-surface .mcb-source-input [data-slot='input']::placeholder {
   color: rgb(100 116 139) !important;
   opacity: 1;
 }
 
 .mcb-home-surface .mcb-source-input:focus-within,
 .mcb-home-surface .mcb-source-input:focus-within input,
-.mcb-home-surface .mcb-source-input:focus-within [data-slot="input"],
-.mcb-home-surface .mcb-source-input:focus-within [data-slot="base"] {
+.mcb-home-surface .mcb-source-input:focus-within [data-slot='input'],
+.mcb-home-surface .mcb-source-input:focus-within [data-slot='base'] {
   border-color: rgb(190 242 100 / 0.65) !important;
   box-shadow: 0 0 0 1px rgb(190 242 100 / 0.35) !important;
 }

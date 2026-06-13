@@ -1,8 +1,8 @@
 import type { KeyValueMapping } from '~/types/misc'
 
-export function getTemplateKey (
+export function getTemplateKey(
   source: string,
-  templates: KeyValueMapping[]
+  templates: KeyValueMapping[],
 ): string | undefined {
-  return templates.find(template => template.value === source)?.key
+  return templates.find((template) => template.value === source)?.key
 }

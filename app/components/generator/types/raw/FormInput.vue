@@ -4,7 +4,7 @@ defineProps({
   name: String,
   modelValue: Number,
   type: String,
-  trailText: String
+  trailText: String,
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -16,7 +16,7 @@ const handleInput = (value: number) => {
 
 <script lang="ts">
 export default {
-  name: 'FormInput'
+  name: 'FormInput',
 }
 </script>
 

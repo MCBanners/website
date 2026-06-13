@@ -21,43 +21,45 @@ const {
   shadowPreset,
   outputFormat,
   activeThemePreset,
-  errors
+  errors,
 } = storeToRefs(style)
 
-const backgroundModeOptions: Array<{ label: string, value: BackgroundMode }> = [
+const backgroundModeOptions: Array<{ label: string; value: BackgroundMode }> = [
   { label: 'Template', value: 'template' },
-  { label: 'Custom Color', value: 'solid' }
+  { label: 'Custom Color', value: 'solid' },
 ]
 
 const shadowOptions = [
   { label: 'None', value: 'none' },
   { label: 'Soft', value: 'soft' },
-  { label: 'Strong', value: 'strong' }
+  { label: 'Strong', value: 'strong' },
 ]
 
 const formatOptions = [
   { label: 'PNG', value: 'png' },
-  { label: 'JPG', value: 'jpg' }
+  { label: 'JPG', value: 'jpg' },
 ]
 
 const shadowModel = computed({
   get: () => shadowPreset.value,
-  set: (val: ShadowPreset) => style.setShadowPreset(val)
+  set: (val: ShadowPreset) => style.setShadowPreset(val),
 })
 
 const formatModel = computed({
   get: () => outputFormat.value,
-  set: (val: OutputFormat) => { outputFormat.value = val }
+  set: (val: OutputFormat) => {
+    outputFormat.value = val
+  },
 })
 
-function flushPreview () {
+function flushPreview() {
   style.flushPreview()
 }
 </script>
 
 <script lang="ts">
 export default {
-  name: 'DesignPanel'
+  name: 'DesignPanel',
 }
 </script>
 
@@ -68,9 +70,7 @@ export default {
   >
     <template #header>
       <div>
-        <h3 class="text-base font-semibold text-highlighted">
-          Design
-        </h3>
+        <h3 class="text-base font-semibold text-highlighted">Design</h3>
         <p class="mt-1 text-sm text-muted">
           Customize the look of your banner.
         </p>
@@ -78,9 +78,7 @@ export default {
     </template>
 
     <section class="space-y-3">
-      <p class="text-sm font-semibold text-highlighted">
-        Theme Presets
-      </p>
+      <p class="text-sm font-semibold text-highlighted">Theme Presets</p>
       <div
         class="grid grid-cols-2 gap-2 sm:grid-cols-3 2xl:grid-cols-5"
         data-testid="theme-presets"
@@ -97,11 +95,11 @@ export default {
 
     <USeparator />
 
-    <section class="grid gap-5 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]">
+    <section
+      class="grid gap-5 xl:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]"
+    >
       <div class="space-y-3">
-        <p class="text-sm font-semibold text-highlighted">
-          Background
-        </p>
+        <p class="text-sm font-semibold text-highlighted">Background</p>
         <div
           role="radiogroup"
           class="inline-flex rounded-md shadow-sm"
@@ -162,9 +160,7 @@ export default {
 
       <div class="space-y-3 border-white/10 xl:border-l xl:pl-5">
         <div class="flex items-center justify-between gap-3">
-          <p class="text-sm font-semibold text-highlighted">
-            Text Colors
-          </p>
+          <p class="text-sm font-semibold text-highlighted">Text Colors</p>
           <UButton
             size="xs"
             variant="ghost"
@@ -216,9 +212,7 @@ export default {
 
     <section class="grid gap-5 xl:grid-cols-2">
       <div>
-        <p class="mb-3 text-sm font-semibold text-highlighted">
-          Shadow
-        </p>
+        <p class="mb-3 text-sm font-semibold text-highlighted">Shadow</p>
         <UFormField label="Preset" name="shadowPreset">
           <USelect
             v-model="shadowModel"
@@ -232,9 +226,7 @@ export default {
       </div>
 
       <div class="border-white/10 xl:border-l xl:pl-5">
-        <p class="mb-3 text-sm font-semibold text-highlighted">
-          Output Format
-        </p>
+        <p class="mb-3 text-sm font-semibold text-highlighted">Output Format</p>
         <UFormField label="Format" name="outputFormat">
           <USelect
             v-model="formatModel"

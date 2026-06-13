@@ -5,7 +5,7 @@ import { useDefaultStore } from '~/stores/defaults'
 import { useStyleStore } from '~/stores/style'
 import {
   authorPlatformOptions,
-  resourcePlatformOptions
+  resourcePlatformOptions,
 } from '~/utils/builder-entry'
 
 const defaults = useDefaultStore()
@@ -23,22 +23,32 @@ const mnemonic = ref('')
 const savedUrl = ref('')
 const isSaving = ref(false)
 
-const computedResultUrl = computed(() => `${apiBase}/banner/saved/${mnemonic.value}.png`)
+const computedResultUrl = computed(
+  () => `${apiBase}/banner/saved/${mnemonic.value}.png`,
+)
 
-function resetToHome () {
+function resetToHome() {
   defaults.resetSelectedSource()
   return navigateTo('/')
 }
 
-async function saveCurrent () {
+async function saveCurrent() {
   let saveType: string | undefined
 
   if (type.value === 'server') {
     saveType = 'MINECRAFT_SERVER'
   } else if (type.value === 'resource') {
-    saveType = getPlatformBannerType('resource', platform.value, resourcePlatformOptions)
+    saveType = getPlatformBannerType(
+      'resource',
+      platform.value,
+      resourcePlatformOptions,
+    )
   } else {
-    saveType = getPlatformBannerType('author', platform.value, authorPlatformOptions)
+    saveType = getPlatformBannerType(
+      'author',
+      platform.value,
+      authorPlatformOptions,
+    )
   }
 
   if (!saveType) {

@@ -29,9 +29,6 @@ pnpm-debug.log*
 !.env.example
 
 # Test and audit outputs
-playwright-report
-blob-report
-test-results
 coverage
 .unlighthouse
 

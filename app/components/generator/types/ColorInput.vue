@@ -1,14 +1,17 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  label: string
-  name: string
-  modelValue: string
-  tooltip?: string
-  error?: string
-}>(), {
-  tooltip: undefined,
-  error: undefined
-})
+const props = withDefaults(
+  defineProps<{
+    label: string
+    name: string
+    modelValue: string
+    tooltip?: string
+    error?: string
+  }>(),
+  {
+    tooltip: undefined,
+    error: undefined,
+  },
+)
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
@@ -17,33 +20,38 @@ const emit = defineEmits<{
 
 const hexInput = ref(props.modelValue)
 
-watch(() => props.modelValue, (val) => {
-  hexInput.value = val
-})
+watch(
+  () => props.modelValue,
+  (val) => {
+    hexInput.value = val
+  },
+)
 
 const colorPickerValue = computed(() => {
-  return /^#[0-9A-Fa-f]{6}$/.test(props.modelValue) ? props.modelValue : '#ffffff'
+  return /^#[0-9A-Fa-f]{6}$/.test(props.modelValue)
+    ? props.modelValue
+    : '#ffffff'
 })
 
 const isColorSet = computed(() => /^#[0-9A-Fa-f]{6}$/.test(props.modelValue))
 
-function onColorPickerInput (event: Event) {
+function onColorPickerInput(event: Event) {
   const value = (event.target as HTMLInputElement).value
   hexInput.value = value
   emit('update:modelValue', value)
 }
 
-function onHexInput (event: Event) {
+function onHexInput(event: Event) {
   const value = (event.target as HTMLInputElement).value
   hexInput.value = value
   emit('update:modelValue', value)
 }
 
-function onBlur () {
+function onBlur() {
   emit('blur')
 }
 
-function onKeydown (event: KeyboardEvent) {
+function onKeydown(event: KeyboardEvent) {
   if (event.key === 'Enter') {
     emit('enter')
   }
@@ -52,20 +60,13 @@ function onKeydown (event: KeyboardEvent) {
 
 <script lang="ts">
 export default {
-  name: 'ColorInput'
+  name: 'ColorInput',
 }
 </script>
 
 <template>
-  <UFormField
-    :label="label"
-    :name="name"
-    :error="error"
-  >
-    <template
-      v-if="tooltip"
-      #hint
-    >
+  <UFormField :label="label" :name="name" :error="error">
+    <template v-if="tooltip" #hint>
       <UTooltip :text="tooltip">
         <UIcon
           name="i-heroicons-question-mark-circle"
@@ -81,12 +82,12 @@ export default {
         :disabled="!isColorSet"
         :class="[
           'h-8 w-8 rounded border border-gray-300 bg-transparent p-0.5 dark:border-gray-700',
-          isColorSet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+          isColorSet ? 'cursor-pointer' : 'cursor-not-allowed opacity-50',
         ]"
         :aria-label="`${label} color picker`"
         @input="onColorPickerInput"
         @change="onColorPickerInput"
-      >
+      />
       <UInput
         :model-value="hexInput"
         placeholder="#RRGGBB"

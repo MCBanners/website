@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
-import type { BackgroundMode, ShadowPreset, OutputFormat, ThemePreset } from '~/types/style'
+import type {
+  BackgroundMode,
+  ShadowPreset,
+  OutputFormat,
+  ThemePreset,
+} from '~/types/style'
 
 const HEX_RE = /^#[0-9A-Fa-f]{6}$/
 
@@ -11,7 +16,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     textSecondaryColor: '',
     textAccentColor: '',
     shadowPreset: 'none',
-    logoY: 0
+    logoY: 0,
   },
   {
     name: 'Dark Night',
@@ -20,7 +25,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     textSecondaryColor: '#8b949e',
     textAccentColor: '#58a6ff',
     shadowPreset: 'soft',
-    logoY: 0
+    logoY: 0,
   },
   {
     name: 'Sunset',
@@ -29,7 +34,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     textSecondaryColor: '#ffd9a0',
     textAccentColor: '#ff6b35',
     shadowPreset: 'strong',
-    logoY: 0
+    logoY: 0,
   },
   {
     name: 'Ocean',
@@ -38,7 +43,7 @@ export const THEME_PRESETS: ThemePreset[] = [
     textSecondaryColor: '#8892b0',
     textAccentColor: '#64ffda',
     shadowPreset: 'soft',
-    logoY: 0
+    logoY: 0,
   },
   {
     name: 'Light',
@@ -47,19 +52,19 @@ export const THEME_PRESETS: ThemePreset[] = [
     textSecondaryColor: '#555555',
     textAccentColor: '#0066cc',
     shadowPreset: 'none',
-    logoY: 0
-  }
+    logoY: 0,
+  },
 ]
 
-function isValidHex (value: string): boolean {
+function isValidHex(value: string): boolean {
   return value === '' || HEX_RE.test(value)
 }
 
-function isSolidHex (value: string): boolean {
+function isSolidHex(value: string): boolean {
   return HEX_RE.test(value)
 }
 
-function canonicalHexParam (value: string): string {
+function canonicalHexParam(value: string): string {
   return value.replace('#', '').toLowerCase()
 }
 
@@ -84,17 +89,17 @@ export const useStyleStore = defineStore('style', () => {
 
   const hasErrors = computed(() => Object.keys(errors.value).length > 0)
 
-  function _setError (field: string, message: string) {
+  function _setError(field: string, message: string) {
     errors.value = { ...errors.value, [field]: message }
   }
 
-  function _clearError (field: string) {
+  function _clearError(field: string) {
     if (!(field in errors.value)) return
     const { [field]: _removed, ...rest } = errors.value
     errors.value = rest
   }
 
-  function _validateHex (field: string, value: string) {
+  function _validateHex(field: string, value: string) {
     if (!isValidHex(value)) {
       _setError(field, 'Must be a valid HEX color (e.g. #FF0000)')
     } else {
@@ -102,7 +107,7 @@ export const useStyleStore = defineStore('style', () => {
     }
   }
 
-  function setBackgroundColor (value: string) {
+  function setBackgroundColor(value: string) {
     _validateHex('backgroundColor', value)
     backgroundColor.value = value
     if (isSolidHex(value)) {
@@ -111,7 +116,7 @@ export const useStyleStore = defineStore('style', () => {
     activeThemePreset.value = ''
   }
 
-  function setBackgroundMode (value: BackgroundMode) {
+  function setBackgroundMode(value: BackgroundMode) {
     backgroundMode.value = value
     if (value === 'template') {
       backgroundColor.value = ''
@@ -121,30 +126,30 @@ export const useStyleStore = defineStore('style', () => {
     }
   }
 
-  function setTextPrimaryColor (value: string) {
+  function setTextPrimaryColor(value: string) {
     _validateHex('textPrimaryColor', value)
     textPrimaryColor.value = value
     activeThemePreset.value = ''
   }
 
-  function setTextSecondaryColor (value: string) {
+  function setTextSecondaryColor(value: string) {
     _validateHex('textSecondaryColor', value)
     textSecondaryColor.value = value
     activeThemePreset.value = ''
   }
 
-  function setTextAccentColor (value: string) {
+  function setTextAccentColor(value: string) {
     _validateHex('textAccentColor', value)
     textAccentColor.value = value
     activeThemePreset.value = ''
   }
 
-  function setShadowPreset (value: ShadowPreset) {
+  function setShadowPreset(value: ShadowPreset) {
     shadowPreset.value = value
     activeThemePreset.value = ''
   }
 
-  function setLogoY (value: number) {
+  function setLogoY(value: number) {
     const clamped = Math.max(-50, Math.min(50, Math.round(value)))
     if (!Number.isFinite(clamped)) {
       _setError('logoY', 'Must be a number between -50 and 50')
@@ -154,11 +159,11 @@ export const useStyleStore = defineStore('style', () => {
     logoY.value = clamped
   }
 
-  function flushPreview () {
+  function flushPreview() {
     previewFlushTick.value++
   }
 
-  function resetBackground () {
+  function resetBackground() {
     backgroundMode.value = 'template'
     backgroundColor.value = ''
     _clearError('backgroundColor')
@@ -166,7 +171,7 @@ export const useStyleStore = defineStore('style', () => {
     flushPreview()
   }
 
-  function resetTextColors () {
+  function resetTextColors() {
     textPrimaryColor.value = ''
     textSecondaryColor.value = ''
     textAccentColor.value = ''
@@ -177,13 +182,13 @@ export const useStyleStore = defineStore('style', () => {
     flushPreview()
   }
 
-  function resetLogoY () {
+  function resetLogoY() {
     logoY.value = 0
     _clearError('logoY')
     flushPreview()
   }
 
-  function resetAll () {
+  function resetAll() {
     backgroundMode.value = 'template'
     backgroundColor.value = ''
     textPrimaryColor.value = ''
@@ -198,8 +203,10 @@ export const useStyleStore = defineStore('style', () => {
     flushPreview()
   }
 
-  function applyThemePreset (preset: ThemePreset) {
-    backgroundMode.value = isSolidHex(preset.backgroundColor) ? 'solid' : 'template'
+  function applyThemePreset(preset: ThemePreset) {
+    backgroundMode.value = isSolidHex(preset.backgroundColor)
+      ? 'solid'
+      : 'template'
     backgroundColor.value = preset.backgroundColor
     textPrimaryColor.value = preset.textPrimaryColor
     textSecondaryColor.value = preset.textSecondaryColor
@@ -208,20 +215,25 @@ export const useStyleStore = defineStore('style', () => {
     logoY.value = preset.logoY
     activeThemePreset.value = preset.name
     // Theme presets always set valid values; clear any stale color errors
-    for (const key of ['backgroundColor', 'textPrimaryColor', 'textSecondaryColor', 'textAccentColor']) {
+    for (const key of [
+      'backgroundColor',
+      'textPrimaryColor',
+      'textSecondaryColor',
+      'textAccentColor',
+    ]) {
       _clearError(key)
     }
     flushPreview()
   }
 
-  function hasV1Fields (): boolean {
+  function hasV1Fields(): boolean {
     return !!(
-      (backgroundMode.value === 'solid' && isSolidHex(backgroundColor.value))
-      || textPrimaryColor.value
-      || textSecondaryColor.value
-      || textAccentColor.value
-      || shadowPreset.value !== 'none'
-      || logoY.value !== 0
+      (backgroundMode.value === 'solid' && isSolidHex(backgroundColor.value)) ||
+      textPrimaryColor.value ||
+      textSecondaryColor.value ||
+      textAccentColor.value ||
+      shadowPreset.value !== 'none' ||
+      logoY.value !== 0
     )
   }
 
@@ -229,7 +241,7 @@ export const useStyleStore = defineStore('style', () => {
    * Returns query-param key/value pairs for all non-default v1 style fields.
    * HEX values are returned without the leading `#`.
    */
-  function buildStyleParams (): Record<string, string | number> {
+  function buildStyleParams(): Record<string, string | number> {
     const params: Record<string, string | number> = {}
     if (backgroundMode.value === 'solid' && isSolidHex(backgroundColor.value)) {
       params['background__mode'] = 'solid'
@@ -239,7 +251,9 @@ export const useStyleStore = defineStore('style', () => {
       params['text__primary_color'] = canonicalHexParam(textPrimaryColor.value)
     }
     if (textSecondaryColor.value && isValidHex(textSecondaryColor.value)) {
-      params['text__secondary_color'] = canonicalHexParam(textSecondaryColor.value)
+      params['text__secondary_color'] = canonicalHexParam(
+        textSecondaryColor.value,
+      )
     }
     if (textAccentColor.value && isValidHex(textAccentColor.value)) {
       params['text__accent_color'] = canonicalHexParam(textAccentColor.value)
@@ -288,6 +302,6 @@ export const useStyleStore = defineStore('style', () => {
     resetAll,
     applyThemePreset,
     hasV1Fields,
-    buildStyleParams
+    buildStyleParams,
   }
 })

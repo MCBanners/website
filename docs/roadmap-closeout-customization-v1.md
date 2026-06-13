@@ -19,7 +19,7 @@
 
 ## Deferred Work
 
-- Rebuild Playwright around the `/` to `/builder` flow.
+- Add browser-level smoke testing later only if the product needs it.
 - Do deeper mobile polish after the product flow stabilizes.
 - Refine builder UI density and advanced-control ergonomics.
 - Expand platform-specific URL parsing only when the API contract supports it.
@@ -27,4 +27,4 @@
 
 ## Manual QA Status
 
-Use `docs/manual-qa.md` for the manual pass. Automated required checks remain `pnpm typecheck`, `pnpm lint`, and `pnpm build`.
+Use `docs/manual-qa.md` for the manual pass. Automated required checks remain `pnpm run format:check`, `pnpm run lint`, `pnpm run typecheck`, `pnpm run test`, and `pnpm run build`.
