@@ -35,9 +35,12 @@ updates:
           - tailwindcss
       test-tooling:
         patterns:
-          - '@playwright/*'
-          - playwright
+          - '@nuxt/test-utils'
+          - '@vue/test-utils'
+          - vitest
+          - happy-dom
           - eslint
+          - prettier
           - '@vue/language-core'
           - vue-tsc
           - typescript

@@ -1,10 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
+    '@nuxt/test-utils/module',
     '@nuxt/eslint',
     '@nuxt/ui',
     '@pinia/nuxt',
-    '@nuxt/image'
+    '@nuxt/image',
   ],
 
   routeRules: {
@@ -17,19 +18,19 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      mcbannersApiBase: 'https://api.mcbanners.com'
-    }
+      mcbannersApiBase: 'https://api.mcbanners.com',
+    },
   },
 
   experimental: {
-    viewTransition: true
+    viewTransition: true,
   },
 
   // MCBanners is intentionally dark-only. Nuxt UI still reads color mode,
   // so keep it pinned rather than exposing a user-facing theme switch.
   colorMode: {
     preference: 'dark',
-    fallback: 'dark'
+    fallback: 'dark',
   },
 
   compatibilityDate: '2026-05-14',
@@ -37,11 +38,11 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/builder']
-    }
+      routes: ['/', '/builder'],
+    },
   },
 
   image: {
-    format: ['webp']
-  }
+    format: ['webp'],
+  },
 })

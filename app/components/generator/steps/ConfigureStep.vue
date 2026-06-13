@@ -26,168 +26,298 @@ const configureItems = [
     value: 'background',
     label: 'Background',
     description: 'Background Configuration',
-    group: 'Design'
+    group: 'Design',
   },
   {
     value: 'style',
     label: 'Style',
     description: 'Customize colors, shadows, and output format.',
-    group: 'Design'
+    group: 'Design',
   },
   {
     value: 'resourceLogo',
     label: 'Resource Logo',
     description: 'Logo Configuration',
-    group: 'Layout'
+    group: 'Layout',
   },
   {
     value: 'authorLogo',
     label: 'Author Logo',
     description: 'Logo Configuration',
-    group: 'Layout'
+    group: 'Layout',
   },
   {
     value: 'serverLogo',
     label: 'Server Logo',
     description: 'Logo Configuration',
-    group: 'Layout'
+    group: 'Layout',
   },
   {
     value: 'resourceCount',
     label: 'Resource Count',
     description: 'Resource Count Configuration',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'resourceName',
     label: 'Resource Name',
     description: 'Name Configuration',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'authorName',
     label: 'Author Name',
     description: 'Change the author name of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'serverName',
     label: 'Server Name',
     description: 'Name Configuration',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'reviewCount',
     label: 'Review Count',
     description: 'Change the review count of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'viewCount',
     label: 'View Count',
     description: 'View Count Configuration.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'starredCount',
     label: 'Star Count',
     description: 'Change the star count of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'likeCount',
     label: 'Like Count',
     description: 'Like Count Configuration.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'followersCount',
     label: 'Follower Count',
     description: 'Change the follower count of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'starsCount',
     label: 'Stars Count',
     description: 'Star Count Configuration.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'lastUpdated',
     label: 'Updated Time',
     description: 'Change the last updated design of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'stars',
     label: 'Stars',
     description: 'Change the stars of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'downloadCount',
     label: 'Download Count',
     description: 'Change the download count of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'price',
     label: 'Price',
     description: 'Change the price of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'serverVersion',
     label: 'Server Version',
     description: 'Change the server version of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'serverMotd',
     label: 'MOTD',
     description: 'Change the MOTD of your banner.',
-    group: 'Content'
+    group: 'Content',
   },
   {
     value: 'serverPlayerCount',
     label: 'Player Count',
     description: 'Change the player count of your banner.',
-    group: 'Content'
-  }
+    group: 'Content',
+  },
 ]
 
 const platformSectionConfig: Record<string, Record<string, string[]>> = {
   resource: {
-    spigot: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
-    ore: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'downloadCount'],
-    curseforge: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'lastUpdated', 'downloadCount'],
-    modrinth: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'lastUpdated', 'downloadCount'],
-    builtbybit: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
-    polymart: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'reviewCount', 'stars', 'downloadCount', 'price'],
-    hangar: ['background', 'style', 'resourceLogo', 'resourceName', 'authorName', 'starredCount', 'downloadCount']
+    spigot: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'reviewCount',
+      'stars',
+      'downloadCount',
+      'price',
+    ],
+    ore: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'reviewCount',
+      'downloadCount',
+    ],
+    curseforge: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'lastUpdated',
+      'downloadCount',
+    ],
+    modrinth: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'lastUpdated',
+      'downloadCount',
+    ],
+    builtbybit: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'reviewCount',
+      'stars',
+      'downloadCount',
+      'price',
+    ],
+    polymart: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'reviewCount',
+      'stars',
+      'downloadCount',
+      'price',
+    ],
+    hangar: [
+      'background',
+      'style',
+      'resourceLogo',
+      'resourceName',
+      'authorName',
+      'starredCount',
+      'downloadCount',
+    ],
   },
   author: {
-    spigot: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'likeCount', 'reviewCount', 'downloadCount'],
-    ore: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'likeCount', 'downloadCount'],
-    curseforge: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'downloadCount'],
-    modrinth: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'followersCount', 'downloadCount'],
-    builtbybit: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'reviewCount', 'downloadCount'],
-    polymart: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'reviewCount', 'downloadCount'],
-    hangar: ['background', 'style', 'authorLogo', 'authorName', 'resourceCount', 'starsCount', 'viewCount', 'downloadCount']
-  }
+    spigot: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'likeCount',
+      'reviewCount',
+      'downloadCount',
+    ],
+    ore: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'likeCount',
+      'downloadCount',
+    ],
+    curseforge: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'downloadCount',
+    ],
+    modrinth: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'followersCount',
+      'downloadCount',
+    ],
+    builtbybit: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'reviewCount',
+      'downloadCount',
+    ],
+    polymart: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'reviewCount',
+      'downloadCount',
+    ],
+    hangar: [
+      'background',
+      'style',
+      'authorLogo',
+      'authorName',
+      'resourceCount',
+      'starsCount',
+      'viewCount',
+      'downloadCount',
+    ],
+  },
 }
 
-const serverSectionConfig = ['background', 'style', 'serverLogo', 'serverName', 'serverVersion', 'serverMotd', 'serverPlayerCount']
+const serverSectionConfig = [
+  'background',
+  'style',
+  'serverLogo',
+  'serverName',
+  'serverVersion',
+  'serverMotd',
+  'serverPlayerCount',
+]
 
 const filteredItems = computed(() => {
-  const sectionsToShow = type.value === 'server'
-    ? serverSectionConfig
-    : platformSectionConfig[type.value]?.[platform.value] || []
+  const sectionsToShow =
+    type.value === 'server'
+      ? serverSectionConfig
+      : platformSectionConfig[type.value]?.[platform.value] || []
 
-  return configureItems.filter(item => sectionsToShow.includes(item.value))
+  return configureItems.filter((item) => sectionsToShow.includes(item.value))
 })
 
-const advancedItems = computed(() => filteredItems.value.filter(item => item.group !== 'Design'))
+const advancedItems = computed(() =>
+  filteredItems.value.filter((item) => item.group !== 'Design'),
+)
 
 const builderKindLabel = computed(() => {
   if (type.value === 'server') return 'Server'
@@ -200,7 +330,7 @@ const title = computed(() => `Configure ${builderKindLabel.value} Banner`)
 
 <script lang="ts">
 export default {
-  name: 'ConfigureStep'
+  name: 'ConfigureStep',
 }
 </script>
 
@@ -209,13 +339,9 @@ export default {
     <div class="sr-only" data-testid="configure-section-background">
       Background Configuration
     </div>
-    <div class="sr-only" data-testid="configure-section-style">
-      Style
-    </div>
+    <div class="sr-only" data-testid="configure-section-style">Style</div>
 
-    <BuilderShell
-      :title="title"
-    >
+    <BuilderShell :title="title">
       <template #actions>
         <UButton
           type="button"

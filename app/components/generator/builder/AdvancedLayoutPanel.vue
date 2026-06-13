@@ -35,16 +35,18 @@ watch(
       return
     }
 
-    if (!items.some(item => item.value === activeItemValue.value)) {
+    if (!items.some((item) => item.value === activeItemValue.value)) {
       activeItemValue.value = items[0]!.value
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
-const activeItem = computed(() => props.items.find(item => item.value === activeItemValue.value))
+const activeItem = computed(() =>
+  props.items.find((item) => item.value === activeItemValue.value),
+)
 
-function tabLabel (item: ConfigureItem): string {
+function tabLabel(item: ConfigureItem): string {
   const labels: Record<string, string> = {
     resourceLogo: 'Logo',
     authorLogo: 'Logo',
@@ -65,19 +67,30 @@ function tabLabel (item: ConfigureItem): string {
     lastUpdated: 'Updated',
     serverVersion: 'Version',
     serverMotd: 'MOTD',
-    serverPlayerCount: 'Players'
+    serverPlayerCount: 'Players',
   }
 
   return labels[item.value] || item.label
 }
 
-function itemIcon (value: string): string {
+function itemIcon(value: string): string {
   if (value.includes('Logo')) return 'i-lucide-image'
-  if (value.includes('Name') || value.includes('Motd') || value === 'serverVersion') return 'i-lucide-type'
+  if (
+    value.includes('Name') ||
+    value.includes('Motd') ||
+    value === 'serverVersion'
+  )
+    return 'i-lucide-type'
   if (value === 'stars') return 'i-lucide-star'
   if (value.includes('download')) return 'i-lucide-download'
   if (value === 'price') return 'i-lucide-circle-dollar-sign'
-  if (value.includes('Count') || value === 'reviewCount' || value === 'starredCount' || value === 'viewCount') return 'i-lucide-hash'
+  if (
+    value.includes('Count') ||
+    value === 'reviewCount' ||
+    value === 'starredCount' ||
+    value === 'viewCount'
+  )
+    return 'i-lucide-hash'
   return 'i-lucide-sliders-horizontal'
 }
 
@@ -87,15 +100,21 @@ const activeMicrocopy = computed(() => {
   if (!value) return ''
   if (value.includes('Logo')) return 'Position and size the logo.'
   if (value === 'stars') return 'Adjust star spacing and placement.'
-  if (value.includes('Count') || value === 'price' || value === 'lastUpdated') return 'Tune stat placement and display text.'
-  if (value.includes('Name') || value.includes('Motd') || value === 'serverVersion') return 'Fine-tune text placement and appearance.'
+  if (value.includes('Count') || value === 'price' || value === 'lastUpdated')
+    return 'Tune stat placement and display text.'
+  if (
+    value.includes('Name') ||
+    value.includes('Motd') ||
+    value === 'serverVersion'
+  )
+    return 'Fine-tune text placement and appearance.'
   return activeItem.value?.description || ''
 })
 </script>
 
 <script lang="ts">
 export default {
-  name: 'AdvancedLayoutPanel'
+  name: 'AdvancedLayoutPanel',
 }
 </script>
 
@@ -128,11 +147,7 @@ export default {
       </div>
     </template>
 
-    <div
-      v-if="isExpanded"
-      id="advanced-layout-content"
-      class="space-y-4"
-    >
+    <div v-if="isExpanded" id="advanced-layout-content" class="space-y-4">
       <div
         v-if="activeItem"
         class="grid gap-5 border-t border-white/10 pt-4 lg:grid-cols-[210px_minmax(0,1fr)]"
@@ -153,11 +168,14 @@ export default {
               'flex shrink-0 items-center gap-2 rounded-md border border-transparent px-3 py-2 text-left text-sm transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40',
               activeItemValue === item.value
                 ? 'border-primary/25 bg-primary/10 text-primary'
-                : 'text-muted hover:bg-elevated/45 hover:text-default'
+                : 'text-muted hover:bg-elevated/45 hover:text-default',
             ]"
             @click="activeItemValue = item.value"
           >
-            <UIcon :name="itemIcon(item.value)" class="size-4 shrink-0 opacity-80" />
+            <UIcon
+              :name="itemIcon(item.value)"
+              class="size-4 shrink-0 opacity-80"
+            />
             <span>{{ tabLabel(item) }}</span>
           </button>
         </nav>
@@ -178,24 +196,28 @@ export default {
 
           <div class="advanced-control-surface">
             <LogoControls
-              v-if="activeItem.value === 'resourceLogo' || activeItem.value === 'authorLogo' || activeItem.value === 'serverLogo'"
+              v-if="
+                activeItem.value === 'resourceLogo' ||
+                activeItem.value === 'authorLogo' ||
+                activeItem.value === 'serverLogo'
+              "
             />
 
             <ResourceNameControls
               v-else-if="activeItem.value === 'resourceName'"
             />
 
-            <AuthorNameControls
-              v-else-if="activeItem.value === 'authorName'"
-            />
+            <AuthorNameControls v-else-if="activeItem.value === 'authorName'" />
 
             <ReviewCountControls
-              v-else-if="activeItem.value === 'reviewCount' || activeItem.value === 'starredCount' || activeItem.value === 'viewCount'"
+              v-else-if="
+                activeItem.value === 'reviewCount' ||
+                activeItem.value === 'starredCount' ||
+                activeItem.value === 'viewCount'
+              "
             />
 
-            <StarControls
-              v-else-if="activeItem.value === 'stars'"
-            />
+            <StarControls v-else-if="activeItem.value === 'stars'" />
 
             <DownloadCountControls
               v-else-if="activeItem.value === 'downloadCount'"
@@ -205,29 +227,27 @@ export default {
               v-else-if="activeItem.value === 'lastUpdated'"
             />
 
-            <PriceControls
-              v-else-if="activeItem.value === 'price'"
-            />
+            <PriceControls v-else-if="activeItem.value === 'price'" />
 
             <ResourceCountControls
               v-else-if="activeItem.value === 'resourceCount'"
             />
 
             <LikeCountControls
-              v-else-if="activeItem.value === 'likeCount' || activeItem.value === 'followersCount' || activeItem.value === 'starsCount'"
+              v-else-if="
+                activeItem.value === 'likeCount' ||
+                activeItem.value === 'followersCount' ||
+                activeItem.value === 'starsCount'
+              "
             />
 
-            <ServerNameControls
-              v-else-if="activeItem.value === 'serverName'"
-            />
+            <ServerNameControls v-else-if="activeItem.value === 'serverName'" />
 
             <ServerVersionControls
               v-else-if="activeItem.value === 'serverVersion'"
             />
 
-            <ServerMotdControls
-              v-else-if="activeItem.value === 'serverMotd'"
-            />
+            <ServerMotdControls v-else-if="activeItem.value === 'serverMotd'" />
 
             <ServerPlayerCountControls
               v-else-if="activeItem.value === 'serverPlayerCount'"

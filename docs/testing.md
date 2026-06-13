@@ -1,30 +1,39 @@
 # Testing
 
-## Required Checks
+The website uses Nuxt's recommended Vitest setup through `@nuxt/test-utils`.
 
-Run these checks for the current website cleanup line:
+`pnpm run test` now means all tests: the Node unit project and the Nuxt-runtime project.
+
+## Commands
 
 ```bash
-pnpm typecheck
-pnpm lint
-pnpm build
+pnpm run test        # all Vitest projects
+pnpm run test:watch  # all Vitest projects in watch mode
+pnpm run test:unit   # Node-only Vitest project
+pnpm run test:nuxt   # Nuxt-runtime Vitest project
+pnpm run typecheck
+pnpm run lint
+pnpm run format:check
+pnpm run check       # lint + format:check + typecheck + test
+pnpm run build
 ```
 
-`pnpm build` runs `nuxt generate` and produces the static output for Cloudflare Pages.
+## Structure
 
-## Playwright Status
+```txt
+tests/
+  unit/      # Fast Node tests for framework-independent helpers
+  nuxt/      # Vitest tests that need Nuxt runtime, Pinia, or mountSuspended
+  fixtures/  # Shared deterministic test fixtures
+```
 
-Playwright is intentionally deferred after the homepage and builder overhaul.
+## Coverage split
 
-The existing `tests/e2e` files and `playwright.config.ts` are retained as historical scaffolding, but the tests still reference the retired `/resources`, `/authors`, and `/servers` setup flow. Do not treat those tests as current product coverage until they are rebuilt.
+Vitest owns the application logic and Nuxt-runtime coverage:
 
-Future e2e coverage should be rebuilt around:
-
-- `/` source selection and validation
-- successful navigation to `/builder`
-- direct `/builder` redirect without an active source
-- design and advanced controls updating preview URLs
-- save and copy output behavior
-- legacy route redirects
-
-Playwright was not repaired as part of this cleanup pass.
+- builder entry URL parsing and platform fallback behavior
+- banner validation composable success/failure behavior
+- Pinia store state transitions
+- preview URL and save payload construction
+- style-store color, shadow, preset, and output params
+- shell component rendering that needs Nuxt context

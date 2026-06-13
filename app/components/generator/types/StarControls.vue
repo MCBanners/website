@@ -12,7 +12,7 @@ const { stars } = resource.value!
 
 <script lang="ts">
 export default {
-  name: 'StarControls'
+  name: 'StarControls',
 }
 </script>
 
@@ -21,14 +21,32 @@ export default {
     <section class="advanced-control-group">
       <p class="advanced-control-heading">Position</p>
       <div class="advanced-control-fields advanced-control-fields--inline">
-        <FormInput v-model="stars.x" name="starXOffset" label="X Offset" type="number" trail-text="px" />
-        <FormInput v-model="stars.y" name="starYOffset" label="Y Offset" type="number" trail-text="px" />
+        <FormInput
+          v-model="stars.x"
+          name="starXOffset"
+          label="X Offset"
+          type="number"
+          trail-text="px"
+        />
+        <FormInput
+          v-model="stars.y"
+          name="starYOffset"
+          label="Y Offset"
+          type="number"
+          trail-text="px"
+        />
       </div>
     </section>
     <section class="advanced-control-group">
       <p class="advanced-control-heading">Spacing</p>
       <div class="advanced-control-fields">
-        <FormInput v-model="stars.gap" name="starGap" label="Gap" type="number" trail-text="px" />
+        <FormInput
+          v-model="stars.gap"
+          name="starGap"
+          label="Gap"
+          type="number"
+          trail-text="px"
+        />
       </div>
     </section>
   </div>

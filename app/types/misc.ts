@@ -1,8 +1,8 @@
 export type KeyValueMapping = {
-  key: string;
-  value: string;
-};
+  key: string
+  value: string
+}
 
 export type BannerSaveResponse = {
-  mnemonic: string;
-};
+  mnemonic: string
+}

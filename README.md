@@ -62,12 +62,14 @@ pnpm dev -- --port 3001
 Required checks for this cleanup line:
 
 ```bash
-pnpm typecheck
-pnpm lint
-pnpm build
+pnpm run format:check
+pnpm run lint
+pnpm run typecheck
+pnpm run test
+pnpm run build
 ```
 
-Playwright coverage is intentionally deferred after the route and UI overhaul. The old e2e files still describe the retired `/resources`, `/authors`, and `/servers` flow and should be rebuilt around `/` to `/builder` before being treated as a gate again.
+`pnpm run test` runs the full Vitest suite, including both Node unit tests and Nuxt-runtime tests. Browser e2e tooling is not configured for this project.
 
 ## Static Production Build
 
@@ -97,4 +99,4 @@ Node version: 22
 - Legacy setup routes redirect to `/` through `routeRules` in `nuxt.config.ts`.
 - Static OG metadata points at `public/og/mcbanners-og.png`.
 - The app is dark-only. Nuxt UI color mode is pinned to dark and no theme switch is exposed.
-- Generated folders such as `.nuxt`, `.output`, `dist`, `playwright-report`, and `test-results` should not be committed.
+- Generated folders such as `.nuxt`, `.output`, `dist`, and `coverage` should not be committed.

@@ -26,27 +26,25 @@ const using = computed(() => {
 const { logo } = using.value
 const { logoY } = storeToRefs(style)
 
-function onLogoYChange (event: Event) {
+function onLogoYChange(event: Event) {
   style.setLogoY((event.target as HTMLInputElement).valueAsNumber)
 }
 
-function onLogoYCommit () {
+function onLogoYCommit() {
   style.flushPreview()
 }
 </script>
 
 <script lang="ts">
 export default {
-  name: 'LogoControls'
+  name: 'LogoControls',
 }
 </script>
 
 <template>
   <div class="advanced-control-inspector">
     <section class="advanced-control-group">
-      <p class="advanced-control-heading">
-        Position
-      </p>
+      <p class="advanced-control-heading">Position</p>
       <div class="advanced-control-fields advanced-control-fields--inline">
         <FormInput
           v-model="logo.x"
@@ -57,8 +55,13 @@ export default {
         />
         <UFormField label="Y Offset" name="logoYOffset">
           <template #hint>
-            <UTooltip text="Vertical offset for the logo. 0 preserves the default auto-centered position.">
-              <UIcon name="i-heroicons-question-mark-circle" class="size-4 cursor-help text-gray-400" />
+            <UTooltip
+              text="Vertical offset for the logo. 0 preserves the default auto-centered position."
+            >
+              <UIcon
+                name="i-heroicons-question-mark-circle"
+                class="size-4 cursor-help text-gray-400"
+              />
             </UTooltip>
           </template>
           <div class="flex items-center gap-2">
@@ -72,7 +75,7 @@ export default {
               data-testid="logo-y-slider"
               @input="onLogoYChange"
               @change="onLogoYCommit"
-            >
+            />
             <span class="w-12 text-center text-sm tabular-nums text-gray-300">
               {{ logoY }}px
             </span>
@@ -82,9 +85,7 @@ export default {
     </section>
 
     <section class="advanced-control-group">
-      <p class="advanced-control-heading">
-        Size
-      </p>
+      <p class="advanced-control-heading">Size</p>
       <div class="advanced-control-fields">
         <FormInput
           v-model="logo.size"
@@ -97,9 +98,7 @@ export default {
     </section>
 
     <section class="advanced-control-group">
-      <p class="advanced-control-heading">
-        Actions
-      </p>
+      <p class="advanced-control-heading">Actions</p>
       <UButton
         v-if="logoY !== 0"
         size="xs"

@@ -1,0 +1,17 @@
+# Dependencies
+node_modules
+
+# Nuxt/Nitro outputs
+.nuxt
+.output
+.nitro
+.cache
+dist
+
+# Coverage and local tool output
+coverage
+.unlighthouse
+
+# Cloudflare local state
+.wrangler
+.dev.vars

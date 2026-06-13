@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const defaults = useDefaultStore()
 
-function resetToHome () {
+function resetToHome() {
   defaults.resetSelectedSource()
 }
 </script>
