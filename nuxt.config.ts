@@ -1,12 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/test-utils/module',
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@pinia/nuxt',
-    '@nuxt/image',
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
 
   routeRules: {
     '/servers': { redirect: { to: '/', statusCode: 301 } },
@@ -40,9 +34,5 @@ export default defineNuxtConfig({
       crawlLinks: true,
       routes: ['/', '/builder'],
     },
-  },
-
-  image: {
-    format: ['webp'],
   },
 })
