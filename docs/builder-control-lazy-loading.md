@@ -55,6 +55,8 @@ Tab latency is from the Resource tab click to its control fields appearing.
 | Production generation wall time              |                 11.39 s |                 11.30 s |          -0.09 s |
 | Cold homepage JavaScript, plain              | 14 requests / 493,329 B | 15 requests / 493,760 B |           +431 B |
 | Cold homepage JavaScript, gzip               | 14 requests / 171,901 B | 15 requests / 172,676 B |           +775 B |
+| Builder requests after validation            |                      15 |                      16 |               +1 |
+| Requests after first Resource tab            |                      15 |                      18 |               +3 |
 | Builder JavaScript before another tab, plain |               675,738 B |               643,593 B | -32,145 B (4.8%) |
 | Builder JavaScript before another tab, gzip  |               216,722 B |               213,806 B |  -2,916 B (1.3%) |
 | Initial builder readiness, plain             |                  619 ms |                  629 ms |           +10 ms |
