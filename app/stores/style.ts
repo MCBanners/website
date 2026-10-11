@@ -82,9 +82,6 @@ export const useStyleStore = defineStore('style', () => {
   // Increment to immediately flush the preview image (bypass debounce)
   const previewFlushTick = ref(0)
 
-  // Increment to clear the session preview cache (e.g. on Reset All)
-  const cacheResetTick = ref(0)
-
   const errors = ref<Record<string, string>>({})
 
   const hasErrors = computed(() => Object.keys(errors.value).length > 0)
@@ -199,7 +196,6 @@ export const useStyleStore = defineStore('style', () => {
     outputFormat.value = 'png'
     activeThemePreset.value = ''
     errors.value = {}
-    cacheResetTick.value++
     flushPreview()
   }
 
@@ -285,7 +281,6 @@ export const useStyleStore = defineStore('style', () => {
     outputFormat,
     activeThemePreset,
     previewFlushTick,
-    cacheResetTick,
     errors,
     hasErrors,
     setBackgroundColor,

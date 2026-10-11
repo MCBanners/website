@@ -1,18 +1,10 @@
 <script setup lang="ts">
 import { useDefaultStore } from '~/stores/defaults'
 import { useStyleStore } from '~/stores/style'
+import { acquireBannerPreview } from '~/utils/banner-preview-request'
 
-// Maximum number of entries to keep in the session preview cache
-const MAX_CACHE_SIZE = 100
-
-// Session-level cache: API URL → blob: URL
-// Using a plain Map (not reactive) — we only need reactivity on displayUrl/isLoading
-const previewCache = new Map<string, string>()
-
-function revokeAndClear() {
-  for (const blobUrl of previewCache.values()) URL.revokeObjectURL(blobUrl)
-  previewCache.clear()
-}
+const MAX_CACHE_SIZE = 20
+const PREVIEW_DEBOUNCE_MS = 250
 
 defineProps({
   label: String,
@@ -21,6 +13,8 @@ defineProps({
 
 const defaults = useDefaultStore()
 const styleStore = useStyleStore()
+// Keep cached object URLs local to the component that owns and revokes them.
+const previewCache = new Map<string, string>()
 
 const immediateUrl = computed(() => defaults.generateBannerUrl())
 const displayUrl = ref(immediateUrl.value)
@@ -29,29 +23,57 @@ const hasLoaded = ref(false)
 const hasError = ref(false)
 
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
+let activePreview: { url: string; release: () => void } | null = null
+let generation = 0
+let isUnmounted = false
 
-/** Fetch the API URL, cache it as a blob URL, and commit to displayUrl. */
-async function fetchAndCommit(apiUrl: string) {
+function cancelActivePreview() {
+  activePreview?.release()
+  activePreview = null
+}
+
+function revokeAndClearCache() {
+  for (const blobUrl of previewCache.values()) URL.revokeObjectURL(blobUrl)
+  previewCache.clear()
+}
+
+/** Fetch the API URL, cache it as a blob URL, and commit only the latest result. */
+async function fetchAndCommit(apiUrl: string, requestGeneration: number) {
+  const request = acquireBannerPreview(apiUrl)
+  const active = { url: apiUrl, release: request.release }
+  activePreview = active
+
   try {
-    const resp = await fetch(apiUrl)
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`)
-    const blob = await resp.blob()
+    const blob = await request.promise
+    if (isUnmounted || requestGeneration !== generation) return
+
     const blobUrl = URL.createObjectURL(blob)
-    // Enforce size limit: evict the oldest entry when full
-    if (previewCache.size >= MAX_CACHE_SIZE) {
-      const oldest = previewCache.keys().next().value
-      if (oldest !== undefined) {
-        URL.revokeObjectURL(previewCache.get(oldest)!)
-        previewCache.delete(oldest)
-      }
-    }
     previewCache.set(apiUrl, blobUrl)
     displayUrl.value = blobUrl
+
+    if (previewCache.size > MAX_CACHE_SIZE) {
+      const oldest = previewCache.keys().next().value
+      if (oldest !== undefined) {
+        const oldestBlobUrl = previewCache.get(oldest)
+        previewCache.delete(oldest)
+        if (oldestBlobUrl) {
+          await nextTick()
+          URL.revokeObjectURL(oldestBlobUrl)
+        }
+      }
+    }
   } catch {
-    // Fallback: show the raw API URL so the img element can handle the error state
-    displayUrl.value = apiUrl
+    if (!isUnmounted && requestGeneration === generation) {
+      // Do not assign the API URL to <img>; that would retry the failed request.
+      hasLoaded.value = true
+      hasError.value = true
+    }
   } finally {
-    isLoading.value = false
+    request.release()
+    if (activePreview === active) activePreview = null
+    if (!isUnmounted && requestGeneration === generation) {
+      isLoading.value = false
+    }
   }
 }
 
@@ -60,22 +82,30 @@ function tryCommitCached(apiUrl: string): boolean {
   const cached = previewCache.get(apiUrl)
   if (cached !== undefined) {
     hasError.value = false
+    isLoading.value = false
+    previewCache.delete(apiUrl)
+    previewCache.set(apiUrl, cached)
     displayUrl.value = cached
     return true
   }
   return false
 }
 
-// Watch for style/settings changes; apply cache-first logic with 500ms debounce for misses
+// Abort obsolete work immediately; debounce only the start of the next request.
 watch(immediateUrl, (newUrl) => {
+  const requestGeneration = ++generation
   if (debounceTimer) {
     clearTimeout(debounceTimer)
     debounceTimer = null
   }
+  cancelActivePreview()
   hasError.value = false
   if (tryCommitCached(newUrl)) return
   isLoading.value = true
-  debounceTimer = setTimeout(() => fetchAndCommit(newUrl), 500)
+  debounceTimer = setTimeout(() => {
+    debounceTimer = null
+    void fetchAndCommit(newUrl, requestGeneration)
+  }, PREVIEW_DEBOUNCE_MS)
 })
 
 // Immediately flush the preview when signalled (Enter, blur, or preset click)
@@ -87,18 +117,24 @@ watch(
       debounceTimer = null
     }
     const url = immediateUrl.value
+    if (activePreview?.url === url) return
+    const requestGeneration = ++generation
+    cancelActivePreview()
     hasError.value = false
     if (tryCommitCached(url)) return
     isLoading.value = true
-    fetchAndCommit(url)
+    void fetchAndCommit(url, requestGeneration)
   },
 )
 
-// Clear the session cache when Reset All is triggered
-watch(() => styleStore.cacheResetTick, revokeAndClear)
-
-// Revoke all blob URLs when the component is unmounted to avoid memory leaks
-onUnmounted(revokeAndClear)
+// Revoke owned URLs and cancel pending work when the preview leaves the page.
+onUnmounted(() => {
+  isUnmounted = true
+  generation++
+  if (debounceTimer) clearTimeout(debounceTimer)
+  cancelActivePreview()
+  revokeAndClearCache()
+})
 
 function onImageLoad() {
   hasLoaded.value = true
