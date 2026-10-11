@@ -18,6 +18,7 @@ const previewCache = new Map<string, string>()
 
 const immediateUrl = computed(() => defaults.generateBannerUrl())
 const displayUrl = ref(immediateUrl.value)
+const displayGeneration = ref(0)
 const isLoading = ref(false)
 const hasLoaded = ref(false)
 const hasError = ref(false)
@@ -50,6 +51,8 @@ async function fetchAndCommit(apiUrl: string, requestGeneration: number) {
     const blobUrl = URL.createObjectURL(blob)
     previewCache.set(apiUrl, blobUrl)
     displayUrl.value = blobUrl
+    displayGeneration.value = requestGeneration
+    hasError.value = false
 
     if (previewCache.size > MAX_CACHE_SIZE) {
       const oldest = previewCache.keys().next().value
@@ -78,7 +81,7 @@ async function fetchAndCommit(apiUrl: string, requestGeneration: number) {
 }
 
 /** Returns true and commits immediately if apiUrl is already cached. */
-function tryCommitCached(apiUrl: string): boolean {
+function tryCommitCached(apiUrl: string, requestGeneration: number): boolean {
   const cached = previewCache.get(apiUrl)
   if (cached !== undefined) {
     hasError.value = false
@@ -86,6 +89,7 @@ function tryCommitCached(apiUrl: string): boolean {
     previewCache.delete(apiUrl)
     previewCache.set(apiUrl, cached)
     displayUrl.value = cached
+    displayGeneration.value = requestGeneration
     return true
   }
   return false
@@ -100,7 +104,7 @@ watch(immediateUrl, (newUrl) => {
   }
   cancelActivePreview()
   hasError.value = false
-  if (tryCommitCached(newUrl)) return
+  if (tryCommitCached(newUrl, requestGeneration)) return
   isLoading.value = true
   debounceTimer = setTimeout(() => {
     debounceTimer = null
@@ -121,10 +125,16 @@ watch(
     const requestGeneration = ++generation
     cancelActivePreview()
     hasError.value = false
-    if (tryCommitCached(url)) return
+    if (tryCommitCached(url, requestGeneration)) return
     isLoading.value = true
     void fetchAndCommit(url, requestGeneration)
   },
+)
+
+// Reset All historically invalidates every locally owned preview URL.
+watch(
+  () => styleStore.cacheResetTick,
+  () => revokeAndClearCache(),
 )
 
 // Revoke owned URLs and cancel pending work when the preview leaves the page.
@@ -136,13 +146,24 @@ onUnmounted(() => {
   revokeAndClearCache()
 })
 
-function onImageLoad() {
+function isCurrentImageEvent(event: Event): boolean {
+  const image = event.currentTarget as HTMLImageElement | null
+  const imageGeneration = Number(image?.dataset.previewGeneration)
+  return (
+    imageGeneration === generation &&
+    imageGeneration === displayGeneration.value
+  )
+}
+
+function onImageLoad(event: Event) {
+  if (!isCurrentImageEvent(event)) return
   hasLoaded.value = true
   hasError.value = false
   isLoading.value = false
 }
 
-function onImageError() {
+function onImageError(event: Event) {
+  if (!isCurrentImageEvent(event)) return
   hasLoaded.value = true
   hasError.value = true
   isLoading.value = false
@@ -177,6 +198,8 @@ function onImageError() {
         </Transition>
         <img
           v-if="!hasError"
+          :key="displayGeneration"
+          :data-preview-generation="displayGeneration"
           :alt="label"
           :src="displayUrl"
           width="300"

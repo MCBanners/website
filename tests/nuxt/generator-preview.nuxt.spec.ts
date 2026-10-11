@@ -174,6 +174,81 @@ describe('GeneratorPreview', () => {
     wrapper.unmount()
   })
 
+  it('recovers when the initial image errors while a newer preview succeeds', async () => {
+    let resolveRequest: (response: Response) => void = () => {}
+    previewFetch = vi.fn<PreviewFetch>(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveRequest = resolve
+        }),
+    )
+    const { style, wrapper } = await preparePreview()
+    const initialImage = wrapper.find('img').element
+
+    style.setTextPrimaryColor('#112233')
+    await vi.advanceTimersByTimeAsync(250)
+    initialImage.dispatchEvent(new Event('error'))
+    await nextTick()
+
+    resolveRequest(okResponse())
+    await flushPromises()
+
+    expect(previewFetch).toHaveBeenCalledTimes(1)
+    expect(wrapper.text()).not.toContain('Preview unavailable')
+    expect(wrapper.find('img').attributes('src')).toMatch(/^blob:preview-/)
+    wrapper.unmount()
+  })
+
+  it('ignores stale image load and error events while the latest preview is pending', async () => {
+    let resolveRequest: (response: Response) => void = () => {}
+    previewFetch = vi.fn<PreviewFetch>(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveRequest = resolve
+        }),
+    )
+    const { style, wrapper } = await preparePreview()
+    const staleImage = wrapper.find('img').element
+
+    style.setTextPrimaryColor('#112233')
+    await vi.advanceTimersByTimeAsync(250)
+    staleImage.dispatchEvent(new Event('load'))
+    staleImage.dispatchEvent(new Event('error'))
+    await nextTick()
+
+    expect(wrapper.find('[aria-label="Loading preview"]').exists()).toBe(true)
+    expect(wrapper.text()).not.toContain('Preview unavailable')
+
+    resolveRequest(okResponse())
+    await flushPromises()
+    expect(wrapper.find('img').attributes('src')).toMatch(/^blob:preview-/)
+    wrapper.unmount()
+  })
+
+  it('invalidates cached previews when Reset All is used', async () => {
+    const { style, wrapper } = await preparePreview()
+    const revokeObjectURL = vi.mocked(URL.revokeObjectURL)
+
+    style.setTextPrimaryColor('#112233')
+    await vi.advanceTimersByTimeAsync(250)
+    await flushPromises()
+    style.setTextPrimaryColor('#445566')
+    await vi.advanceTimersByTimeAsync(250)
+    await flushPromises()
+    expect(previewFetch).toHaveBeenCalledTimes(2)
+
+    style.resetAll()
+    await flushPromises()
+    expect(revokeObjectURL).toHaveBeenCalledTimes(2)
+
+    style.setTextPrimaryColor('#112233')
+    await vi.advanceTimersByTimeAsync(250)
+    await flushPromises()
+
+    expect(previewFetch).toHaveBeenCalledTimes(4)
+    wrapper.unmount()
+  })
+
   it('aborts its active preview when unmounted', async () => {
     const signal: { value: AbortSignal | null } = { value: null }
     let resolveRequest: (response: Response) => void = () => {}
