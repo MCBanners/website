@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import ConfigureStep from '~/components/generator/steps/ConfigureStep.vue'
+import { useConstantStore } from '~/stores/constants'
 import { useDefaultStore } from '~/stores/defaults'
 import { useStyleStore } from '~/stores/style'
 import {
@@ -17,6 +18,9 @@ const { getPlatformBannerType } = useBannerEntryFlow()
 
 if (!hasActiveBuilderSource.value) {
   await navigateTo('/')
+} else {
+  const constants = useConstantStore()
+  await callOnce('mcbanners:constants', () => constants.getConstants())
 }
 
 const mnemonic = ref('')
