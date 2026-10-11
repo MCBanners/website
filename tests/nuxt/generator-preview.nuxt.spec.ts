@@ -176,9 +176,12 @@ describe('GeneratorPreview', () => {
 
   it('aborts its active preview when unmounted', async () => {
     const signal: { value: AbortSignal | null } = { value: null }
+    let resolveRequest: (response: Response) => void = () => {}
     previewFetch = vi.fn<PreviewFetch>((_url, init) => {
       signal.value = init?.signal as AbortSignal | null
-      return new Promise<Response>(() => {})
+      return new Promise<Response>((resolve) => {
+        resolveRequest = resolve
+      })
     })
     const { style, wrapper } = await preparePreview()
 
@@ -187,6 +190,9 @@ describe('GeneratorPreview', () => {
     wrapper.unmount()
 
     expect(signal.value?.aborted).toBe(true)
+    resolveRequest(okResponse())
+    await flushPromises()
+    expect(URL.createObjectURL).not.toHaveBeenCalled()
   })
 
   it('reuses an in-flight request when preview flush is requested for the same URL', async () => {
