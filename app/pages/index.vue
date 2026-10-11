@@ -108,8 +108,8 @@ const serverHost = ref('')
 const serverPort = ref('25565')
 const validationMessage = ref('')
 
-const selectedType = computed(
-  () => bannerTypes.find((type) => type.kind === kind.value)!,
+const selectedType = computed(() =>
+  bannerTypes.find((type) => type.kind === kind.value)!,
 )
 const activePlatforms = computed<PlatformOption[]>(() => {
   if (kind.value === 'author') {
