@@ -2,6 +2,27 @@ import { defineStore } from 'pinia'
 import type { KeyValueMapping } from '~/types/misc'
 import type { SVC } from '~/types/svc'
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isStringMap(value: unknown): value is Record<string, string> {
+  return (
+    isRecord(value) &&
+    Object.keys(value).length > 0 &&
+    Object.values(value).every((entry) => typeof entry === 'string')
+  )
+}
+
+function isSVC(value: unknown): value is SVC {
+  return (
+    isRecord(value) &&
+    isStringMap(value.templates) &&
+    isStringMap(value.text_alignments) &&
+    isStringMap(value.fonts)
+  )
+}
+
 export const useConstantStore = defineStore('constants', () => {
   const templates = ref<KeyValueMapping[]>([])
   const alignments = ref<KeyValueMapping[]>([])
@@ -10,8 +31,16 @@ export const useConstantStore = defineStore('constants', () => {
   const getConstants = async () => {
     if (templates.value.length > 0) return
     constantsRequest ??= fetch(useMcbannersApiUrl('/banner/svc/constants'))
-      .then((response) => response.json() as Promise<SVC>)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Constants request failed: ${response.status}`)
+        }
+        return response.json() as Promise<unknown>
+      })
       .then((constants) => {
+        if (!isSVC(constants)) {
+          throw new Error('Invalid constants response')
+        }
         templates.value = Object.entries(constants.templates).map(
           ([key, value]) => ({ key, value }),
         )

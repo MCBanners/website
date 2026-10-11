@@ -1,11 +1,101 @@
 import { defineStore } from 'pinia'
 import { useConstantStore } from './constants'
 import { useStyleStore } from './style'
-import type { Resource, Author, Server } from '~/types/banner'
+import type { Author, Layout, Resource, Server } from '~/types/banner'
 import type { BannerSaveResponse } from '~/types/misc'
 
 type BannerDefaults = { resource: Resource; author: Author; server: Server }
 type BannerKind = keyof BannerDefaults
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function isLayout(value: unknown): value is Layout {
+  return (
+    isRecord(value) &&
+    typeof value.max_chars === 'number' &&
+    typeof value.enable === 'boolean' &&
+    typeof value.font_size === 'number' &&
+    typeof value.display === 'string' &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number' &&
+    typeof value.font_bold === 'boolean' &&
+    typeof value.font_face === 'string' &&
+    typeof value.text_align === 'string'
+  )
+}
+
+function isLogo(value: unknown): boolean {
+  return (
+    isRecord(value) &&
+    typeof value.size === 'number' &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number'
+  )
+}
+
+function isBackground(value: unknown): boolean {
+  return isRecord(value) && typeof value.template === 'string'
+}
+
+function isStars(value: unknown): boolean {
+  return (
+    isRecord(value) &&
+    typeof value.gap === 'number' &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number'
+  )
+}
+
+function isResource(value: unknown): value is Resource {
+  return (
+    isRecord(value) &&
+    isLayout(value.author_name) &&
+    isLayout(value.reviews) &&
+    isLayout(value.downloads) &&
+    isBackground(value.background) &&
+    isLayout(value.price) &&
+    isLogo(value.logo) &&
+    isStars(value.stars) &&
+    isLayout(value.resource_name) &&
+    isLayout(value.updated)
+  )
+}
+
+function isAuthor(value: unknown): value is Author {
+  return (
+    isRecord(value) &&
+    isLayout(value.author_name) &&
+    isLayout(value.reviews) &&
+    isLayout(value.downloads) &&
+    isBackground(value.background) &&
+    isLogo(value.logo) &&
+    isLayout(value.resource_count) &&
+    isLayout(value.likes)
+  )
+}
+
+function isServer(value: unknown): value is Server {
+  return (
+    isRecord(value) &&
+    isLayout(value.server_name) &&
+    isLayout(value.motd) &&
+    isBackground(value.background) &&
+    isLayout(value.players) &&
+    isLogo(value.logo) &&
+    isLayout(value.version)
+  )
+}
+
+function isBannerDefaults(value: unknown): value is BannerDefaults {
+  return (
+    isRecord(value) &&
+    isResource(value.resource) &&
+    isAuthor(value.author) &&
+    isServer(value.server)
+  )
+}
 
 export const useDefaultStore = defineStore('defaults', () => {
   const id = ref('0')
@@ -42,8 +132,16 @@ export const useDefaultStore = defineStore('defaults', () => {
   async function initializeBuilder(kind: BannerKind) {
     if (!defaultsCache) {
       defaultsRequest ??= fetch(useMcbannersApiUrl('/banner/svc/defaults/all'))
-        .then((response) => response.json())
-        .then((json: BannerDefaults) => {
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Defaults request failed: ${response.status}`)
+          }
+          return response.json() as Promise<unknown>
+        })
+        .then((json) => {
+          if (!isBannerDefaults(json)) {
+            throw new Error('Invalid defaults response')
+          }
           defaultsCache = json
           return json
         })

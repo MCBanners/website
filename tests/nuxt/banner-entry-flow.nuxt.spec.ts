@@ -6,6 +6,8 @@ import { fixtureDefaults } from '../fixtures/banner-fixtures'
 
 function jsonResponse(body: unknown) {
   return {
+    ok: true,
+    status: 200,
     json: async () => body,
   } as Response
 }
