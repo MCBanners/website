@@ -81,8 +81,7 @@ export const useStyleStore = defineStore('style', () => {
 
   // Increment to immediately flush the preview image (bypass debounce)
   const previewFlushTick = ref(0)
-
-  // Increment to clear the session preview cache (e.g. on Reset All)
+  // Reset All invalidates object URLs cached by the preview component.
   const cacheResetTick = ref(0)
 
   const errors = ref<Record<string, string>>({})
