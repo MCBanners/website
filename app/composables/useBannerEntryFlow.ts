@@ -30,7 +30,7 @@ export function useBannerEntryFlow() {
       }
     }
 
-    await defaults.getDefaults()
+    await defaults.initializeBuilder('resource')
     type.value = 'resource'
     id.value = bannerId
     platform.value = platformName
@@ -56,7 +56,7 @@ export function useBannerEntryFlow() {
       }
     }
 
-    await defaults.getDefaults()
+    await defaults.initializeBuilder('author')
     type.value = 'author'
     id.value = bannerId
     platform.value = platformName
@@ -83,7 +83,7 @@ export function useBannerEntryFlow() {
       }
     }
 
-    await defaults.getDefaults()
+    await defaults.initializeBuilder('server')
     type.value = 'server'
     host.value = serverHost
     port.value = serverPort

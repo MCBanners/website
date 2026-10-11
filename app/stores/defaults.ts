@@ -4,6 +4,9 @@ import { useStyleStore } from './style'
 import type { Resource, Author, Server } from '~/types/banner'
 import type { BannerSaveResponse } from '~/types/misc'
 
+type BannerDefaults = { resource: Resource; author: Author; server: Server }
+type BannerKind = keyof BannerDefaults
+
 export const useDefaultStore = defineStore('defaults', () => {
   const id = ref('0')
   const platform = ref('spigot')
@@ -17,6 +20,8 @@ export const useDefaultStore = defineStore('defaults', () => {
   const resource = ref<Resource>()
   const author = ref<Author>()
   const server = ref<Server>()
+  let defaultsCache: BannerDefaults | undefined
+  let defaultsRequest: Promise<BannerDefaults> | undefined
 
   const hasActiveBuilderSource = computed(() => {
     if (!hasSelectedSource.value) {
@@ -34,15 +39,24 @@ export const useDefaultStore = defineStore('defaults', () => {
     return !!resource.value
   })
 
-  const getDefaults = async () => {
-    if (resource.value) {
-      return
+  async function initializeBuilder(kind: BannerKind) {
+    if (!defaultsCache) {
+      defaultsRequest ??= fetch(useMcbannersApiUrl('/banner/svc/defaults/all'))
+        .then((response) => response.json())
+        .then((json: BannerDefaults) => {
+          defaultsCache = json
+          return json
+        })
+        .finally(() => {
+          defaultsRequest = undefined
+        })
     }
-    const defaults = await fetch(useMcbannersApiUrl('/banner/svc/defaults/all'))
-    const defaultsJson = await defaults.json()
-    resource.value = defaultsJson.resource
-    author.value = defaultsJson.author
-    server.value = defaultsJson.server
+
+    const defaults = await (defaultsCache ? defaultsCache : defaultsRequest!)
+    const configuration = structuredClone(defaults[kind])
+    if (kind === 'resource') resource.value = configuration as Resource
+    if (kind === 'author') author.value = configuration as Author
+    if (kind === 'server') server.value = configuration as Server
   }
 
   function markSelectedSource() {
@@ -207,7 +221,7 @@ export const useDefaultStore = defineStore('defaults', () => {
     resource,
     author,
     server,
-    getDefaults,
+    initializeBuilder,
     markSelectedSource,
     resetSelectedSource,
     convertToQueryParameters,

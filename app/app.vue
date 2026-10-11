@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useConstantStore } from '~/stores/constants'
-import { useDefaultStore } from '~/stores/defaults'
-
 useHead({
   htmlAttrs: {
     class: 'dark',
@@ -33,12 +30,6 @@ useSeoMeta({
   twitterImage: '/og/mcbanners-og.png',
   twitterImageAlt: 'MCBanners banner builder preview',
 })
-
-const constants = useConstantStore()
-const defaults = useDefaultStore()
-
-await callOnce('mcbanners:constants', () => constants.getConstants())
-await callOnce('mcbanners:defaults', () => defaults.getDefaults())
 </script>
 
 <template>

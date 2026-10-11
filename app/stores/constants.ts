@@ -6,21 +6,26 @@ export const useConstantStore = defineStore('constants', () => {
   const templates = ref<KeyValueMapping[]>([])
   const alignments = ref<KeyValueMapping[]>([])
   const fontFaces = ref<KeyValueMapping[]>([])
+  let constantsRequest: Promise<void> | undefined
   const getConstants = async () => {
-    if (templates.value.length > 0) {
-      return
-    }
-    const constants = await fetch(useMcbannersApiUrl('/banner/svc/constants'))
-    const constantsJson = (await constants.json()) as SVC
-    templates.value = Object.entries(constantsJson.templates).map(
-      ([key, value]) => ({ key, value }),
-    )
-    alignments.value = Object.entries(constantsJson.text_alignments).map(
-      ([key, value]) => ({ key, value }),
-    )
-    fontFaces.value = Object.entries(constantsJson.fonts).map(
-      ([key, value]) => ({ key, value }),
-    )
+    if (templates.value.length > 0) return
+    constantsRequest ??= fetch(useMcbannersApiUrl('/banner/svc/constants'))
+      .then((response) => response.json() as Promise<SVC>)
+      .then((constants) => {
+        templates.value = Object.entries(constants.templates).map(
+          ([key, value]) => ({ key, value }),
+        )
+        alignments.value = Object.entries(constants.text_alignments).map(
+          ([key, value]) => ({ key, value }),
+        )
+        fontFaces.value = Object.entries(constants.fonts).map(
+          ([key, value]) => ({ key, value }),
+        )
+      })
+      .finally(() => {
+        constantsRequest = undefined
+      })
+    await constantsRequest
   }
   return {
     templates,

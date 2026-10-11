@@ -6,6 +6,7 @@ import { useStyleStore } from '~/stores/style'
 import {
   fixtureAuthor,
   fixtureConstants,
+  fixtureDefaults,
   fixtureResource,
   fixtureServer,
 } from '../fixtures/banner-fixtures'
@@ -35,6 +36,50 @@ describe('default store', () => {
     expect(defaults.platform).toBe('spigot')
     expect(defaults.type).toBe('resource')
     expect(defaults.hasActiveBuilderSource).toBe(false)
+  })
+
+  it('clones defaults for each builder initialization and keeps the cache on reset', async () => {
+    const fetchMock = vi.fn(
+      async () =>
+        ({
+          json: async () => fixtureDefaults,
+        }) as Response,
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const defaults = useDefaultStore()
+
+    await defaults.initializeBuilder('resource')
+    defaults.resource!.resource_name.display = 'Customized'
+    defaults.resetSelectedSource()
+    await defaults.initializeBuilder('resource')
+
+    expect(defaults.resource?.resource_name.display).toBe('Example Resource')
+    expect(fixtureDefaults.resource.resource_name.display).toBe(
+      'Example Resource',
+    )
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('deduplicates concurrent defaults requests while initializing each type', async () => {
+    const fetchMock = vi.fn(
+      async () =>
+        ({
+          json: async () => fixtureDefaults,
+        }) as Response,
+    )
+    vi.stubGlobal('fetch', fetchMock)
+    const defaults = useDefaultStore()
+
+    await Promise.all([
+      defaults.initializeBuilder('resource'),
+      defaults.initializeBuilder('author'),
+      defaults.initializeBuilder('server'),
+    ])
+
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(defaults.resource?.resource_name.display).toBe('Example Resource')
+    expect(defaults.author?.author_name.display).toBe('Example Author')
+    expect(defaults.server?.server_name.display).toBe('Example Server')
   })
 
   it('generates resource preview URLs with template and v1 style params', () => {

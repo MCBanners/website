@@ -52,6 +52,39 @@ describe('useBannerEntryFlow', () => {
     expect(fetchMock).toHaveBeenCalledTimes(2)
   })
 
+  it('reuses cached defaults across repeated source selection and reset', async () => {
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      const pathname = pathnameFromFetchInput(input)
+
+      if (pathname === '/banner/svc/defaults/all') {
+        return jsonResponse(fixtureDefaults)
+      }
+
+      if (pathname === '/banner/resource/spigot/12345/isValid') {
+        return jsonResponse({ valid: true })
+      }
+
+      throw new Error(`Unexpected fetch: ${pathname}`)
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    const flow = useBannerEntryFlow()
+    const defaults = useDefaultStore()
+    await flow.validateResource('spigot', '12345')
+    defaults.resource!.resource_name.display = 'Customized'
+    defaults.resetSelectedSource()
+    await flow.validateResource('spigot', '12345')
+
+    expect(defaults.resource?.resource_name.display).toBe('Example Resource')
+    expect(
+      fetchMock.mock.calls.filter(
+        ([input]) =>
+          pathnameFromFetchInput(input) === '/banner/svc/defaults/all',
+      ),
+    ).toHaveLength(1)
+    expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+
   it('returns a resource validation error without selecting a source', async () => {
     vi.stubGlobal(
       'fetch',
