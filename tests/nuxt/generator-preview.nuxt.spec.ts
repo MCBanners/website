@@ -174,6 +174,39 @@ describe('GeneratorPreview', () => {
     wrapper.unmount()
   })
 
+  it('keeps an initial image failure hidden until the customized preview succeeds', async () => {
+    let resolveRequest: (response: Response) => void = () => {}
+    previewFetch = vi.fn<PreviewFetch>(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveRequest = resolve
+        }),
+    )
+    const { style, wrapper } = await preparePreview()
+
+    wrapper.find('img').element.dispatchEvent(new Event('error'))
+    await nextTick()
+    expect(wrapper.find('img').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Preview unavailable')
+
+    style.setTextPrimaryColor('#112233')
+    await nextTick()
+    expect(wrapper.find('img').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Preview unavailable')
+
+    await vi.advanceTimersByTimeAsync(250)
+    expect(previewFetch).toHaveBeenCalledTimes(1)
+    expect(wrapper.find('img').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Preview unavailable')
+
+    resolveRequest(okResponse())
+    await flushPromises()
+    expect(wrapper.text()).not.toContain('Preview unavailable')
+    expect(wrapper.find('img').attributes('src')).toMatch(/^blob:preview-/)
+    expect(previewFetch).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
+  })
+
   it('recovers when the initial image errors while a newer preview succeeds', async () => {
     let resolveRequest: (response: Response) => void = () => {}
     previewFetch = vi.fn<PreviewFetch>(

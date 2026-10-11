@@ -103,7 +103,6 @@ watch(immediateUrl, (newUrl) => {
     debounceTimer = null
   }
   cancelActivePreview()
-  hasError.value = false
   if (tryCommitCached(newUrl, requestGeneration)) return
   isLoading.value = true
   debounceTimer = setTimeout(() => {
@@ -124,7 +123,6 @@ watch(
     if (activePreview?.url === url) return
     const requestGeneration = ++generation
     cancelActivePreview()
-    hasError.value = false
     if (tryCommitCached(url, requestGeneration)) return
     isLoading.value = true
     void fetchAndCommit(url, requestGeneration)
