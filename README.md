@@ -21,7 +21,7 @@ Legacy setup routes (`/resources`, `/authors`, and `/servers`) are not active pr
 
 ## Requirements
 
-- Node.js 22 or newer
+- Node.js `^22.22.3`, `^24.15.0`, or `>=26.0.0` (Nuxt 4.6.1 requirement; `.nvmrc` pins `22.22.3`)
 - pnpm 11.1.1 via Corepack
 
 ```bash
@@ -90,7 +90,7 @@ Cloudflare Pages settings:
 ```text
 Build command: pnpm build
 Build output directory: .output/public
-Node version: 22
+Node version: 22.22.3
 ```
 
 ## Deployment Notes

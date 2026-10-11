@@ -7,7 +7,7 @@ This project is configured for static Cloudflare Pages deployment with Nuxt 4.
 ```text
 Build command: pnpm run generate
 Build output directory: .output/public
-Node.js version: 22
+Node.js version: 22.22.3 (selected by the repository `.nvmrc`; also configure `NODE_VERSION=22.22.3` in Pages if the build image does not honor it)
 ```
 
 ## Environment variables
